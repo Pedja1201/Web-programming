@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>-Popuni formular-</h2>
+    <form action="/dodajKartu" method="POST">
+        <div>
+            <label for="id">Id</label>
+            <input name="id" id="id" type="text" required />
+        </div>
+        <div>
+            <label for="naziv">Naziv projekcije</label>
+            <input name="naziv" id="naziv" type="text" required />
+        </div>
+        <div>
+            <label for="pocetak">Datum i vreme pocetka</label>
+            <input name="pocetak" id="pocetak" type="datetime-local" required />
+        </div>
+        <div>
+            <label for="zavrsetak">Datum i vreme zavrsetka</label>
+            <input name="zavrsetak" id="zavrsetak" type="datetime-local" required />
+        </div>
+        <div>
+            <label for="br_sedista">Broj sedista</label>
+            <input name="br_sedista" id="br_sedista" type="number" required />
+        </div>
+        <div>
+            <input type="submit" value="Dodaj">
+        </div>
+    </form>
+</body>
+
+</html>

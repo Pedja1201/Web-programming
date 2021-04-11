@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dodaj Korisnika</title>
+</head>
+
+<body>
+    <h2>-Popuni formular-</h2>
+    <form action="/dodajKorisnika" method="POST">
+        
+        <div>
+            <label for="ime">Ime</label>
+            <input name="ime" id="ime" type="text" required />
+        </div>
+        <div>
+            <label for="prezime">Prezime</label>
+            <input name="prezime" id="prezime" type="text" required />
+        </div>
+        <div>
+            <label for="zanimanje">Zanimanje</label>
+            <input name="zanimanje" id="zanimanje" type="text" required />
+        </div>
+        <div>
+            <label for="nike_id">Id Nike:</label>
+            <select name="nike_id">
+                {% for n in nike %}
+                <option value="{{n["id"]}}">{{n["odeca"]}} - {{n["velicina"]}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="auto_tablice">Id Auta:</label>
+            <select name="auto_tablice">
+                {% for a in auto %}
+                <option value="{{a["tablice"]}}">{{a["marka"]}} - {{a["model"]}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <input type="submit" value="Dodaj">
+        </div>
+    </form>
+</body>
+
+</html>

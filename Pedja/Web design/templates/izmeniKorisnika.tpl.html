@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>      
+    <h2>-Formular izmene-</h2>                          
+    <form action="/izmenaKorisnika?oznaka={{korisnici.oznaka}}" method="POST">
+        <div>
+            <label for="oznaka">Oznaka</label>
+            <input name="oznaka" id="oznaka" type="text" value="{{korisnici.oznaka}}" required />
+        </div>
+        <div>
+            <label for="ime">Ime</label>
+            <input name="ime" id="ime" type="text" value="{{korisnici.ime}}" required />
+        </div>
+        <div>
+            <label for="prezime">Prezime</label>
+            <input name="prezime" id="prezime" type="text" value={{korisnici.prezime}} required />
+        </div>
+        <div>
+            <label for="br_telefona">Broj telefona</label>
+            <input name="br_telefona" id="br_telefona" type="number" value={{korisnici.br_telefona}} required />
+        </div>
+        <div>
+            <input type="submit" value="Izmeni">
+        </div>
+    </form>
+</body>
+
+</html

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dodaj Auto</title>
+</head>
+
+<body>
+    <h2>-Popuni formular-</h2>
+    <form action="/dodajAuto" method="POST">
+        
+        <div>
+            <label for="tablice">Tablice</label>
+            <input name="tablice" id="tablice" type="text" max="10" required />
+        </div>
+        <div>
+            <label for="marka">Marka</label>
+            <input name="marka" id="marka" type="text" required />
+        </div>
+        <div>
+            <label for="model">Model</label>
+            <input name="model" id="model" type="text" required />
+        </div>
+        <div>
+            <label for="godiste">Godiste</label>
+            <input name="godiste" id="godiste" type="datetime" required />
+        </div>
+        <div>
+            <input type="submit" value="Dodaj">
+        </div>
+    </form>
+</body>
+
+</html>

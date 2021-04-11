@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Izmeni Korisnika</title>
+</head>
+
+<body>
+    <h2>-Popuni formular-</h2>
+    <form action="/izmenaKorisnika?id={{korisnik.id}}" method="POST">
+        
+        <div>
+            <label for="ime">Ime</label>
+            <input name="ime" id="ime" type="text" value="{{korisnik.ime}}" required />
+        </div>
+        <div>
+            <label for="prezime">Prezime</label>
+            <input name="prezime" id="prezime" type="text" value="{{korisnik.prezime}}" required />
+        </div>
+        <div>
+            <label for="zanimanje">Zanimanje</label>
+            <input name="zanimanje" id="zanimanje" type="text" value="{{korisnik.zanimanje}}" required />
+        </div>
+        <div>
+            <label for="nike_id">Id Nike: </label>
+            <input name="nike_id" id="nike_id" type="number" value="{{korisnik.nike_id}}" required />
+        </div>
+        <div>
+            <label for="auto_tablice">Id Auta: </label>
+            <input name="auto_tablice" id="auto_tablice" type="text" max="10" value="{{korisnik.auto_tablice}}" required />
+        </div>
+        <div>
+            <input type="submit" value="Izmeni">
+        </div>
+    </form>
+</body>
+
+</html>

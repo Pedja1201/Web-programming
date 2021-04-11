@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Dodaj predmet</title>
+</head>
+
+<body>
+    <h2>-Popuni formular-</h2>
+    <form action="/izmeniPredmet?id={{predmet.id}}" method="POST">
+        <div>
+            <label for="id">Id</label>
+            <input name="id" id="id" type="text" value="{{predmet.id}}" required />
+        </div>
+        <div>
+            <label for="ime_predmeta">Ime</label>
+            <input name="ime_predmeta" id="ime_predmeta" type="text" value="{{predmet.ime_predmeta}}" required />
+        </div>
+        <div>
+            <label for="razred">Razred</label>
+            <input name="razred" id="razred" type="text" value="{{predmet.razred}}" required />
+        </div>
+        <div>
+            <input type="submit" value="Dodaj">
+        </div>
+    </form>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Izmeni Auto</title>
+</head>
+
+<body>
+    <h2>-Popuni formular-</h2>
+    <form action="/izmenaAuta?tablice={{auto.tablice}}" method="POST">
+        
+        <div>
+            <label for="tablice">Odeca</label>
+            <input name="tablice" id="tablice" type="text" max="10" value="{{auto.tablice}}" required />
+        </div>
+        <div>
+            <label for="marka">Marka</label>
+            <input name="marka" id="marka" type="text" value="{{auto.marka}}" required />
+        </div>
+        <div>
+            <label for="model">Model</label>
+            <input name="model" id="model" type="text" value="{{auto.model}}" required />
+        </div>
+        <div>
+            <label for="godiste">Godiste</label>
+            <input name="godiste" id="godiste" type="datetime" value="{{auto.godiste}}" required />
+        </div>
+        <div>
+            <input type="submit" value="Izmeni">
+        </div>
+    </form>
+</body>
+
+</html>

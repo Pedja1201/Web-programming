@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>      
+    <h2>-Formular izmene-</h2>                          
+    <form action="/izmenaPrijave?id={{prijava.id}}" method="POST">
+        <div>
+            <label for="id">Id</label>
+            <input name="id" id="id" type="text" value="{{prijava.id}}" required />
+        </div>
+        <div>
+            <label for="korisnik_oznaka">Oznaka korisnika</label>
+            <input name="korisnik_oznaka" id="korisnik_oznaka" type="text" value="{{prijava.korisnik_oznaka}}" required />
+        </div>
+        <div>
+            <input type="submit" value="Izmeni">
+        </div>
+    </form>
+</body>
+
+</html

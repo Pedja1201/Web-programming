@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Dodaj studenta</title>
+</head>
+
+<body>
+    <h2>-Popuni formular-</h2>
+    <form action="/dodajPrijavu" method="POST">
+        <div>
+            <label for="id">Id</label>
+            <input name="id" id="id" type="number" required />
+        </div>
+        <div>
+            <label for="korisnik_oznaka">Oznaka korisnika</label>
+            <input name="korisnik_oznaka" id="korisnik_oznaka" type="text" required />
+        </div>
+        <div>
+            <input type="submit" value="Dodaj">
+        </div>
+    </form>
+</body>
+
+</html>

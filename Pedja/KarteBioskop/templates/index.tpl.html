@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <a href="/forma.html">Unos karte</a>
+    <table>
+        <tr>
+            <th>Redni broj</th>
+            <th>Id</th>
+            <th>Naziv projekcije</th>
+            <th>Datum i vreme pocetka</th>
+            <th>Datum i vreme zavrsetka</th>
+            <th>Broj sedista</th>
+            <th>Akcije</th>
+        </tr>
+        {% for k in karte %}
+        <tr {% if k.obrisan %}class="deleted"{% endif %}>
+            <td>{{loop.index}}.</td>
+            <td><a href="k?id={{k.id}}">{{k["id"]}}</a></td>
+            <td>{{k["naziv"]}}</td>
+            <td>{{k.pocetak}}</td>
+            <td>{{k.zavrsetak}}</td>
+            <td>{{k.br_sedista}}</td>
+            <td>
+                <a href="ukloniKartu?id={{k.id}}">Ukloni</a>
+                <a href="izmenaKarteForma?id={{k.id}}">Izmeni</a>
+            </td>
+        </tr>
+        {% endfor %}
+   
+    </table>
+</body>
+</html>

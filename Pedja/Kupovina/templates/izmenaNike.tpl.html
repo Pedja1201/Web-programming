@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Izmeni Artikal</title>
+</head>
+
+<body>
+    <h2>-Popuni formular-</h2>
+    <form action="/izmenaArtikala?id={{nike.id}}" method="POST">
+        
+        <div>
+            <label for="odeca">Odeca</label>
+            <input name="odeca" id="odeca" type="text" value="{{nike.odeca}}" required />
+        </div>
+        <div>
+            <label for="obuca">Obuca</label>
+            <input name="obuca" id="obuca" type="text" value="{{nike.obuca}}" required />
+        </div>
+        <div>
+            <label for="velicina">Velicina</label>
+            <input name="velicina" id="velicina" type="text" value="{{nike.velicina}}" required />
+        </div>
+        <div>
+            <input type="submit" value="Izmeni">
+        </div>
+    </form>
+</body>
+
+</html>

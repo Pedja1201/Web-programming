@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <a href="/dodajKorisnika.html">Unesi korisnika</a>
+    <table>
+        <tr>
+        
+            <th>Oznaka</th>
+            <th>Ime</th>
+            <th>Prezime</th>
+            <th>Broj telefona</th>
+            <th>Akcije</th>
+        </tr>
+        {% for k in korisnici %}
+        <tr>
+            <td>{{k.oznaka}}</td>
+            <td>{{k.ime}}</td>
+            <td>{{k.prezime}}</td>
+            <td>{{k.br_telefona}}</td>
+            <td>
+                <a href="ukloniKorisnika?oznaka={{k.oznaka}}">Ukloni</a>
+                <a href="izmenaKorisnika?oznaka={{k.oznaka}}">Izmeni</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tr>
+    </table>
+</body>
+</html>

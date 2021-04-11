@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="script.js"></script>
+    <title>Dodaj nastavnika</title>
+</head>
+
+<body>
+    <h2>-Popuni formular-</h2>
+    <form action="/dodajNastavnika" method="POST"> 
+        <div>
+            <label for="licni_id">Licni id</label>
+            <input name="licni_id" id="licni_id" type="number" required />
+        </div>
+        <div>
+            <label for="ime">Ime</label>
+            <input name="ime" id="ime" type="text" required />
+        </div>
+        <div>
+            <label for="prezime">Prezime</label>
+            <input name="prezime" id="prezime" type="text" required />
+        </div>
+        <div>
+            <label for="email">E-mail</label>
+            <input name="email" id="email" type="email" required />
+        </div>
+        <div>
+            <label for="br_telefona">Broj telefona</label>
+            <input name="br_telefona" id="br_telefona" type="number" required />
+        </div>
+        <div>
+            <input type="submit" value="Dodaj">
+        </div>
+    </form>
+</body>
+
+</html>

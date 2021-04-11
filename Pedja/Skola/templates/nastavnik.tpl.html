@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<h2>-Nastavnik-</h2>
+<body>
+    <a href="/dodajNastavnikaForma.html">Unos nastavnika</a>
+    <table>
+        <tr>
+        
+            <th>Licni id</th>
+            <th>Ime</th>
+            <th>Prezime</th>
+            <th>E-mail</th>
+            <th>Broj telefona</th>
+            <th>Akcije</th>
+        </tr>
+        {% for n in nastavnik %}
+        <tr>
+            <td><a href="nastavnik?id={{n.licni_id}}">{{n["licni_id"]}}</a></td>
+            
+            <td>{{n.ime}}</td>
+            <td>{{n.prezime}}</td>
+            <td>{{n.email}}</td>
+            <td>{{n.br_telefona}}</td>
+            <td>
+                <a href="ukloniNastavnika?licni_id={{n.licni_id}}">Ukloni</a>
+                <a href="izmenaNastavnika?licni_id={{n.licni_id}}">Izmeni</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tr>
+    </table>
+</body>
+</html>

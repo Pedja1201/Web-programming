@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <h2>AUTO SHOP</h2>
+    <a href="/dodajAuto.html">Unos Auta</a>
+    <table>
+        <tr>
+        
+            <th>Tablice</th>
+            <th>Marka</th>
+            <th>Model</th>
+            <th>Godiste</th>
+            <th>Akcije</th>
+        </tr>
+        {% for a in auto %}
+        <tr>
+            <td>{{a["tablice"]}}</td>
+            
+            <td>{{a.marka}}</td>
+            <td>{{a.model}}</td>
+            <td>{{a.godiste}}</td>
+            <td>
+                <a href="ukloniAuto?tablice={{a.tablice}}">Ukloni</a>
+                <a href="izmenaAuta?tablice={{a.tablice}}">Izmeni</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tr>
+    </table>
+</body>
+</html>

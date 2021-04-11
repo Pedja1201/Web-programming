@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Dodaj nastavnika</title>
+</head>
+
+<body>
+    <h2>-Popuni formular-</h2>
+    <form action="/izmenaSkole?id={{skola.id}}" method="POST">
+        <div>
+            <label for="id">Id</label>
+            <input name="id" id="id" type="number" value="{{skola.id}}" required />
+        </div>
+        <div>
+            <label for="ime_skole">Ime skole</label>
+            <input name="ime_skole" id="ime_skole" type="text" value="{{skola.ime_skole}}" required />
+        </div>
+        <div>
+            <label for="adresa">Adresa</label>
+            <input name="adresa" id="adresa" type="text" value="{{skola.adresa}}" required />
+        </div>
+        <div>
+            <label for="nastavnik_licni_id">Id - nastavnik</label>
+            <input name="nastavnik_licni_id" id="nastavnik_licni_id" type="number" value="{{skola.nastavnik_licni_id}}" required />
+        </div>
+        <div>
+            <label for="predmet_id">Id - predmet</label>
+            <input name="predmet_id" id="predmet_id" type="text" value="{{skola.predmet_id}}" required />
+        </div>
+        <div>
+            <input type="submit" value="Dodaj">
+        </div>
+    </form>
+</body>
+
+</html>

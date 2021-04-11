@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dodaj skolu</title>
+</head>
+
+<body>
+    <form action="/dodajSkolu" method="POST">
+        <div>
+            <label>Id:</label>
+            <input type="number" name="id" required>
+        </div>
+        <div>
+            <label>Ime skole:</label>
+            <input type="text" name="ime_skole" required>
+        </div>
+        <div>
+            <label>Adresa:</label>
+            <input type="text" name="adresa" required>
+        </div>
+        <div>
+            <label>Nastavnik-id:</label>
+            <select name="nastavnik_licni_id">
+                {% for n in nastavnik %}
+                <option value="{{n["licni_id"]}}">{{n["ime"]}}, {{n["prezime"]}} - {{n["email"]}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label>Predmet-id:</label>
+            <select name="predmet_id">
+                {% for p in predmet %}
+                <option value="{{p["id"]}}">{{p["ime_predmeta"]}} - {{p["razred"]}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <input type="submit" value="Dodaj">
+        </div>
+    </form>
+</body>
+
+</html>

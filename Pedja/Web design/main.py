@@ -102,7 +102,7 @@ def izmenaPrijaveForma():
 def izmenaPrijave():
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE prijava SET id=%(id)s, korisnik_oznaka=%(korisnik_oznaka)s, opis=%(opis)s WHERE id=%(id)s", flask.request.form)
+    cursor.execute("UPDATE prijava SET id=%(id)s, korisnik_oznaka=%(korisnik_oznaka)s WHERE id=%(id)s", flask.request.form)
     db.commit()
     return flask.redirect("/prijava")
 

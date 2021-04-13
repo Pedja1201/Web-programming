@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Documents</title>
+</head>
+
+<body>
+    <h2>-Popuni formular-</h2>
+    <form action="/izmeniKupovinu?broj={{kupovina.broj}}" method="POST">
+        <div>
+            <label for="kolicina">Kolicina</label>
+            <input name="kolicina" id="kolicina" type="number" value="{{kupovina.kolicina}}" required />
+        </div>
+        <div>
+            <label for="cena">Cena</label>
+            <input name="cena" id="cena" type="number" value="{{kupovina.cena}}" required />
+        </div>
+        <div>
+            <label for="datum">Datum</label>
+            <input name="datum" id="datum" type="datetime" value="{{kupovina.datum}}" required />
+        </div>
+        <div>
+            <label for="kupac_id">Id-Kupac</label>
+            <input name="kupac_id" id="kupac_id" type="number" value="{{kupovina.kupac_id}}" required />
+        </div>
+        <div>
+            <label for="proizvod_id">Id-Proizvod</label>
+            <input name="proizvod_id" id="proizvod_id" type="number" value="{{kupovina.proizvod_id}}" required />
+        </div>
+        <div>
+            <input type="submit" value="Izmeni">
+        </div>
+    </form>
+</body>
+
+</html>

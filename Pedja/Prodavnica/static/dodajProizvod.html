@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="script.js"></script>
+    <title>Dodaj proizvod</title>
+</head>
+
+<body>
+    <h2>-Popuni formular-</h2>
+    <form name="forma" action="/dodajProizvod" method="POST" onsubmit="return validateForm()" >
+        
+        <div>
+            <label for="naziv">Naziv</label>
+            <input name="naziv" id="naziv" type="text" />
+        </div>
+        <div>
+            <label for="opis">Opis</label>
+            <textarea name="opis" id="opis" cols="30" rows="2" required></textarea>
+        </div>
+        <div>
+            <label for="cena">Cena</label>
+            <input name="cena" id="cena" type="number" required />
+        </div>
+        <div>
+            
+            <label for="dostupno">Dostupno</label>
+            <input name="dostupno" id="dostupno" type="checkbox" value="1"/>
+        </div>
+        <div>
+            <input type="submit" value="Dodaj">
+        </div>
+    </form>
+</body>
+
+</html>

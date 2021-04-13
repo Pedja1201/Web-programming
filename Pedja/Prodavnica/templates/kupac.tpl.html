@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <h2><i>-Kupci-</i></h2>
+
+    <a href="/dodajKupca.html">Unos kupca</a>
+    <table>
+        <tr>
+        
+            <th>Id</th>
+            <th>Ime</th>
+            <th>Prezime</th>
+            <th>Korisnicko ime</th>
+            <th>Lozinka</th>
+            <th>Akcije</th>
+        </tr>
+        {% for k in kupac %}
+        <tr>
+            <td><a href="kupac?id={{k.id}}">{{k["id"]}}</a></td>
+            
+            <td>{{k.ime}}</td>
+            <td>{{k.prezime}}</td>
+            <td>{{k.korIme}}</td>
+            <td>{{k.lozinka}}</td>
+            <td>
+                <a href="ukloniKupca?id={{k.id}}">Ukloni</a>
+                <a href="izmenaKupca?id={{k.id}}">Izmeni</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tr>
+    </table>
+</body>
+</html>

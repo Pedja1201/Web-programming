@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dodaj kupca</title>
+</head>
+
+<body>
+    <h2>-Popuni formular-</h2>
+    <form action="izmenaKupca?id={{kupac.id}}" method="POST">
+        
+        <div>
+            <label for="ime">Ime</label>
+            <input name="ime" id="ime" type="text" value="{{kupac.ime}}" required />
+        </div>
+        <div>
+            <label for="prezime">Prezime</label>
+            <input name="prezime" id="prezime" type="text" value="{{kupac.prezime}}" required />
+        </div>
+        <div>
+            <label for="korIme">Korisnicko ime</label>
+            <input name="korIme" id="korIme" type="text" maxlength="45" value="{{kupac.korIme}}" required />
+        </div>
+        <div>
+            <label for="lozinka">Lozinka</label>
+            <input name="lozinka" id="lozinka" type="password" maxlength="15" value="{{kupac.lozinka}}" required />
+        </div>
+        <div>
+            <input type="submit" value="Dodaj">
+        </div>
+    </form>
+</body>
+
+</html>

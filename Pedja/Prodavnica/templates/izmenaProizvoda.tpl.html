@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Documents</title>
+</head>
+
+<body>
+    <h2>-Popuni formular-</h2>
+    <form action="/izmenaProizvoda?id={{proizvod.id}}" method="POST">
+        
+        <div>
+            <label for="naziv">Naziv</label>
+            <input name="naziv" id="naziv" type="text" value="{{proizvod.naziv}}" required />
+        </div>
+        <div>
+            <label for="opis">Opis</label>
+            <textarea name="opis">{% if proizvod["opis"] is not none %}{{proizvod["opis"]}}{% endif %} </textarea>
+        </div>
+        <div>
+            <label for="cena">Cena</label>
+            <input name="cena" id="cena" type="number" value="{{proizvod.cena}}" required />
+        </div>
+        <div>
+            
+            <label for="dostupno">Dostupno</label>
+            <input name="dostupno" id="dostupno" type="checkbox" value="1" {% if proizvod["dostupno"] %}checked{% endif %}/>
+        </div>
+        <div>
+            <input type="submit" value="Izmeni">
+        </div>
+    </form>
+</body>
+
+</html>

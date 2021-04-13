@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <h2><i>-Proizvodi-</i></h2>
+    <a href="/dodajProizvod.html">Unos proizvoda</a>
+    <table>
+        <tr>
+        
+            <th>Id</th>
+            <th>Naziv</th>
+            <th>Opis</th>
+            <th>Cena</th>
+            <th>Dostupno</th>
+            <th>Akcije</th>
+        </tr>
+        {% for p in proizvod %}
+        <tr>
+            <td><a href="listaProizvoda?id={{p.id}}">{{p["id"]}}</a></td>
+            <td>{{p.naziv}}</td>
+            <td>{{p.opis}}</td>
+            <td>{{p.cena}}</td>
+            <td>{{p.dostupno}}</td>
+            <td>
+                <a href="ukloniProizvod?id={{p.id}}">Ukloni</a>
+                <a href="izmenaProizvoda?id={{p.id}}">Izmeni</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tr>
+    </table>
+</body>
+</html>

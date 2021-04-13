@@ -80,7 +80,13 @@ def dodavanjePrijave():
     korisnik = cursor.fetchall()
     return flask.render_template("dodavanjePrijave.tpl.html", korisnik=korisnik)
 
-
+###Proba selectIzmene za prijavu
+# @app.route("/menjanjePrijave")
+# def menjanjePrijave():
+#     cursor = mysql.get_db().cursor()
+#     cursor.execute("SELECT * FROM korisnik")
+#     korisnik = cursor.fetchall()
+#     return flask.render_template("izmeniSelectPrijavu.tpl.html", korisnik=korisnik)
 
 
 @app.route("/ukloniPrijavu", methods=["GET"])

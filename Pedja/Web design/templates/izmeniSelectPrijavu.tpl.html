@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Documents</title>
+</head>
+
+<body>
+    <h2>-Popuni formular za izmenu-</h2>
+    <form action="/izmenaPrijave?id={{prijava.id}}" method="POST">
+        <div>
+            <label for="id">Id</label>
+            <input name="id" id="id" type="number" value="{{prijava.id}}" required />
+        </div>
+
+        <div>
+            <label for="korisnik_oznaka">Oznaka korisnika</label>
+            <select name="korisnik_oznaka">
+                {% for k in korisnik  %}
+                <option value="{{k["oznaka"]}}">{{k["ime"]}}, {{k["prezime"]}} - {{k["br_telefona"]}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <input type="submit" value="Izmeni">
+        </div>
+    </form>
+</body>
+
+</html>

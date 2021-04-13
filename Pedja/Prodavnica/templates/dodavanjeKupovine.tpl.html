@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dodaj kupovinu</title>
+</head>
+
+<body>
+    <form action="/dodajKupovinu" method="POST">
+        <div>
+            <label>Kolicina:</label>
+            <input type="number" name="kolicina" required>
+        </div>
+        <div>
+            <label>Cena:</label>
+            <input type="number" name="cena" required>
+        </div>
+        <div>
+            <label>Datum:</label>
+            <input type="datetime-local" name="datum" required>
+        </div>
+        <div>
+            <label>Id-Kupac</label>
+            <select name="kupac_id">
+                {% for k in kupac %}
+                <option value="{{k["id"]}}">{{k["ime"]}}, {{k["prezime"]}} - {{k["korIme"]}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label>Id-Proizvod:</label>
+            <select name="proizvod_id">
+                {% for p in proizvod %}
+                <option value="{{p["id"]}}">{{p["naziv"]}}, {{p["opis"]}},  {{p["cena"]}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <input type="submit" value="Dodaj">
+        </div>
+    </form>
+</body>
+
+</html>

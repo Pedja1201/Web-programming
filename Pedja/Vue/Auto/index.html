@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@next"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body id="Automobil">
+    <h1><i>-{{naslov}}</i></h1>
+    ///FORMA-Dodavane
+    <form v-on:submit.prevent="dodajAuto()">
+        <div>
+            <label>Tablice:</label>
+            <input type="text" v-model="noviAuto.tablice" required></div>
+        <div>
+            <label>Marka:</label>
+            <input type="text" v-model="noviAuto.marka" required></div>
+        <div>
+            <label>Model:</label>
+            <input type="text" v-model="noviAuto.model" required></div>
+        <div>
+            <label>Opis:</label>
+            <input type="text" v-model="noviAuto.opis" required></div>
+        <div>
+            <input type="submit" value="Dodaj auto">
+        </div>
+    </form>
+
+
+    ####FORMA-Izmena
+    <form v-on:submit.prevent="potvrdiIzmenuAuta()">
+        <div>
+            <label>Tablice:</label>
+            <input type="text" v-model="autoZaIzmenu.tablice" required></div>
+        <div>
+            <label>Marka:</label>
+            <input type="text" v-model="autoZaIzmenu.marka" required></div>
+        <div>
+            <label>Model:</label>
+            <input type="text" v-model="autoZaIzmenu.model" required></div>
+        <div>
+            <label>Opis:</label>
+            <input type="text" v-model="autoZaIzmenu.opis" required></div>
+        <div>
+            <input type="submit" value="Izmeni auto">
+        </div>
+    </form>
+
+    #Tabela
+    <table>
+        <tr>
+            <th>Tablice</th>
+            <th>Marka</th>
+            <th>Model</th>
+            <th>Opis</th>
+            <th>Akcije</th>
+        </tr>
+        <tbody>
+            <tr v-for="auto in automobili">
+                <td>{{auto.tablice}}</td>
+                <td>{{auto.marka}}</td>
+                <td>{{auto.model}}</td>
+                <td>{{auto.opis}}</td>
+
+                <td>
+                    <button v-on:click="izmeniAuto(auto)">Izmeni</button>
+                    <button v-on:click="ukloniAuto(auto.tablice)">Ukloni</button>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+    <script>
+        const Automobil = {
+            data(){
+                return {
+                    naslov: "Automobili", 
+                    noviAuto: {},
+                    autoZaIzmenu: {},
+                    automobili: [
+                        {tablice: "VS001PR", marka: "BMW", model: "318d", opis: "2.0 Dizel"},
+                        {tablice: "VS021AR", marka: "Opel", model: "Corsa", opis: "1.0 Benzin"},
+                        {tablice: "VS022DF", marka: "Audi", model: "A7", opis: "3.0 Dizel"}
+                    ]
+                }
+            },
+            methods: {
+                dodajAuto(){
+                    let auto = {...this.noviAuto};
+                    this.automobili.push(auto);
+                },
+                izmeniAuto(auto){
+                    this.autoZaIzmenu = {...auto, originalneTablice: auto.tablice}
+                },
+                potvrdiIzmenuAuta(){
+                    for(let i = 0; this.automobili.length; i++){
+                        if(this.automobili[i].tablice == this.autoZaIzmenu.originalneTablice){
+                            this.automobili[i] = {...this.autoZaIzmenu};
+                            this.autoZaIzmenu.originalneTablice = this.autoZaIzmenu.tablice;
+                            break;
+                        }
+                    }
+                },
+                ukloniAuto(tablice){
+                    for(let i = 0; this.automobili.length; i++){
+                        if(this.automobili[i].tablice == tablice){
+                            this.automobili.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        Vue.createApp(Automobil).mount("#Automobil");
+    </script>
+</body>
+
+</html>
+
+

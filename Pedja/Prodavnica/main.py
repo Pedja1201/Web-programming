@@ -19,6 +19,7 @@ app.config["MYSQL_DATABASE_DB"] = "prodavnicapedja"
 mysql = MySQL(app, cursorclass=pymysql.cursors.DictCursor)
 
 
+
 @app.route("/")
 def home():
     cursor = mysql.get_db().cursor()

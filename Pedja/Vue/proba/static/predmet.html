@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@next"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body id="predmetStudija" class="container">
+    <h1><i>-{{naslov}}</i></h1>
+    ///FORMA-Dodavane
+    <form v-on:submit.prevent="dodajPredmet()">
+        <div>
+            <label>Sifra</label>
+            <input type="text" v-model="noviPredmet.sifra" required></div>
+        <div>
+            <label>Naziv</label>
+            <input type="text" v-model="noviPredmet.naziv" required></div>
+        <div>
+            <label>Profesor</label>
+            <input type="text" v-model="noviPredmet.profesor" required></div>
+        <div>
+            <label>Asistent</label>
+            <input type="text" v-model="noviPredmet.asistent" required></div>
+        <div>
+            <input type="submit" value="Dodaj predmet">
+        </div>
+    </form>
+    <hr>
+
+
+    ####FORMA-Izmena
+    <form v-on:submit.prevent="potvrdiIzmenuPredmeta()">
+        <div>
+            <label>Sifra</label>
+            <input type="text" v-model="predmetZaIzmenu.sifra" required></div>
+        <div>
+            <label>Naziv</label>
+            <input type="text" v-model="predmetZaIzmenu.naziv" required></div>
+        <div>
+            <label>Profesor</label>
+            <input type="text" v-model="predmetZaIzmenu.profesor" required></div>
+        <div>
+            <label>Asistent</label>
+            <input type="text" v-model="predmetZaIzmenu.asistent" required></div>
+        <div>
+            <input type="submit" value="Izmeni predmet">
+        </div>
+    </form>
+
+    #Tabela
+    <table>
+        <tr>
+            <th>Sifra</th>
+            <th>Naziv</th>
+            <th>Profesor</th>
+            <th>Asistent</th>
+            <th>Akcije</th>
+        </tr>
+        <tbody>
+            <tr v-for="predmet in predmeti">
+                <td>{{predmet.sifra}}</td>
+                <td>{{predmet.naziv}}</td>
+                <td>{{predmet.profesor}}</td>
+                <td>{{predmet.asistent}}</td>
+
+                <td>
+                    <button v-on:click="izmeniPredmet(predmet)">Izmeni</button>
+                    <button v-on:click="ukloniPredmet(predmet.sifra)">Ukloni</button>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+    <script>
+        const predmetStudija = {
+            data(){
+                return {
+                    naslov: "Predmet na studijama", 
+                    noviPredmet: {},
+                    predmetZaIzmenu: {},
+                    predmeti: [
+                        {sifra: "OP1", naziv: "Objektno programiranje", profesor: "Dejan Obradovic", asistent: "Nemanja Nemanjic"},
+                        {sifra: "AR", naziv: "Arhitektura racunara", profesor: "Sasa Nikolic", asistent: "Nemanja Radojcic"},
+                        {sifra: "WP", naziv: "Web programiranje", profesor: "Dordje Ivanjic", asistent: "Ivan Radosavljevic"}
+
+                    ]
+                }
+            },
+            methods: {
+                dodajPredmet(){
+                    let predmet = {...this.noviPredmet};
+                    this.predmeti.push(predmet);
+                },
+                izmeniPredmet(predmet){
+                    this.predmetZaIzmenu = {...predmet, originalnaSifra: predmet.sifra}
+                },
+                potvrdiIzmenuPredmeta(){
+                    for(let i = 0; this.predmeti.length; i++){
+                        if(this.predmeti[i].sifra == this.predmetZaIzmenu.originalnaSifra){
+                            this.predmeti[i] = {...this.predmetZaIzmenu};
+                            this.predmetZaIzmenu.originalnaSifra = this.predmetZaIzmenu.sifra;
+                            break;
+                        }
+                    }
+                },
+                ukloniPredmet(sifra){
+                    for(let i = 0; this.predmeti.length; i++){
+                        if(this.predmeti[i].sifra == sifra){
+                            this.predmeti.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        Vue.createApp(predmetStudija).mount("#predmetStudija");
+    </script>
+</body>
+
+</html>
+
+

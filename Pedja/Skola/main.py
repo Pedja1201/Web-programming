@@ -91,9 +91,7 @@ def izmeniPredmet():
     db = mysql.get_db()
     cursor = db.cursor()
     cursor.execute("UPDATE predmet SET id=%(id)s, ime_predmeta=%(ime_predmeta)s, razred=%(razred)s WHERE id=%(id)s", flask.request.form)
-    db.commit(
-
-    )
+    db.commit()
     return flask.redirect("/predmet")
 
 
@@ -135,16 +133,25 @@ def ukloniSkolu():
     return flask.redirect("/skola")
 
 @app.route("/izmenaSkole", methods=["GET"])
-def izmeniSkoluForma():
+def izmenaSkoleForma():
+    db = mysql.get_db()
     cursor = mysql.get_db().cursor()
-    cursor.execute("SELECT * FROM skola WHERE id=%s",(flask.request.args["id"], ))
-    return flask.render_template("izmenaSkole.tpl.html", skola=cursor.fetchone())
+    cursor.execute("SELECT * FROM nastavnik")
+    nastavnik = cursor.fetchall()
+    cursor.execute("SELECT * FROM predmet")
+    predmet = cursor.fetchall()
+    cursor.execute("SELECT * FROM skola WHERE id=%s", flask.request.args["id"])
+    skola = cursor.fetchone()
+    return flask.render_template("izmenaSkole.tpl.html", nastavnik=nastavnik, predmet=predmet, skola=skola)
+
 
 @app.route("/izmenaSkole", methods=["POST"])
-def izmeniSkolu():
+def izmenaSkole():
+    skola = dict(flask.request.form)
+    skola["id"] = flask.request.args["id"]
     db = mysql.get_db()
-    cursor = db.cursor()
-    cursor.execute("UPDATE skola SET id=%(id)s, ime_skole=%(ime_skole)s, adresa=%(adresa)s, nastavnik_licni_id=%(nastavnik_licni_id)s, predmet_id=%(predmet_id)s WHERE id=%(id)s", flask.request.form)
+    cursor = mysql.get_db().cursor()
+    cursor.execute("UPDATE skola SET ime_skole=%(ime_skole)s, adresa=%(adresa)s, nastavnik_licni_id= %(nastavnik_licni_id)s, predmet_id=%(predmet_id)s WHERE id=%(id)s", skola)
     db.commit()
     return flask.redirect("/skola")
 

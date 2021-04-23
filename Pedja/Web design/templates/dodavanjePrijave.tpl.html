@@ -19,7 +19,7 @@
 
         <div>
             <label for="korisnik_oznaka">Oznaka korisnika</label>
-            <select name="korisnik_oznaka">
+            <select name="korisnik">
                 {% for k in korisnik  %}
                 <option value="{{k["oznaka"]}}">{{k["ime"]}}, {{k["prezime"]}} - {{k["br_telefona"]}}</option>
                 {% endfor %}

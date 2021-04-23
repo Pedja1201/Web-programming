@@ -13,24 +13,28 @@
     <h2>-Popuni formular-</h2>
     <form action="/izmenaSkole?id={{skola.id}}" method="POST">
         <div>
-            <label for="id">Id</label>
-            <input name="id" id="id" type="number" value="{{skola.id}}" required />
-        </div>
-        <div>
-            <label for="ime_skole">Ime skole</label>
+            <label for="ime_skole">Ime skole:</label>
             <input name="ime_skole" id="ime_skole" type="text" value="{{skola.ime_skole}}" required />
         </div>
         <div>
-            <label for="adresa">Adresa</label>
+            <label for="adresa">Adresa:</label>
             <input name="adresa" id="adresa" type="text" value="{{skola.adresa}}" required />
         </div>
         <div>
-            <label for="nastavnik_licni_id">Id - nastavnik</label>
-            <input name="nastavnik_licni_id" id="nastavnik_licni_id" type="number" value="{{skola.nastavnik_licni_id}}" required />
+            <label>ID Nastavnika:</label>
+            <select name="nastavnik_licni_id">
+                {% for n in nastavnik %}
+                <option value="{{n["licni_id"]}}">{{n["ime"]}}, {{n["prezime"]}}, {{n["email"]}}</option>
+                {% endfor %}
+            </select>
         </div>
         <div>
-            <label for="predmet_id">Id - predmet</label>
-            <input name="predmet_id" id="predmet_id" type="text" value="{{skola.predmet_id}}" required />
+            <label>ID Predmeta:</label>
+            <select name="predmet_id">
+                {% for p in predmet %}
+                <option value="{{p["id"]}}">{{p["ime_predmeta"]}}, Razred:{{p["razred"]}}</option>
+                {% endfor %}
+            </select>
         </div>
         <div>
             <input type="submit" value="Dodaj">

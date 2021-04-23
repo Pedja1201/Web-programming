@@ -80,13 +80,6 @@ def dodavanjePrijave():
     korisnik = cursor.fetchall()
     return flask.render_template("dodavanjePrijave.tpl.html", korisnik=korisnik)
 
-###Proba selectIzmene za prijavu
-# @app.route("/menjanjePrijave")
-# def menjanjePrijave():
-#     cursor = mysql.get_db().cursor()
-#     cursor.execute("SELECT * FROM korisnik")
-#     korisnik = cursor.fetchall()
-#     return flask.render_template("izmeniSelectPrijavu.tpl.html", korisnik=korisnik)
 
 
 @app.route("/ukloniPrijavu", methods=["GET"])
@@ -98,20 +91,42 @@ def ukloniPrijavu():
     db.commit()
     return flask.redirect("/prijava")
 
+# @app.route("/izmenaPrijave", methods=["GET"])
+# def izmenaPrijaveForma():
+#     cursor = mysql.get_db().cursor()
+#     cursor.execute("SELECT * FROM prijava WHERE id=%s", (flask.request.args["id"], ))
+#     return flask.render_template("izmenaPrijave.tpl.html", prijava=cursor.fetchone())
+
+# @app.route("/izmenaPrijave", methods=["POST"])
+# def izmenaPrijave():
+#     db = mysql.get_db()
+#     cursor = db.cursor()
+#     cursor.execute("UPDATE prijava SET id=%(id)s, korisnik_oznaka=%(korisnik_oznaka)s WHERE id=%(id)s", flask.request.form)
+#     db.commit()
+#     return flask.redirect("/prijava")
+
+
 @app.route("/izmenaPrijave", methods=["GET"])
 def izmenaPrijaveForma():
+    db = mysql.get_db()
     cursor = mysql.get_db().cursor()
-    cursor.execute("SELECT * FROM prijava WHERE id=%s", (flask.request.args["id"], ))
-    return flask.render_template("izmenaPrijave.tpl.html", prijava=cursor.fetchone())
+    cursor.execute("SELECT * FROM korisnik")
+    korisnik = cursor.fetchall()
+
+    cursor.execute("SELECT * FROM prijava WHERE id=%s", flask.request.args["id"])
+    prijava = cursor.fetchone()
+    return flask.render_template("izmeniSelectPrijavu.tpl.html", korisnik=korisnik, prijava=prijava)
+
 
 @app.route("/izmenaPrijave", methods=["POST"])
 def izmenaPrijave():
+    prijava = dict(flask.request.form)
+    prijava["id"] = flask.request.args["id"]
     db = mysql.get_db()
-    cursor = db.cursor()
-    cursor.execute("UPDATE prijava SET id=%(id)s, korisnik_oznaka=%(korisnik_oznaka)s WHERE id=%(id)s", flask.request.form)
+    cursor = mysql.get_db().cursor()
+    cursor.execute("UPDATE prijava SET id=%(id)s, korisnik_oznaka=%(korisnik_oznaka)s WHERE id=%(id)s", prijava)
     db.commit()
     return flask.redirect("/prijava")
-
 
 if __name__ == "__main__":
         app.run()

@@ -26,12 +26,20 @@
             <input name="zanimanje" id="zanimanje" type="text" value="{{korisnik.zanimanje}}" required />
         </div>
         <div>
-            <label for="nike_id">Id Nike: </label>
-            <input name="nike_id" id="nike_id" type="number" value="{{korisnik.nike_id}}" required />
+            <label for="nike_id">Id Nike:</label>
+            <select name="nike_id">
+                {% for n in nike %}
+                <option value="{{n["id"]}}">{{n["odeca"]}} - {{n["velicina"]}}</option>
+                {% endfor %}
+            </select>
         </div>
         <div>
-            <label for="auto_tablice">Id Auta: </label>
-            <input name="auto_tablice" id="auto_tablice" type="text" max="10" value="{{korisnik.auto_tablice}}" required />
+            <label for="auto_tablice">Id Auta:</label>
+            <select name="auto_tablice">
+                {% for a in auto %}
+                <option value="{{a["tablice"]}}">{{a["marka"]}} - {{a["model"]}}</option>
+                {% endfor %}
+            </select>
         </div>
         <div>
             <input type="submit" value="Izmeni">

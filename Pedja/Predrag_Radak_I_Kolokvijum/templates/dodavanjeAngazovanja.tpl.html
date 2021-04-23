@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dodaj angazovanje</title>
+</head>
+
+<body>
+    <form action="/dodajAngazovanje" method="POST">
+        <div>
+            <label>Id Radnika</label>
+            <select name="radnik_id">
+                {% for r in radnik %}
+                <option value="{{r["id"]}}">{{r["ime"]}}, {{r["prezime"]}}, {{r["email"]}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label>Id Radnog mesta:</label>
+            <select name="radno_mesto_id">
+                {% for m in mesto %}
+                <option value="{{m["id"]}}">{{m["naziv"]}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label>Pocetak:</label>
+            <input type="datetime-local" name="pocetak" required>
+        </div>
+        <div>
+            <label>Kraj:</label>
+            <input type="datetime-local" name="kraj" required>
+        </div>
+        <div>
+            <label>Plata:</label>
+            <input type="number" name="plata" required>
+        </div>
+        <div>
+            <input type="submit" value="Dodaj">
+        </div>
+    </form>
+</body>
+
+</html>

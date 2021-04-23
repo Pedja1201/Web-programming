@@ -142,20 +142,44 @@ def ukloniKorisnika():
 
 @app.route("/izmenaKorisnika", methods=["GET"])
 def izmenaKorisnikaForma():
-    korisnik = flask.request.args["id"]
+    db = mysql.get_db()
     cursor = mysql.get_db().cursor()
-    cursor.execute("SELECT * FROM korisnik where id=%s",(korisnik, ))
-    return flask.render_template("izmenaKorisnik.tpl.html", korisnik=cursor.fetchone())
+    cursor.execute("SELECT * FROM nike")
+    nike = cursor.fetchall()
+    cursor.execute("SELECT * FROM auto")
+    auto = cursor.fetchall()
+    cursor.execute("SELECT * FROM korisnik WHERE id=%s", flask.request.args["id"])
+    korisnik = cursor.fetchone()
+    return flask.render_template("izmenaKorisnik.tpl.html", nike=nike, auto=auto, korisnik=korisnik)
+
 
 @app.route("/izmenaKorisnika", methods=["POST"])
 def izmenaKorisnika():
     korisnik = dict(flask.request.form)
     korisnik["id"] = flask.request.args["id"]
     db = mysql.get_db()
-    cursor = db.cursor()
-    cursor.execute("UPDATE korisnik SET ime=%(ime)s, prezime=%(prezime)s, zanimanje=%(zanimanje)s, nike_id=%(nike_id)s, auto_tablice=%(auto_tablice)s WHERE id=%(id)s", korisnik)
+    cursor = mysql.get_db().cursor()
+    cursor.execute("UPDATE korisnik SET ime=%(ime)s, prezime=%(prezime)s, zanimanje= %(zanimanje)s, nike_id=%(nike_id)s, auto_tablice=%(auto_tablice)s WHERE id=%(id)s", korisnik)
     db.commit()
     return flask.redirect("/korisnik")
+
+###Obicna izmena
+# @app.route("/izmenaKorisnika", methods=["GET"])
+# def izmenaKorisnikaForma():
+#     korisnik = flask.request.args["id"]
+#     cursor = mysql.get_db().cursor()
+#     cursor.execute("SELECT * FROM korisnik where id=%s",(korisnik, ))
+#     return flask.render_template("izmenaKorisnik.tpl.html", korisnik=cursor.fetchone())
+
+# @app.route("/izmenaKorisnika", methods=["POST"])
+# def izmenaKorisnika():
+#     korisnik = dict(flask.request.form)
+#     korisnik["id"] = flask.request.args["id"]
+#     db = mysql.get_db()
+#     cursor = db.cursor()
+#     cursor.execute("UPDATE korisnik SET ime=%(ime)s, prezime=%(prezime)s, zanimanje=%(zanimanje)s, nike_id=%(nike_id)s, auto_tablice=%(auto_tablice)s WHERE id=%(id)s", korisnik)
+#     db.commit()
+#     return flask.redirect("/korisnik")
 
 
 

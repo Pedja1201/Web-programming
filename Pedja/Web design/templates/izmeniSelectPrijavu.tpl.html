@@ -12,13 +12,12 @@
 <body>
     <h2>-Popuni formular za izmenu-</h2>
     <form action="/izmenaPrijave?id={{prijava.id}}" method="POST">
-        <div>
+        <!-- <div>
             <label for="id">Id</label>
             <input name="id" id="id" type="number" value="{{prijava.id}}" required />
-        </div>
-
+        </div> -->
         <div>
-            <label for="korisnik_oznaka">Oznaka korisnika</label>
+            <label>Oznaka korisnika</label>
             <select name="korisnik_oznaka">
                 {% for k in korisnik  %}
                 <option value="{{k["oznaka"]}}">{{k["ime"]}}, {{k["prezime"]}} - {{k["br_telefona"]}}</option>

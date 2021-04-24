@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+   
+    <title>Predmet</title>
+     <!-- <vue> -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+        <!-- <axios> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+    <form v-on:submit.prevent="create()">
+        <h1>-Dodaj predmet</h1>
+        <div>
+            <label>ID: </label>
+            <input type="text" v-model="noviPredmet.id" required />
+        </div>
+        <div>
+            <label>Naziv predmeta: </label>
+            <input type="text"v-model="noviPredmet.ime_predmeta" required />
+        </div>
+        <div>
+            <label>Razred: </label>
+            <input type="text" v-model="noviPredmet.razred" required />
+        </div>
+        <div>
+            <input type="submit" value="Dodaj">
+        </div>
+    </form>
+    
+    <hr>
+
+    <form v-on:submit.prevent="update()">
+        <h1>-Izmeni nastavnika</h1>
+        <div>
+            <label>ID: </label>
+            <input type="text" v-model="predmetZaIzmenu.id" required />
+        </div>
+        <div>
+            <label>Naziv predmeta: </label>
+            <input type="text"v-model="predmetZaIzmenu.ime_predmeta" required />
+        </div>
+        <div>
+            <label>Razred: </label>
+            <input type="text" v-model="predmetZaIzmenu.razred" required />
+        </div>
+        <div>
+            <input type="submit" value="Izmeni">
+        </div>
+    </form>
+    <hr>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Naziv predmta</th>
+                <th>Razred</th>
+
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="predmet in predmeti">
+                <td>{{predmet.id}}</td>
+                <td>{{predmet.ime_predmeta}}</td>
+                <td>{{predmet.razred}}</td>
+                <td><button v-on:click="remove(predmet.id)">Ukloni</button>
+                    <button v-on:click="setPredmetZaIzmenu(predmet)">Izmena</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        const Predmet = {
+            data(){
+                return {
+                    predmeti:[],
+                    noviPredmet:{},
+                    predmetZaIzmenu:{}
+                }
+            },
+            methods:{
+                setPredmetZaIzmenu(predmet){ //skladistenje nakon izmene//
+                    this.predmetZaIzmenu = {...predmet};
+                },
+
+                refreshData(){
+                     //saljem this van funkcije da obuhvata sve//
+                    axios.get("api/predmeti").then((response) => {
+                        this.predmeti = response.data;
+                    });
+                },
+                //dodavanje//
+                create(){
+                    axios.post("api/predmeti", this.noviPredmet).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //izmena//
+                update(){
+                    axios.put(`api/predmeti/${this.predmetZaIzmenu.id}`, this.predmetZaIzmenu).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //brisanje//
+                remove(id){
+                    axios.delete(`api/predmeti/${id}`).then((response) => {
+                        this.refreshData();
+                    });
+                }
+            },
+            created(){
+                this.refreshData();
+            }
+        }
+        Vue.createApp(Predmet).mount("#app");
+    </script>
+</body>
+</html>

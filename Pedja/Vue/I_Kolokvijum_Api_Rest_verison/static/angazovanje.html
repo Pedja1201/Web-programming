@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+   
+    <title>Dodaj kupca</title>
+     <!-- <vue> -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+        <!-- <axios> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+    <form v-on:submit.prevent="create()">
+        <h1>-Dodaj kupca</h1>
+        <div>
+            <label>Id Radnika</label>
+            <input type="number" v-model="novoAngazovanje.radnik_id" required />
+        </div>
+        <div>
+            <label>Id Radnog mesta</label>
+            <input type="number" v-model="novoAngazovanje.radno_mesto_id" required />
+        </div>
+        <div>
+            <label>Pocetak</label>
+            <input  type="datetime-local" v-model="novoAngazovanje.pocetak" required />
+        </div>
+        <div>
+            <label>Kraj</label>
+            <input type="datetime-local" v-model="novoAngazovanje.kraj" required />
+        </div>
+        <div>
+            <label>Plata</label>
+            <input type="number" v-model="novoAngazovanje.plata" required />
+        </div>
+        <div>
+            <input type="submit" value="Dodaj">
+        </div>
+    </form>
+    <hr>
+    <form v-on:submit.prevent="update()">
+        <h1>-Izmena kupca</h1>
+    
+        <div>
+            <label>Id Radnika</label>
+            <input type="number" v-model="angazovanjeZaIzmenu.radnik_id" required />
+        </div>
+        <div>
+            <label>Id Radnog mesta</label>
+            <input type="number" v-model="angazovanjeZaIzmenu.radno_mesto_id" required />
+        </div>
+        <div>
+            <label>Pocetak</label>
+            <input  type="datetime-local" v-model="angazovanjeZaIzmenu.pocetak" required />
+        </div>
+        <div>
+            <label>Kraj</label>
+            <input type="datetime-local" v-model="angazovanjeZaIzmenu.kraj" required />
+        </div>
+        <div>
+            <label>Plata</label>
+            <input type="number" v-model="angazovanjeZaIzmenu.plata" required />
+        </div>
+        <div>
+            <input type="submit" value="Dodaj">
+        </div>
+    </form>
+    
+    <hr>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ID-radnik</th>
+                <th>ID-radno mesto</th>
+                <th>Pocetak</th>
+                <th>Kraj</th>
+                <th>Plata</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="angaz in angazovanje">
+                <td>{{angaz.id}}</td>
+                <td>{{angaz.radnik_id}}</td>
+                <td>{{angaz.radno_mesto_id}}</td>
+                <td>{{angaz.pocetak}}</td>
+                <td>{{angaz.kraj}}</td>
+                <td>{{angaz.plata}}</td>
+                <td><button v-on:click="remove(angaz.id)">Ukloni</button>
+                    <button v-on:click="setAngazovanjeZaIzmenu(angaz)">Izmena</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        const Angazovanje = {
+            data(){
+                return {
+                    angazovanje:[],
+                    novoAngazovanje:{},
+                    angazovanjeZaIzmenu:{}
+                }
+            },
+            methods:{
+                setAngazovanjeZaIzmenu(angaz){ //skladistenje nakon izmene//
+                    this.angazovanjeZaIzmenu = {...angaz};
+                },
+
+                refreshData(){
+                     //saljem this van funkcije da obuhvata sve//
+                    axios.get("api/angazovanja").then((response) => {
+                        this.angazovanje = response.data;
+                    });
+                },
+                //dodavanje//
+                create(){
+                    axios.post("api/angazovanja", this.novoAngazovanje).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //izmena//
+                update(){
+                    axios.put(`api/angazovanja/${this.angazovanjeZaIzmenu.id}`, this.angazovanjeZaIzmenu).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //brisanje//
+                remove(id){
+                    axios.delete(`api/angazovanja/${id}`).then((response) => {
+                        this.refreshData();
+                    });
+                }
+            },
+            created(){
+                this.refreshData();
+            }
+        }
+        Vue.createApp(Angazovanje).mount("#app");
+    </script>
+</body>
+</html>

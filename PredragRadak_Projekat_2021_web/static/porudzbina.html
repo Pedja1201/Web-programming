@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+   
+    <title>Porudzbina</title>
+     <!-- <vue> -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+        <!-- <axios> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+    <form v-on:submit.prevent="create()">
+        <h1>-Dodaj porudzbinu</h1>
+        <div>
+            <label>ID-Knjiga: </label>
+            <input type="number" v-model="novaPorudzbina.IDKnjiga" required></div>
+        <div>
+            <label>ID-Kupac: </label>
+            <input type="number" v-model="novaPorudzbina.IDKupac" required></div>
+        <div>
+            <label>Kolicina: </label>
+            <input type="number" v-model="novaPorudzbina.kolicina" required></div>
+        <div>
+            <label>Nacin placanja: </label>
+            <input type="text" v-model="novaPorudzbina.nacinPlacanja" required>
+        </div>
+        <div>
+            <label>Valuta: </label>
+            <input type="text" v-model="novaPorudzbina.valuta" required>
+        </div>
+        <div>
+            <label>Datum porudzbine: </label>
+            <input type="datetime-local" v-model="novaPorudzbina.datumPorudzbine" required>
+        </div>
+        <div>
+            <input type="submit" value="Dodaj">
+        </div>
+    </form>
+    <hr>
+    <form v-on:submit.prevent="update()">
+        <h1>-Izmena porudzbine</h1>
+        <div>
+            <label>ID-Knjiga: </label>
+            <input type="number" v-model="porudzbinaZaIzmenu.IDKnjiga" required></div>
+        <div>
+            <label>ID-Kupac: </label>
+            <input type="number" v-model="porudzbinaZaIzmenu.IDKupac" required></div>
+        <div>
+            <label>Kolicina: </label>
+            <input type="number" v-model="porudzbinaZaIzmenu.kolicina" required></div>
+        <div>
+            <label>Nacin placanja: </label>
+            <input type="text" v-model="porudzbinaZaIzmenu.nacinPlacanja" required>
+        </div>
+        <div>
+            <label>Valuta: </label>
+            <input type="text" v-model="porudzbinaZaIzmenu.valuta" required>
+        </div>
+        <div>
+            <label>Datum porudzbine: </label>
+            <input type="datetime-local" v-model="porudzbinaZaIzmenu.datumPorudzbine" required>
+        </div>
+        <div>
+            <input type="submit" value="Izmeni">
+        </div>
+    </form>
+    <hr>
+    <table>
+        <thead>
+            <tr>
+                <th>ID-Porudzbina</th>
+                <th>ID-Knjiga</th>
+                <th>ID-Kupac</th>
+                <th>Kolicina</th>
+                <th>Nacin placanja</th>
+                <th>Valuta</th>
+                <th>Datum porudzbine</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="poruceno in porudzbine">
+                <td>{{poruceno.IDPorudzbina}}</td>
+                <td>{{poruceno.IDKnjiga}}</td>
+                <td>{{poruceno.IDKupac}}</td>
+                <td>{{poruceno.kolicina}}</td>
+                <td>{{poruceno.nacinPlacanja}}</td>
+                <td>{{poruceno.valuta}}</td>
+                <td>{{poruceno.datumPorudzbine}}</td>
+                <td><button v-on:click="remove(poruceno.IDPorudzbina)">Ukloni</button>
+                    <button v-on:click="setPorudzbinaZaIzmenu(poruceno)">Izmena</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        const Porudzbina = {
+            data(){
+                return {
+                    porudzbine:[],
+                    novaPorudzbina:{},
+                    porudzbinaZaIzmenu:{}
+                }
+            },
+            methods:{
+                setPorudzbinaZaIzmenu(poruceno){ //skladistenje nakon izmene//
+                    this.porudzbinaZaIzmenu = {...poruceno};
+                },
+
+                refreshData(){
+                     //saljem this van funkcije da obuhvata sve//
+                    axios.get("api/porudzbine").then((response) => {
+                        this.porudzbine = response.data;
+                    });
+                },
+                //dodavanje//
+                create(){
+                    axios.post("api/porudzbine", this.novaPorudzbina).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //izmena//
+                update(){
+                    axios.put(`api/porudzbine/${this.porudzbinaZaIzmenu.IDPorudzbina}`, this.porudzbinaZaIzmenu).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //brisanje//
+                remove(IDPorudzbina){
+                    axios.delete(`api/porudzbine/${IDPorudzbina}`).then((response) => {
+                        this.refreshData();
+                    });
+                }
+            },
+            created(){
+                this.refreshData();
+            }
+        }
+        Vue.createApp(Porudzbina).mount("#app");
+    </script>
+</body>
+</html>

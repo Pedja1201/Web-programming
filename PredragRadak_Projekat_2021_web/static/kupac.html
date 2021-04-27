@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+   
+    <title>Kupac</title>
+     <!-- <vue> -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+        <!-- <axios> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+    <form v-on:submit.prevent="create()">
+        <h1>-Dodaj kupca</h1>
+        <div>
+            <label>Ime: </label>
+            <input type="text" v-model="noviKupac.ime" required></div>
+        <div>
+            <label>Prezime: </label>
+            <input type="text" v-model="noviKupac.prezime" required></div>
+        <div>
+            <label>Datum rodjenja: </label>
+            <input type="date" v-model="noviKupac.datumRodjenja" required></div>
+        <div>
+            <label>E-mail: </label>
+            <input type="email" v-model="noviKupac.email" required>
+        </div>
+        <div>
+            <label>Telefon: </label>
+            <input type="text" v-model="noviKupac.telefon" required>
+        </div>
+        <div>
+            <label>Mesto: </label>
+            <input type="text" v-model="noviKupac.mesto" required>
+        </div>
+        <div>
+            <label>Adresa: </label>
+            <input type="text" v-model="noviKupac.adresa" required>
+        </div>
+        <div>
+            <input type="submit" value="Dodaj">
+        </div>
+    </form>
+    <hr>
+    <form v-on:submit.prevent="update()">
+        <h1>-Izmena kupca</h1>
+        <div>
+            <label>Ime: </label>
+            <input type="text" v-model="kupacZaIzmenu.ime" required></div>
+        <div>
+            <label>Prezime: </label>
+            <input type="text" v-model="kupacZaIzmenu.prezime" required></div>
+        <div>
+            <label>Datum rodjenja: </label>
+            <input type="datetime-local" v-model="kupacZaIzmenu.datumRodjenja" required></div>
+        <div>
+            <label>E-mail: </label>
+            <input type="email" v-model="kupacZaIzmenu.email" required>
+        </div>
+        <div>
+            <label>Telefon: </label>
+            <input type="text" v-model="kupacZaIzmenu.telefon" required>
+        </div>
+        <div>
+            <label>Mesto: </label>
+            <input type="text" v-model="kupacZaIzmenu.mesto" required>
+        </div>
+        <div>
+            <label>Adresa: </label>
+            <input type="text" v-model="kupacZaIzmenu.adresa" required>
+        </div>
+        <div>
+            <input type="submit" value="Izmeni">
+        </div>
+    </form>
+    <hr>
+    <table>
+        <thead>
+            <tr>
+                <th>ID-Kupac</th>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>Datum rodjenja</th>
+                <th>E-Mail</th>
+                <th>Telefon</th>
+                <th>Mesto</th>
+                <th>Adresa</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="kupac in kupci">
+                <td>{{kupac.IDKupac}}</td>
+                <td>{{kupac.ime}}</td>
+                <td>{{kupac.prezime}}</td>
+                <td>{{kupac.datumRodjenja}}</td>
+                <td>{{kupac.email}}</td>
+                <td>{{kupac.telefon}}</td>
+                <td>{{kupac.mesto}}</td>
+                <td>{{kupac.adresa}}</td>
+                <td><button v-on:click="remove(kupac.IDKupac)">Ukloni</button>
+                    <button v-on:click="setKupacZaIzmenu(kupac)">Izmena</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        const Kupac = {
+            data(){
+                return {
+                    kupci:[],
+                    noviKupac:{},
+                    kupacZaIzmenu:{}
+                }
+            },
+            methods:{
+                setKupacZaIzmenu(kupac){ //skladistenje nakon izmene//
+                    this.kupacZaIzmenu = {...kupac};
+                },
+
+                refreshData(){
+                     //saljem this van funkcije da obuhvata sve//
+                    axios.get("api/kupci").then((response) => {
+                        this.kupci = response.data;
+                    });
+                },
+                //dodavanje//
+                create(){
+                    axios.post("api/kupci", this.noviKupac).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //izmena//
+                update(){
+                    axios.put(`api/kupci/${this.kupacZaIzmenu.IDKupac}`, this.kupacZaIzmenu).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //brisanje//
+                remove(IDKupac){
+                    axios.delete(`api/kupci/${IDKupac}`).then((response) => {
+                        this.refreshData();
+                    });
+                }
+            },
+            created(){
+                this.refreshData();
+            }
+        }
+        Vue.createApp(Kupac).mount("#app");
+    </script>
+</body>
+</html>

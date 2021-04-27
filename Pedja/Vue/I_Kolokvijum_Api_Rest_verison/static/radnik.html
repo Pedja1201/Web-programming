@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+   
+    <title>Dodaj kupca</title>
+     <!-- <vue> -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+        <!-- <axios> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+    <form v-on:submit.prevent="create()">
+        <h1>-Dodaj kupca</h1>
+        <div>
+            <label>Ime</label>
+            <input type="text" v-model="noviRadnik.ime" required />
+        </div>
+        <div>
+            <label>Prezime</label>
+            <input type="text" v-model="noviRadnik.prezime" required />
+        </div>
+        <div>
+            <label>E-mail</label>
+            <input  type="email" v-model="noviRadnik.email" required />
+        </div>
+        <div>
+            <input type="submit" value="Dodaj">
+        </div>
+    </form>
+    <hr>
+    <form v-on:submit.prevent="update()">
+        <h1>-Izmena kupca</h1>
+    
+        <div>
+            <label>Ime</label>
+            <input type="text" v-model="radnikZaIzmenu.ime" required />
+        </div>
+        <div>
+            <label>Prezime</label>
+            <input type="text" v-model="radnikZaIzmenu.prezime" required />
+        </div>
+        <div>
+            <label>E-mail</label>
+            <input  type="email" v-model="radnikZaIzmenu.email" required />
+        </div>
+        <div>
+            <input type="submit" value="Izmeni">
+        </div>
+    </form>
+    <hr>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>E-mail</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="radnik in radnici">
+                <td>{{radnik.id}}</td>
+                <td>{{radnik.ime}}</td>
+                <td>{{radnik.prezime}}</td>
+                <td>{{radnik.email}}</td>
+                <td><button v-on:click="remove(radnik.id)">Ukloni</button>
+                    <button v-on:click="setRadnikZaIzmenu(radnik)">Izmena</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        const Radnik = {
+            data(){
+                return {
+                    radnici:[],
+                    noviRadnik:{},
+                    radnikZaIzmenu:{}
+                }
+            },
+            methods:{
+                setRadnikZaIzmenu(radnik){ //skladistenje nakon izmene//
+                    this.radnikZaIzmenu = {...radnik};
+                },
+
+                refreshData(){
+                     //saljem this van funkcije da obuhvata sve//
+                    axios.get("api/radnici").then((response) => {
+                        this.radnici = response.data;
+                    });
+                },
+                //dodavanje//
+                create(){
+                    axios.post("api/radnici", this.noviRadnik).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //izmena//
+                update(){
+                    axios.put(`api/radnici/${this.radnikZaIzmenu.id}`, this.radnikZaIzmenu).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //brisanje//
+                remove(id){
+                    axios.delete(`api/radnici/${id}`).then((response) => {
+                        this.refreshData();
+                    });
+                }
+            },
+            created(){
+                this.refreshData();
+            }
+        }
+        Vue.createApp(Radnik).mount("#app");
+    </script>
+</body>
+</html>

@@ -21,8 +21,12 @@
             <input name="cena" id="cena" type="number" value="{{blagajna.cena}}" required />
         </div>
         <div>
-            <label for="karta_id">Id karte</label>
-            <input name="karta_id" id="karta_id" type="text" value="{{blagajna.karta_id}}" required />
+            <label>ID Karte</label>
+            <select name="karta_id">
+                {% for k in karta %}
+                <option value="{{k["id"]}}">{{k["naziv_projekcije"]}}, {{k["pocetak"]}}, {{k["br_sedista"]}}</option>
+                {% endfor %}
+            </select>
         </div>
         <div>
             <input type="submit" value="Dodaj">

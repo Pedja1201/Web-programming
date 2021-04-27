@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+   
+    <title>Dodaj kupca</title>
+     <!-- <vue> -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+        <!-- <axios> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+    <form v-on:submit.prevent="create()">
+        <h1>-Dodaj kupca</h1>
+        <div>
+            <label>Naziv</label>
+            <input type="text" v-model="novoMesto.naziv" required />
+        </div>
+        <div>
+            <input type="submit" value="Dodaj">
+        </div>
+    </form>
+    <hr>
+    <form v-on:submit.prevent="update()">
+        <h1>-Izmena kupca</h1>
+    
+        <div>
+            <label>Naziv</label>
+            <input type="text" v-model="mestoZaIzmenu.naziv" required />
+        </div>
+        <div>
+            <input type="submit" value="Izmeni">
+        </div>
+    </form>
+    <hr>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Naziv</th>
+                
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="mesto in radnoMesto">
+                <td>{{mesto.id}}</td>
+                <td>{{mesto.naziv}}</td>
+               
+                <td><button v-on:click="remove(mesto.id)">Ukloni</button>
+                    <button v-on:click="setRadnoMestoZaIzmenu(mesto)">Izmena</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        const RadnoMesto = {
+            data(){
+                return {
+                    radnoMesto:[],
+                    novoMesto:{},
+                    mestoZaIzmenu:{}
+                }
+            },
+            methods:{
+                setRadnoMestoZaIzmenu(mesto){ //skladistenje nakon izmene//
+                    this.mestoZaIzmenu = {...mesto};
+                },
+
+                refreshData(){
+                     //saljem this van funkcije da obuhvata sve//
+                    axios.get("api/radnaMesta").then((response) => {
+                        this.radnoMesto = response.data;
+                    });
+                },
+                //dodavanje//
+                create(){
+                    axios.post("api/radnaMesta", this.novoMesto).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //izmena//
+                update(){
+                    axios.put(`api/radnaMesta/${this.mestoZaIzmenu.id}`, this.mestoZaIzmenu).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //brisanje//
+                remove(id){
+                    axios.delete(`api/radnaMesta/${id}`).then((response) => {
+                        this.refreshData();
+                    });
+                }
+            },
+            created(){
+                this.refreshData();
+            }
+        }
+        Vue.createApp(RadnoMesto).mount("#app");
+    </script>
+</body>
+</html>

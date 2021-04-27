@@ -97,20 +97,44 @@ def ukloniBlagajnu():
     db.commit()
     return flask.redirect("/blagajna")
 
+
+#Obicna izmena
+# @app.route("/izmeniBlagajnuForma", methods=["GET"])
+# def izmeniBlagajnuForma():
+#     cursor = mysql.get_db().cursor()
+#     cursor.execute("SELECT * FROM blagajna WHERE id=%s", (flask.request.args["id"], ))
+#     return flask.render_template("izmenaBlagajne.tpl.html", blagajna=cursor.fetchone())
+
+# @app.route("/izmeniBlagajnuForma", methods=["POST"])
+# def izmeniBlagajnu():
+#     db = mysql.get_db()
+#     cursor = db.cursor()
+#     cursor.execute("UPDATE blagajna SET id=%(id)s, cena=%(cena)s, karta_id=%(karta_id)s WHERE id=%(id)s", flask.request.form)
+#     db.commit()
+#     return flask.redirect("/blagajna")
+
+#Select izmena
 @app.route("/izmeniBlagajnuForma", methods=["GET"])
-def izmeniBlagajnuForma():
+def izmenaBlagajneForma():
+    db = mysql.get_db()
     cursor = mysql.get_db().cursor()
-    cursor.execute("SELECT * FROM blagajna WHERE id=%s", (flask.request.args["id"], ))
-    return flask.render_template("izmenaBlagajne.tpl.html", blagajna=cursor.fetchone())
+    cursor.execute("SELECT * FROM karta")
+    karta = cursor.fetchall()
+    
+    cursor.execute("SELECT * FROM blagajna WHERE id=%s", flask.request.args["id"])
+    blagajna = cursor.fetchone()
+    return flask.render_template("izmenaBlagajne.tpl.html", karta=karta, blagajna=blagajna)
+
 
 @app.route("/izmeniBlagajnuForma", methods=["POST"])
-def izmeniBlagajnu():
+def izmenaBlagajne():
+    blagajna = dict(flask.request.form)
+    blagajna["id"] = flask.request.args["id"]
     db = mysql.get_db()
-    cursor = db.cursor()
-    cursor.execute("UPDATE blagajna SET id=%(id)s, cena=%(cena)s, karta_id=%(karta_id)s WHERE id=%(id)s", flask.request.form)
+    cursor = mysql.get_db().cursor()
+    cursor.execute("UPDATE blagajna SET id=%(id)s, cena=%(cena)s, karta_id=%(karta_id)s WHERE id=%(id)s", blagajna)
     db.commit()
     return flask.redirect("/blagajna")
-
 
 
 

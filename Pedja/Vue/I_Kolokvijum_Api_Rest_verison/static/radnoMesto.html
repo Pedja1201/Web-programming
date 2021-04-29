@@ -6,89 +6,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-   
-    <title>Dodaj kupca</title>
-     <!-- <vue> -->
+    <title>Radno mesto</title>
     <script src="https://unpkg.com/vue@next"></script>
-
-        <!-- <axios> -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    
+
 </head>
 
 <body id="app">
-    <form v-on:submit.prevent="create()">
-        <h1>-Dodaj kupca</h1>
-        <div>
-            <label>Naziv</label>
-            <input type="text" v-model="novoMesto.naziv" required />
-        </div>
-        <div>
-            <input type="submit" value="Dodaj">
-        </div>
-    </form>
-    <hr>
-    <form v-on:submit.prevent="update()">
-        <h1>-Izmena kupca</h1>
-    
-        <div>
-            <label>Naziv</label>
-            <input type="text" v-model="mestoZaIzmenu.naziv" required />
-        </div>
-        <div>
-            <input type="submit" value="Izmeni">
-        </div>
-    </form>
-    <hr>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Naziv</th>
-                
-                <th>Akcije</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="mesto in radnoMesto">
-                <td>{{mesto.id}}</td>
-                <td>{{mesto.naziv}}</td>
-               
-                <td><button v-on:click="remove(mesto.id)">Ukloni</button>
-                    <button v-on:click="setRadnoMestoZaIzmenu(mesto)">Izmena</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+
+    <radno-mesto-form v-on:sacuvaj="create" v-bind:tekst="'Dodaj'"></radno-mesto-form>
+    <radno-mesto-form v-bind:mesto="radnaMestaZaIzmenu" v-bind:tekst="'Izmeni'" v-on:sacuvaj="update"></radno-mesto-form>
+
+    <tabela-radnog-mesta v-bind:radnaMesta="radnaMesta" v-on:uklanjanje="remove" v-on:izmena="setRadnaMestaZaIzmenu"></tabela-radnog-mesta>
+  
     <script>
         const RadnoMesto = {
             data(){
                 return {
-                    radnoMesto:[],
-                    novoMesto:{},
-                    mestoZaIzmenu:{}
+                    radnaMesta:[],
+                    radnaMestaZaIzmenu:{}
                 }
             },
             methods:{
-                setRadnoMestoZaIzmenu(mesto){ //skladistenje nakon izmene//
-                    this.mestoZaIzmenu = {...mesto};
+                setRadnaMestaZaIzmenu(mesto){ //skladistenje nakon izmene//
+                    this.radnaMestaZaIzmenu = {...mesto};
                 },
 
                 refreshData(){
                      //saljem this van funkcije da obuhvata sve//
                     axios.get("api/radnaMesta").then((response) => {
-                        this.radnoMesto = response.data;
+                        this.radnaMesta = response.data;
                     });
                 },
                 //dodavanje//
-                create(){
-                    axios.post("api/radnaMesta", this.novoMesto).then((response) => {
+                create(mesto){
+                    axios.post("api/radnaMesta", mesto).then((response) => {
                         this.refreshData();
                     });
                 },
                 //izmena//
-                update(){
-                    axios.put(`api/radnaMesta/${this.mestoZaIzmenu.id}`, this.mestoZaIzmenu).then((response) => {
+                update(mesto){
+                    axios.put(`api/radnaMesta/${mesto.id}`, mesto).then((response) => {
                         this.refreshData();
                     });
                 },
@@ -103,7 +61,81 @@
                 this.refreshData();
             }
         }
-        Vue.createApp(RadnoMesto).mount("#app");
+
+        const RadnoMestoForma = {
+            props: ["mesto", "tekst"],
+            emits: ["sacuvaj"],
+            data(){
+                return{
+                    novoRadnoMesto: this.mesto ? this.mesto : {}
+                }
+            },
+//izmena i setovanje izmene 1 nacin//
+            // computed:{
+            //     radnikZaIzmenu: {
+            //         get : function(){
+            //             return {...this.radnik};
+            //         },
+            //         set: function(novi){
+            //             this.noviRadnik = {...novi};
+            //         }
+            //     }
+            // },
+
+            watch: {
+                mesto: function(newValue, oldValue){
+                    this.novoRadnoMesto = {...this.mesto};
+                }
+                
+            },
+            template:  `
+    <form v-on:submit.prevent="$emit('sacuvaj', {...novoRadnoMesto})">
+        <h1></h1>
+        <div>
+            <label>Naziv: </label>
+            <input type="text" v-model="novoRadnoMesto.naziv" required></div>
+      
+        <div>
+            <input type="submit" v-bind:value="tekst">
+        </div>
+    </form>
+            `
+        
+        }
+
+        const TabelaRadnogMesta = {
+            props: ["radnaMesta"],
+            emits: ["izmena", "uklanjanje"],
+
+            data(){
+                return{}
+            },
+            template: `
+    <table>
+        <thead>
+            <tr>
+                <th>ID Radnog mesta</th>
+                <th>Naziv</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="mesto in radnaMesta">
+                <td>{{mesto.id}}</td>
+                <td>{{mesto.naziv}}</td>
+                <td><button v-on:click="$emit('uklanjanje', mesto.id)">Ukloni</button>
+                    <button v-on:click="$emit('izmena', {...mesto})">Izmena</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+            `
+        }
+
+        const app = Vue.createApp(RadnoMesto);
+        app.component('tabela-radnog-mesta', TabelaRadnogMesta);
+        app.component('radno-mesto-form', RadnoMestoForma);
+        app.mount("#app");
     </script>
 </body>
 </html>

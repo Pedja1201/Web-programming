@@ -1,8 +1,13 @@
 import flask
 from flask import Flask
 
+import korisnik
+import kupac
+import knjiga
+
 from flaskext.mysql import MySQL
 from flaskext.mysql import pymysql
+
 
 
 app = Flask(__name__, static_url_path="/")
@@ -25,7 +30,7 @@ mysql = MySQL(app, cursorclass=pymysql.cursors.DictCursor)
 def home():
     return app.send_static_file("korisnik.html")
 
-#KUPAC!!!!
+#KORISNIK
 @app.route("/api/korisnici")
 def getAllKorisnici():
     cursor = mysql.get_db().cursor()

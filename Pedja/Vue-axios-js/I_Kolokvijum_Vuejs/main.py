@@ -79,6 +79,7 @@ def getAllRadnaMesta():
     cursor.execute("SELECT * FROM radno_mesto")
     mesto = cursor.fetchall()
     return flask.jsonify(mesto)
+    
 ########
 @app.route("/api/radnaMesta/<int:radnaMesta_id>")
 def getRadnaMesta(radnaMesta_id):

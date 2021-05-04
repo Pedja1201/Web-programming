@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+   
+    <title>Blagajna</title>
+     <!-- <vue> -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+        <!-- <axios> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+
+    <blagajna-form v-bind:naslov="'Dodaj blagajnu'" v-on:sacuvaj="create" v-bind:tekst="'Dodaj'"></blagajna-form>
+    <blagajna-form v-bind:naslov="'Izmena blagajne'" v-bind:blagajna="blagajnaZaIzmenu" v-bind:tekst="'Izmeni'" v-on:sacuvaj="update"></blagajna-form>
+
+    <tabela-blagajne v-bind:bioskop="bioskop" v-on:uklanjanje="remove" v-on:izmena="setBlagajnaZaIzmenu"></tabela-blagajne>
+  
+    <script>
+        const Blagajna = {
+            data(){
+                return {
+                    bioskop:[],
+                    blagajnaZaIzmenu:{}
+                }
+            },
+            methods:{
+                setBlagajnaZaIzmenu(blagajna){ //skladistenje nakon izmene//
+                    this.blagajnaZaIzmenu = {...blagajna};
+                },
+
+                refreshData(){
+                     //saljem this van funkcije da obuhvata sve//
+                    axios.get("api/blagajna").then((response) => {
+                        this.bioskop = response.data;
+                    });
+                },
+                //dodavanje//
+                create(blagajna){
+                    axios.post("api/blagajna", blagajna).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //izmena//
+                update(blagajna){
+                    axios.put(`api/blagajna/${blagajna.id}`, blagajna).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //brisanje//
+                remove(id){
+                    axios.delete(`api/blagajna/${id}`).then((response) => {
+                        this.refreshData();
+                    });
+                }
+            },
+            created(){
+                this.refreshData();
+            }
+        }
+
+        const BlagajnaForma = {
+            props: ["blagajna", "tekst", "naslov"],
+            emits : ["sacuvaj"],
+            data(){
+                return{
+                    novaBlagajna: this.blagajna ? this.blagajna : {}
+                }
+            },
+//izmena i setovanje izmene 1 nacin//
+            // computed:{
+            //     blagajnaZaIzmenu: {
+            //         get : function(){
+            //             return {...this.blagajna};
+            //         },
+            //         set: function(novi){
+            //             this.novaBlagajna = {...novi};
+            //         }
+            //     }
+            // },
+
+            watch: {
+                blagajna: function(newValue, oldValue){
+                    this.novaBlagajna = {...this.blagajna};
+                }
+                
+            },
+            template:  `
+    <form v-on:submit.prevent="$emit('sacuvaj', {...novaBlagajna})">
+    <h1>{{naslov}}</h1>
+        <div>
+            <label>Cena: </label>
+            <input type="number" v-model="novaBlagajna.cena" required></div>
+        <div>
+            <label>ID-karta: </label>
+            <input type="text" v-model="novaBlagajna.karta_id" required></div>
+        
+        <div>
+            <input type="submit" v-bind:value="tekst">
+        </div>
+    </form>
+            `
+        
+        }
+
+        const TabelaBlagajne = {
+            props: ["bioskop"],
+            emits:["izmena", "uklanjanje"],
+
+            data(){
+                return{}
+            },
+            template: `
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cena</th>
+                <th>ID-Karta</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="blagajna in bioskop">
+                <td>{{blagajna.id}}</td>
+                <td>{{blagajna.cena}}</td>
+                <td>{{blagajna.karta_id}}</td>
+                <td><button v-on:click="$emit('uklanjanje', blagajna.id)">Ukloni</button>
+                    <button v-on:click="$emit('izmena', {...blagajna})">Izmena</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+            `
+        }
+
+        const app = Vue.createApp(Blagajna);
+        app.component('tabela-blagajne', TabelaBlagajne);
+        app.component('blagajna-form', BlagajnaForma);
+
+        app.mount("#app");
+    </script>
+</body>
+</html>

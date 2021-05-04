@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Radno mesto</title>
+    
     <script src="https://unpkg.com/vue@next"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
@@ -18,7 +19,8 @@
     <radno-mesto-form v-bind:mesto="radnaMestaZaIzmenu" v-bind:tekst="'Izmeni'" v-on:sacuvaj="update"></radno-mesto-form>
 
     <tabela-radnog-mesta v-bind:radnaMesta="radnaMesta" v-on:uklanjanje="remove" v-on:izmena="setRadnaMestaZaIzmenu"></tabela-radnog-mesta>
-  
+    
+
     <script>
         const RadnoMesto = {
             data(){
@@ -72,12 +74,12 @@
             },
 //izmena i setovanje izmene 1 nacin//
             // computed:{
-            //     radnikZaIzmenu: {
+            //     radnoMestoZaIzmenu: {
             //         get : function(){
-            //             return {...this.radnik};
+            //             return {...this.mesto};
             //         },
             //         set: function(novi){
-            //             this.noviRadnik = {...novi};
+            //             this.novoRadnoMesto = {...novi};
             //         }
             //     }
             // },

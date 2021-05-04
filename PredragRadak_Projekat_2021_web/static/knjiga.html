@@ -15,10 +15,86 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     
 </head>
-
+ <!-- Verzija sa componentama. -->
 <body id="app">
-    <form v-on:submit.prevent="create()">
-        <h1>-Dodaj knjigu</h1>
+
+    <knjiga-form v-on:sacuvaj="create" v-bind:naslov="'Dodaj knjigu'" v-bind:dugme="'Dodaj'"></knjiga-form>
+    <knjiga-form v-bind:knjiga="knjigaZaIzmenu" v-bind:naslov="'Izmeni knjigu'" v-bind:dugme="'Izmeni'" v-on:sacuvaj="update"></knjiga-form>
+
+    <tabela-knjiga v-bind:naslov="'Tabela knjiga'" v-bind:knjige="knjige" v-on:uklanjanje="remove" v-on:izmena="setKnjigaZaIzmenu"></tabela-knjiga>
+  
+    <script>
+        const Knjiga = {
+            data(){
+                return {
+                    knjige:[],
+                    knjigaZaIzmenu:{}
+                }
+            },
+            methods:{
+                setKnjigaZaIzmenu(knjiga){ //skladistenje nakon izmene//
+                    this.knjigaZaIzmenu = {...knjiga};
+                },
+
+                refreshData(){
+                     //saljem this van funkcije da obuhvata sve//
+                    axios.get("api/knjige").then((response) => {
+                        this.knjige = response.data;
+                    });
+                },
+                //dodavanje//
+                create(knjiga){
+                    axios.post("api/knjige", knjiga).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //izmena//
+                update(knjiga){
+                    axios.put(`api/knjige/${knjiga.IDKnjiga}`, knjiga).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //brisanje//
+                remove(IDKnjiga){
+                    axios.delete(`api/knjige/${IDKnjiga}`).then((response) => {
+                        this.refreshData();
+                    });
+                }
+            },
+            created(){
+                this.refreshData();
+            }
+        }
+
+        const KnjigaForma = {
+            props: ["knjiga", "dugme", "naslov"],
+            emits : ["sacuvaj"],
+            data(){
+                return{
+                    novaKnjiga: this.knjiga ? this.knjiga : {}
+                }
+            },
+//izmena i setovanje izmene 1 nacin//
+            // computed:{
+            //     knjigaZaIzmenu: {
+            //         get : function(){
+            //             return {...this.knjiga};
+            //         },
+            //         set: function(novi){
+            //             this.novaKnjiga = {...novi};
+            //         }
+            //     }
+            // },
+
+            watch: {
+                knjiga: function(newValue, oldValue){
+                    this.novaKnjiga = {...this.knjiga};
+                }
+                
+            },
+            template:  `
+    <form v-on:submit.prevent="$emit('sacuvaj', {...novaKnjiga})">
+        <h1>-{{naslov}}</h1>
         <div>
             <label>Naziv: </label>
             <input type="text" v-model="novaKnjiga.naziv" required></div>
@@ -26,53 +102,35 @@
             <label>Autor: </label>
             <input type="text" v-model="novaKnjiga.autor" required></div>
         <div>
-            <label>Kategorija: </label>
+            <label>Kategorija: </label> 
             <input type="text" v-model="novaKnjiga.kategorija" required></div>
         <div>
-            <label>Cena: </label>
-            <input type="text" v-model="novaKnjiga.cena" required>
-        </div>
+            <label>Cena: </label> 
+            <input type="number" v-model="novaKnjiga.cena" required></div>
         <div>
-            <label>Stanje: </label>
-            <input type="text" v-model="novaKnjiga.stanje" value='"DA", "NE"' required>
-        </div>
+            <label>Stanje: </label> 
+            <input type="text" v-model="novaKnjiga.stanje" value='"DA","NE"' required></div>
         <div>
-            <label>Link: </label>
-            <input type="text" v-model="novaKnjiga.link" required>
-        </div>
+            <label>Link: </label> 
+            <input type="text" v-model="novaKnjiga.link" required></div>
+        
         <div>
-            <input type="submit" value="Dodaj">
+            <input type="submit" v-bind:value="dugme">
         </div>
     </form>
-    <hr>
-    <form v-on:submit.prevent="update()">
-        <h1>-Izmena knjige</h1>
-        <div>
-            <label>Naziv: </label>
-            <input type="text" v-model="knjigaZaIzmenu.naziv" required></div>
-        <div>
-            <label>Autor: </label>
-            <input type="text" v-model="knjigaZaIzmenu.autor" required></div>
-        <div>
-            <label>Kategorija: </label>
-            <input type="text" v-model="knjigaZaIzmenu.kategorija" required></div>
-        <div>
-            <label>Cena: </label>
-            <input type="text" v-model="knjigaZaIzmenu.cena" required>
-        </div>
-        <div>
-            <label>Stanje: </label>
-            <input type="text" v-model="knjigaZaIzmenu.stanje" value='"DA", "NE"' required>
-        </div>
-        <div>
-            <label>Link: </label>
-            <input type="text" v-model="knjigaZaIzmenu.link" required>
-        </div>
-        <div>
-            <input type="submit" value="Izmeni">
-        </div>
-    </form>
-    <hr>
+            `
+        
+        }
+
+        const TabelaKnjiga = {
+            props: ["knjige", "naslov"],
+            emits:["izmena", "uklanjanje"],
+
+            data(){
+                return{}
+            },
+            template: `
+    <h1>{{naslov}}</h1>
     <table>
         <thead>
             <tr>
@@ -94,57 +152,21 @@
                 <td>{{knjiga.kategorija}}</td>
                 <td>{{knjiga.cena}}</td>
                 <td>{{knjiga.stanje}}</td>
-                <td><a href="{{knjiga.IDKnjiga}}">{{knjiga.link}}</a></td>
-                <td><button v-on:click="remove(knjiga.IDKnjiga)">Ukloni</button>
-                    <button v-on:click="setKnjigaZaIzmenu(knjiga)">Izmena</button>
+                <td><a href="#">{{knjiga.link}}</a></td>
+                <td><button v-on:click="$emit('uklanjanje', knjiga.IDKnjiga)">Ukloni</button>
+                    <button v-on:click="$emit('izmena', {...knjiga})">Izmena</button>
                 </td>
             </tr>
         </tbody>
     </table>
-    <script>
-        const Knjiga = {
-            data(){
-                return {
-                    knjige:[],
-                    novaKnjiga:{},
-                    knjigaZaIzmenu:{}
-                }
-            },
-            methods:{
-                setKnjigaZaIzmenu(knjiga){ //skladistenje nakon izmene//
-                    this.knjigaZaIzmenu = {...knjiga};
-                },
-
-                refreshData(){
-                     //saljem this van funkcije da obuhvata sve//
-                    axios.get("api/knjige").then((response) => {
-                        this.knjige = response.data;
-                    });
-                },
-                //dodavanje//
-                create(){
-                    axios.post("api/knjige", this.novaKnjiga).then((response) => {
-                        this.refreshData();
-                    });
-                },
-                //izmena//
-                update(){
-                    axios.put(`api/knjige/${this.knjigaZaIzmenu.IDKnjiga}`, this.knjigaZaIzmenu).then((response) => {
-                        this.refreshData();
-                    });
-                },
-                //brisanje//
-                remove(IDKnjiga){
-                    axios.delete(`api/knjige/${IDKnjiga}`).then((response) => {
-                        this.refreshData();
-                    });
-                }
-            },
-            created(){
-                this.refreshData();
-            }
+            `
         }
-        Vue.createApp(Knjiga).mount("#app");
+
+        const app = Vue.createApp(Knjiga);
+        app.component('tabela-knjiga', TabelaKnjiga);
+        app.component('knjiga-form', KnjigaForma);
+
+        app.mount("#app");
     </script>
 </body>
 </html>

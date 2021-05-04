@@ -6,6 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" 
+rel="stylesheet" 
+integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" 
+crossorigin="anonymous">
    
     <title>Korisnik</title>
      <!-- <vue> -->
@@ -15,13 +20,13 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     
 </head>
- <!-- Verzija sa componentama. -->
+
 <body id="app">
 
-    <korisnik-form v-on:sacuvaj="create" v-bind:naslov="'Dodaj korisnika'" v-bind:dugme="'Dodaj'"></korisnik-form>
-    <korisnik-form v-bind:korisnik="korisnikZaIzmenu" v-bind:naslov="'Izmeni korisnika'" v-bind:dugme="'Izmeni'" v-on:sacuvaj="update"></korisnik-form>
+    <korisnik-form v-bind:naslov="'Dodaj korisnika'" v-on:sacuvaj="create" v-bind:dugme="'Dodaj'"></korisnik-form>
+    <korisnik-form v-bind:naslov="'Izmeni korisnika'" v-bind:korisnik="korisnikZaIzmenu" v-bind:dugme="'Izmeni'" v-on:sacuvaj="update"></korisnik-form>
 
-    <tabela-korisnika v-bind:naslov="'Tabela korisnika'" v-bind:korisnici="korisnici" v-on:uklanjanje="remove" v-on:izmena="setKorisnikZaIzmenu"></tabela-korisnika>
+    <tabela-korisnika v-bind:korisnici="korisnici" v-on:uklanjanje="remove" v-on:izmena="setKorisnikZaIzmenu"></tabela-korisnika>
   
     <script>
         const Korisnik = {
@@ -50,13 +55,13 @@
                 },
                 //izmena//
                 update(korisnik){
-                    axios.put(`api/korisnici/${korisnik.IDKorisnik}`, korisnik).then((response) => {
+                    axios.put(`api/korisnici/${korisnik.oznaka}`, korisnik).then((response) => {
                         this.refreshData();
                     });
                 },
                 //brisanje//
-                remove(IDKorisnik){
-                    axios.delete(`api/korisnici/${IDKorisnik}`).then((response) => {
+                remove(oznaka){
+                    axios.delete(`api/korisnici/${oznaka}`).then((response) => {
                         this.refreshData();
                     });
                 }
@@ -94,16 +99,20 @@
             },
             template:  `
     <form v-on:submit.prevent="$emit('sacuvaj', {...noviKorisnik})">
-        <h1>-{{naslov}}</h1>
+    <h1>{{naslov}}</h1>
+        <div>
+            <label>Oznaka: </label>
+            <input type="text" v-model="noviKorisnik.oznaka" required></div>
         <div>
             <label>Ime: </label>
             <input type="text" v-model="noviKorisnik.ime" required></div>
         <div>
-            <label>E-mail: </label>
-            <input type="email" v-model="noviKorisnik.email" required></div>
+            <label>Prezime: </label>
+            <input type="text" v-model="noviKorisnik.prezime" required></div>
         <div>
-            <label>Lozinka: </label> 
-            <input type="password" v-model="noviKorisnik.lozinka" required></div>
+            <label>Broj telefona: </label>
+            <input type="text" v-model="noviKorisnik.br_telefona" required></div>
+        
         <div>
             <input type="submit" v-bind:value="dugme">
         </div>
@@ -113,31 +122,30 @@
         }
 
         const TabelaKorisnika = {
-            props: ["korisnici", "naslov"],
+            props: ["korisnici"],
             emits:["izmena", "uklanjanje"],
 
             data(){
                 return{}
             },
             template: `
-    <h1>{{naslov}}</h1>
     <table>
         <thead>
             <tr>
-                <th>ID-Korisnik</th>
+                <th>Oznaka</th>
                 <th>Ime</th>
-                <th>E-mail</th>
-                <th>Lozinka</th>
+                <th>Prezime</th>
+                <th>Broj telefona</th>
                 <th>Akcije</th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="korisnik in korisnici">
-                <td>{{korisnik.IDKorisnik}}</td>
+                <td>{{korisnik.oznaka}}</td>
                 <td>{{korisnik.ime}}</td>
-                <td>{{korisnik.email}}</td>
-                <td>{{korisnik.lozinka}}</td>
-                <td><button v-on:click="$emit('uklanjanje', korisnik.IDKorisnik)">Ukloni</button>
+                <td>{{korisnik.prezime}}</td>
+                <td>{{korisnik.br_telefona}}</td>
+                <td><button v-on:click="$emit('uklanjanje', korisnik.oznaka)">Ukloni</button>
                     <button v-on:click="$emit('izmena', {...korisnik})">Izmena</button>
                 </td>
             </tr>

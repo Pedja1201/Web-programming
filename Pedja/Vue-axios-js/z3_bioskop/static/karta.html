@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+   
+    <title>Karta</title>
+     <!-- <vue> -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+        <!-- <axios> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+
+    <karta-form v-bind:naslov="'Dodaj kartu'" v-on:sacuvaj="create" v-bind:tekst="'Dodaj'"></karta-form>
+    <karta-form v-bind:naslov="'Izmena karte'" v-bind:karta="kartaZaIzmenu" v-bind:tekst="'Izmeni'" v-on:sacuvaj="update"></karta-form>
+
+    <tabela-karte v-bind:bioskop="bioskop" v-on:uklanjanje="remove" v-on:izmena="setKartaZaIzmenu"></tabela-karte>
+  
+    <script>
+        const Karta = {
+            data(){
+                return {
+                    bioskop:[],
+                    kartaZaIzmenu:{}
+                }
+            },
+            methods:{
+                setKartaZaIzmenu(karta){ //skladistenje nakon izmene//
+                    this.kartaZaIzmenu = {...karta};
+                },
+
+                refreshData(){
+                     //saljem this van funkcije da obuhvata sve//
+                    axios.get("api/karte").then((response) => {
+                        this.bioskop = response.data;
+                    });
+                },
+                //dodavanje//
+                create(karta){
+                    axios.post("api/karte", karta).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //izmena//
+                update(karta){
+                    axios.put(`api/karte/${karta.id}`, karta).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //brisanje//
+                remove(id){
+                    axios.delete(`api/karte/${id}`).then((response) => {
+                        this.refreshData();
+                    });
+                }
+            },
+            created(){
+                this.refreshData();
+            }
+        }
+
+        const KartaForma = {
+            props: ["karta", "tekst", "naslov"],
+            emits : ["sacuvaj"],
+            data(){
+                return{
+                    novaKarta: this.karta ? this.karta : {}
+                }
+            },
+//izmena i setovanje izmene 1 nacin//
+            // computed:{
+            //     kartaZaIzmenu: {
+            //         get : function(){
+            //             return {...this.karta};
+            //         },
+            //         set: function(novi){
+            //             this.novaKarta = {...novi};
+            //         }
+            //     }
+            // },
+
+            watch: {
+                karta: function(newValue, oldValue){
+                    this.novaKarta = {...this.karta};
+                }
+                
+            },
+            template:  `
+    <form v-on:submit.prevent="$emit('sacuvaj', {...novaKarta})">
+    <h1>{{naslov}}</h1>
+        <div>
+            <label>ID: </label>
+            <input type="text" v-model="novaKarta.id" required></div>
+        <div>
+            <label>Naziv projekcije: </label>
+            <input type="text" v-model="novaKarta.naziv_projekcije" required></div>
+        <div>
+            <label>Pocetak: </label>
+            <input type="datetime-local" v-model="novaKarta.pocetak" required></div>
+        <div>
+            <label>Kraj: </label>
+            <input type="datetime-local" v-model="novaKarta.kraj" required></div>
+        <div>
+            <label>br_sedista: </label>
+            <input type="number" v-model="novaKarta.br_sedista" required></div>
+        
+        <div>
+            <input type="submit" v-bind:value="tekst">
+        </div>
+    </form>
+            `
+        
+        }
+
+        const TabelaKarte = {
+            props: ["bioskop"],
+            emits:["izmena", "uklanjanje"],
+
+            data(){
+                return{}
+            },
+            template: `
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Naziv projekcije</th>
+                <th>Pocetak</th>
+                <th>Kraj</th>
+                <th>Broj sedista</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="karta in bioskop">
+                <td>{{karta.id}}</td>
+                <td>{{karta.naziv_projekcije}}</td>
+                <td>{{karta.pocetak}}</td>
+                <td>{{karta.kraj}}</td>
+                <td>{{karta.br_sedista}}</td>
+                <td><button v-on:click="$emit('uklanjanje', karta.id)">Ukloni</button>
+                    <button v-on:click="$emit('izmena', {...karta})">Izmena</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+            `
+        }
+
+        const app = Vue.createApp(Karta);
+        app.component('tabela-karte', TabelaKarte);
+        app.component('karta-form', KartaForma);
+
+        app.mount("#app");
+    </script>
+</body>
+</html>

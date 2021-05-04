@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Auto</title>
+    
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+    <auto-form v-on:sacuvaj="create" v-bind:tekst="'Dodaj'"></auto-form>
+    <auto-form v-bind:auto="autoZaIzmenu" v-bind:tekst="'Izmeni'"  v-on:sacuvaj="update"></auto-form>
+
+    <auto-tabela v-bind:automobil="automobil" v-on:uklanjanje="remove" v-on:izmena="setAutoZaIzmenu"></auto-tabela>
+    
+
+    <script>
+        const Automobil = {
+            data(){
+                return {
+                    automobil:[],
+                    autoZaIzmenu:{}
+                }
+            },
+            methods:{
+                setAutoZaIzmenu(auto){ //skladistenje nakon izmene//
+                    this.autoZaIzmenu = {...auto};
+                },
+
+                refreshData(){
+                     //saljem this van funkcije da obuhvata sve//
+                    axios.get("api/auto").then((response) => {
+                        this.automobil = response.data;
+                    });
+                },
+                //dodavanje//
+                create(auto){
+                    axios.post("api/auto", auto).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //izmena//
+                update(auto){
+                    axios.put(`api/auto/${auto.tablice}`, auto).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //brisanje//
+                remove(tablice){
+                    axios.delete(`api/auto/${tablice}`).then((response) => {
+                        this.refreshData();
+                    });
+                }
+            },
+            created(){
+                this.refreshData();
+            }
+        }
+        const AutoForma = {
+            props: ["auto", "tekst"],
+            emits: ["sacuvaj"],
+            data(){
+                return{
+                    noviAuto: this.auto ? this.auto : {}
+                }
+            },
+            watch: {
+                auto : function(newValue, oldValue){
+                    this.noviAuto = {...this.auto}
+                }
+            },
+            template: `
+    <form v-on:submit.prevent="$emit('sacuvaj', {...noviAuto})">
+        <h1></h1>
+        <div>
+            <label>Tablice:</label>
+            <input type="text" v-model="noviAuto.tablice" required>
+        </div>
+        <div>
+            <label>Marka:</label>
+            <input type="text" v-model="noviAuto.marka" required>
+        </div>
+        <div>
+            <label>Model:</label>
+            <input type="text" v-model="noviAuto.model" required>
+        </div>
+        <div>
+            <label>Godiste:</label>
+            <input type="date" v-model="noviAuto.godiste" required>
+        </div>
+        
+        <div>
+            <input type="submit" v-bind:value="tekst">
+        </div>
+    </form>
+            `
+        }
+
+        const TabelaAuto = {
+            props: ["automobil"],
+            emits: ["izmena", "uklanjanje"],
+
+            data(){
+                return{}
+            },
+            template: `
+    <table>
+        <thead>
+            <tr>
+                <th>Tablice</th>
+                <th>Marka</th>
+                <th>Model</th>
+                <th>Godiste</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="auto in automobil">
+                <td>{{auto.tablice}}</td>
+                <td>{{auto.marka}}</td>
+                <td>{{auto.model}}</td>
+                <td>{{auto.godiste}}</td>
+                <td><button v-on:click="$emit('uklanjanje', auto.tablice)">Ukloni</button>
+                    <button v-on:click="$emit('izmena', {...auto})">Izmena</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+            `
+        }
+
+
+        const app = Vue.createApp(Automobil);
+        app.component('auto-tabela', TabelaAuto);
+        app.component('auto-form', AutoForma);
+        app.mount("#app");
+    </script>
+</body>
+</html>

@@ -15,10 +15,86 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     
 </head>
-
+ <!-- Verzija sa componentama. -->
 <body id="app">
-    <form v-on:submit.prevent="create()">
-        <h1>-Dodaj kupca</h1>
+
+    <kupac-form v-on:sacuvaj="create" v-bind:naslov="'Dodaj kupca'" v-bind:dugme="'Dodaj'"></kupac-form>
+    <kupac-form v-bind:kupac="kupacZaIzmenu" v-bind:naslov="'Izmeni kupca'" v-bind:dugme="'Izmeni'" v-on:sacuvaj="update"></kupac-form>
+
+    <tabela-kupca v-bind:naslov="'Tabela kupca'" v-bind:kupci="kupci" v-on:uklanjanje="remove" v-on:izmena="setKupacZaIzmenu"></tabela-kupca>
+  
+    <script>
+        const Kupac = {
+            data(){
+                return {
+                    kupci:[],
+                    kupacZaIzmenu:{}
+                }
+            },
+            methods:{
+                setKupacZaIzmenu(kupac){ //skladistenje nakon izmene//
+                    this.kupacZaIzmenu = {...kupac};
+                },
+
+                refreshData(){
+                     //saljem this van funkcije da obuhvata sve//
+                    axios.get("api/kupci").then((response) => {
+                        this.kupci = response.data;
+                    });
+                },
+                //dodavanje//
+                create(kupac){
+                    axios.post("api/kupci", kupac).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //izmena//
+                update(kupac){
+                    axios.put(`api/kupci/${kupac.IDKupac}`, kupac).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //brisanje//
+                remove(IDKupac){
+                    axios.delete(`api/kupci/${IDKupac}`).then((response) => {
+                        this.refreshData();
+                    });
+                }
+            },
+            created(){
+                this.refreshData();
+            }
+        }
+
+        const KupacForma = {
+            props: ["kupac", "dugme", "naslov"],
+            emits : ["sacuvaj"],
+            data(){
+                return{
+                    noviKupac: this.kupac ? this.kupac : {}
+                }
+            },
+//izmena i setovanje izmene 1 nacin//
+            // computed:{
+            //     kupacZaIzmenu: {
+            //         get : function(){
+            //             return {...this.kupac};
+            //         },
+            //         set: function(novi){
+            //             this.noviKupac = {...novi};
+            //         }
+            //     }
+            // },
+
+            watch: {
+                kupac: function(newValue, oldValue){
+                    this.noviKupac = {...this.kupac};
+                }
+                
+            },
+            template:  `
+    <form v-on:submit.prevent="$emit('sacuvaj', {...noviKupac})">
+        <h1>-{{naslov}}</h1>
         <div>
             <label>Ime: </label>
             <input type="text" v-model="noviKupac.ime" required></div>
@@ -26,61 +102,37 @@
             <label>Prezime: </label>
             <input type="text" v-model="noviKupac.prezime" required></div>
         <div>
-            <label>Datum rodjenja: </label>
+            <label>Datum rodjenja: </label> 
             <input type="date" v-model="noviKupac.datumRodjenja" required></div>
         <div>
-            <label>E-mail: </label>
-            <input type="email" v-model="noviKupac.email" required>
-        </div>
+            <label>E-mail: </label> 
+            <input type="email" v-model="noviKupac.email" required></div>
         <div>
-            <label>Telefon: </label>
-            <input type="text" v-model="noviKupac.telefon" required>
-        </div>
+            <label>Telefon: </label> 
+            <input type="text" v-model="noviKupac.telefon" required></div>
         <div>
-            <label>Mesto: </label>
-            <input type="text" v-model="noviKupac.mesto" required>
-        </div>
+            <label>Mesto: </label> 
+            <input type="text" v-model="noviKupac.mesto" required></div>
         <div>
-            <label>Adresa: </label>
-            <input type="text" v-model="noviKupac.adresa" required>
-        </div>
+            <label>Adresa: </label> 
+            <input type="text" v-model="noviKupac.adresa" required></div>
         <div>
-            <input type="submit" value="Dodaj">
+            <input type="submit" v-bind:value="dugme">
         </div>
     </form>
-    <hr>
-    <form v-on:submit.prevent="update()">
-        <h1>-Izmena kupca</h1>
-        <div>
-            <label>Ime: </label>
-            <input type="text" v-model="kupacZaIzmenu.ime" required></div>
-        <div>
-            <label>Prezime: </label>
-            <input type="text" v-model="kupacZaIzmenu.prezime" required></div>
-        <div>
-            <label>Datum rodjenja: </label>
-            <input type="datetime-local" v-model="kupacZaIzmenu.datumRodjenja" required></div>
-        <div>
-            <label>E-mail: </label>
-            <input type="email" v-model="kupacZaIzmenu.email" required>
-        </div>
-        <div>
-            <label>Telefon: </label>
-            <input type="text" v-model="kupacZaIzmenu.telefon" required>
-        </div>
-        <div>
-            <label>Mesto: </label>
-            <input type="text" v-model="kupacZaIzmenu.mesto" required>
-        </div>
-        <div>
-            <label>Adresa: </label>
-            <input type="text" v-model="kupacZaIzmenu.adresa" required>
-        </div>
-        <div>
-            <input type="submit" value="Izmeni">
-        </div>
-    </form>
-    <hr>
+            `
+        
+        }
+
+        const TabelaKupca = {
+            props: ["kupci", "naslov"],
+            emits:["izmena", "uklanjanje"],
+
+            data(){
+                return{}
+            },
+            template: `
+    <h1>{{naslov}}</h1>
     <table>
         <thead>
             <tr>
@@ -88,7 +140,7 @@
                 <th>Ime</th>
                 <th>Prezime</th>
                 <th>Datum rodjenja</th>
-                <th>E-Mail</th>
+                <th>E-mail</th>
                 <th>Telefon</th>
                 <th>Mesto</th>
                 <th>Adresa</th>
@@ -105,56 +157,20 @@
                 <td>{{kupac.telefon}}</td>
                 <td>{{kupac.mesto}}</td>
                 <td>{{kupac.adresa}}</td>
-                <td><button v-on:click="remove(kupac.IDKupac)">Ukloni</button>
-                    <button v-on:click="setKupacZaIzmenu(kupac)">Izmena</button>
+                <td><button v-on:click="$emit('uklanjanje', kupac.IDKupac)">Ukloni</button>
+                    <button v-on:click="$emit('izmena', {...kupac})">Izmena</button>
                 </td>
             </tr>
         </tbody>
     </table>
-    <script>
-        const Kupac = {
-            data(){
-                return {
-                    kupci:[],
-                    noviKupac:{},
-                    kupacZaIzmenu:{}
-                }
-            },
-            methods:{
-                setKupacZaIzmenu(kupac){ //skladistenje nakon izmene//
-                    this.kupacZaIzmenu = {...kupac};
-                },
-
-                refreshData(){
-                     //saljem this van funkcije da obuhvata sve//
-                    axios.get("api/kupci").then((response) => {
-                        this.kupci = response.data;
-                    });
-                },
-                //dodavanje//
-                create(){
-                    axios.post("api/kupci", this.noviKupac).then((response) => {
-                        this.refreshData();
-                    });
-                },
-                //izmena//
-                update(){
-                    axios.put(`api/kupci/${this.kupacZaIzmenu.IDKupac}`, this.kupacZaIzmenu).then((response) => {
-                        this.refreshData();
-                    });
-                },
-                //brisanje//
-                remove(IDKupac){
-                    axios.delete(`api/kupci/${IDKupac}`).then((response) => {
-                        this.refreshData();
-                    });
-                }
-            },
-            created(){
-                this.refreshData();
-            }
+            `
         }
-        Vue.createApp(Kupac).mount("#app");
+
+        const app = Vue.createApp(Kupac);
+        app.component('tabela-kupca', TabelaKupca);
+        app.component('kupac-form', KupacForma);
+
+        app.mount("#app");
     </script>
 </body>
 </html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+   
+    <title>Predmet</title>
+     <!-- <vue> -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+        <!-- <axios> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+
+    <predmet-form v-on:sacuvaj="create" v-bind:tekst="'Dodaj'"></predmet-form>
+    <predmet-form v-bind:predmet="predmetZaIzmenu" v-bind:tekst="'Izmeni'" v-on:sacuvaj="update"></predmet-form>
+
+    <tabela-predmeta v-bind:predmeti="predmeti" v-on:uklanjanje="remove" v-on:izmena="setPredmetZaIzmenu"></tabela-predmeta>
+  
+    <script>
+        const Predmet = {
+            data(){
+                return {
+                    predmeti:[],
+                    predmetZaIzmenu:{}
+                }
+            },
+            methods:{
+                setPredmetZaIzmenu(predmet){ //skladistenje nakon izmene//
+                    this.predmetZaIzmenu = {...predmet};
+                },
+
+                refreshData(){
+                     //saljem this van funkcije da obuhvata sve//
+                    axios.get("api/predmeti").then((response) => {
+                        this.predmeti = response.data;
+                    });
+                },
+                //dodavanje//
+                create(predmet){
+                    axios.post("api/predmeti", predmet).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //izmena//
+                update(predmet){
+                    axios.put(`api/predmeti/${predmet.id}`, predmet).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //brisanje//
+                remove(id){
+                    axios.delete(`api/predmeti/${id}`).then((response) => {
+                        this.refreshData();
+                    });
+                }
+            },
+            created(){
+                this.refreshData();
+            }
+        }
+
+        const PredmetForma = {
+            props: ["predmet", "tekst"],
+            emits : ["sacuvaj"],
+            data(){
+                return{
+                    noviPredmet: this.predmet ? this.predmet : {}
+                }
+            },
+//izmena i setovanje izmene 1 nacin//
+            // computed:{
+            //     kupacZaIzmenu: {
+            //         get : function(){
+            //             return {...this.kupac};
+            //         },
+            //         set: function(novi){
+            //             this.noviKupac = {...novi};
+            //         }
+            //     }
+            // },
+
+            watch: {
+                predmet: function(newValue, oldValue){
+                    this.noviPredmet = {...this.predmet};
+                }
+                
+            },
+            template:  `
+    <form v-on:submit.prevent="$emit('sacuvaj', {...noviPredmet})">
+    <h1></h1>
+        <div>
+            <label> ID: </label>
+            <input type="text" v-model="noviPredmet.id" required></div>
+        <div>
+        <div>
+            <label>Ime predmeta: </label>
+            <input type="text" v-model="noviPredmet.ime_predmeta" required></div>
+        <div>
+            <label>Razred: </label>
+            <input type="text" v-model="noviPredmet.razred" required></div>
+        
+        <div>
+            <input type="submit" v-bind:value="tekst">
+        </div>
+    </form>
+            `
+        
+        }
+
+        const TabelaPredmeta = {
+            props: ["predmeti"],
+            emits:["izmena", "uklanjanje"],
+
+            data(){
+                return{}
+            },
+            template: `
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ime predmeta</th>
+                <th>Razred</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="predmet in predmeti">
+                <td>{{predmet.id}}</td>
+                <td>{{predmet.ime_predmeta}}</td>
+                <td>{{predmet.razred}}</td>
+                <td><button v-on:click="$emit('uklanjanje', predmet.id)">Ukloni</button>
+                    <button v-on:click="$emit('izmena', {...predmet})">Izmena</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+            `
+        }
+
+        const app = Vue.createApp(Predmet);
+        app.component('tabela-predmeta', TabelaPredmeta);
+        app.component('predmet-form', PredmetForma);
+
+        app.mount("#app");
+    </script>
+</body>
+</html>

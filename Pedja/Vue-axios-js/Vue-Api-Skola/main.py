@@ -4,7 +4,7 @@ from flask import Flask
 from flaskext.mysql import MySQL
 from flaskext.mysql import pymysql
 
-#TODO: Probaj dodatne zadatke (Validacija, select..., prikaz pojedinca)
+#TODO: Uradjeno sa componentama!!!
 
 
 app = Flask(__name__, static_url_path="")

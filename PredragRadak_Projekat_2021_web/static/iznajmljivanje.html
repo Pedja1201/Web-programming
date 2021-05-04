@@ -15,10 +15,86 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     
 </head>
-
+ <!-- Verzija sa componentama. -->
 <body id="app">
-    <form v-on:submit.prevent="create()">
-        <h1>-Dodaj iznajmljivanje</h1>
+
+    <iznajmljivanje-form v-on:sacuvaj="create" v-bind:naslov="'Dodaj iznajmljivanje'" v-bind:dugme="'Dodaj'"></iznajmljivanje-form>
+    <iznajmljivanje-form v-bind:iznajmiti="iznajmljivanjeZaIzmenu" v-bind:naslov="'Izmeni iznajmljivanje'" v-bind:dugme="'Izmeni'" v-on:sacuvaj="update"></iznajmljivanje-form>
+
+    <tabela-iznajmljivanja v-bind:naslov="'Tabela iznajmljivanja'" v-bind:iznajmljivanje="iznajmljivanje" v-on:uklanjanje="remove" v-on:izmena="setIznajmljivanjeZaIzmenu"></tabela-iznajmljivanja>
+  
+    <script>
+        const Iznajmljivanje = {
+            data(){
+                return {
+                    iznajmljivanje:[],
+                    iznajmljivanjeZaIzmenu:{}
+                }
+            },
+            methods:{
+                setIznajmljivanjeZaIzmenu(iznajmiti){ //skladistenje nakon izmene//
+                    this.iznajmljivanjeZaIzmenu = {...iznajmiti};
+                },
+
+                refreshData(){
+                     //saljem this van funkcije da obuhvata sve//
+                    axios.get("api/iznajmljivanje").then((response) => {
+                        this.iznajmljivanje = response.data;
+                    });
+                },
+                //dodavanje//
+                create(iznajmiti){
+                    axios.post("api/iznajmljivanje", iznajmiti).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //izmena//
+                update(iznajmiti){
+                    axios.put(`api/iznajmljivanje/${iznajmiti.IDIznajmljivanje}`, iznajmiti).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //brisanje//
+                remove(IDIznajmljivanje){
+                    axios.delete(`api/iznajmljivanje/${IDIznajmljivanje}`).then((response) => {
+                        this.refreshData();
+                    });
+                }
+            },
+            created(){
+                this.refreshData();
+            }
+        }
+
+        const IznajmljivanjeForma = {
+            props: ["iznajmiti", "dugme", "naslov"],
+            emits : ["sacuvaj"],
+            data(){
+                return{
+                    novaIznajmljivanja: this.iznajmiti ? this.iznajmiti : {}
+                }
+            },
+//izmena i setovanje izmene 1 nacin//
+            // computed:{
+            //     iznajmljivanjeZaIzmenu: {
+            //         get : function(){
+            //             return {...this.iznajmiti};
+            //         },
+            //         set: function(novi){
+            //             this.novaIznajmljivanja = {...novi};
+            //         }
+            //     }
+            // },
+
+            watch: {
+                iznajmiti: function(newValue, oldValue){
+                    this.novaIznajmljivanja = {...this.iznajmiti};
+                }
+                
+            },
+            template:  `
+    <form v-on:submit.prevent="$emit('sacuvaj', {...novaIznajmljivanja})">
+        <h1>-{{naslov}}</h1>
         <div>
             <label>ID-Kupac: </label>
             <input type="number" v-model="novaIznajmljivanja.IDKupac" required></div>
@@ -26,61 +102,38 @@
             <label>ID-Knjiga: </label>
             <input type="number" v-model="novaIznajmljivanja.IDKnjiga" required></div>
         <div>
-            <label>Kolicina: </label>
+            <label>Kolicina: </label> 
             <input type="number" v-model="novaIznajmljivanja.kolicina" required></div>
         <div>
-            <label>Nacin placanja: </label>
-            <input type="text" v-model="novaIznajmljivanja.nacinPlacanja" required>
-        </div>
+            <label>Nacin placanja: </label> 
+            <input type="text" v-model="novaIznajmljivanja.nacinPlacanja" required></div>
         <div>
-            <label>Valuta: </label>
-            <input type="text" v-model="novaIznajmljivanja.valuta" required>
-        </div>
+            <label>Valuta: </label> 
+            <input type="text" v-model="novaIznajmljivanja.valuta" required></div>
         <div>
-            <label>Period iznajmljivanja: </label>
-            <input type="text" v-model="novaIznajmljivanja.periodIznajmljivanja" required>
-        </div>
+            <label>Period iznajmljivanja: </label> 
+            <input type="text" v-model="novaIznajmljivanja.periodIznajmljivanja" required></div>
         <div>
-            <label>Datum porudzbine: </label>
-            <input type="datetime-local" v-model="novaIznajmljivanja.datumPorudzbine" required>
-        </div>
+            <label>Datum porudzbine: </label> 
+            <input type="date" v-model="novaIznajmljivanja.datumPorudzbine" required></div>
+        
         <div>
-            <input type="submit" value="Dodaj">
+            <input type="submit" v-bind:value="dugme">
         </div>
     </form>
-    <hr>
-    <form v-on:submit.prevent="update()">
-        <h1>-Izmena porudzbine</h1>
-        <div>
-            <label>ID-Kupac: </label>
-            <input type="number" v-model="iznajmljivanjeZaIzmenu.IDKupac" required></div>
-        <div>
-            <label>ID-Knjiga: </label>
-            <input type="number" v-model="iznajmljivanjeZaIzmenu.IDKnjiga" required></div>
-        <div>
-            <label>Kolicina: </label>
-            <input type="number" v-model="iznajmljivanjeZaIzmenu.kolicina" required></div>
-        <div>
-            <label>Nacin placanja: </label>
-            <input type="text" v-model="iznajmljivanjeZaIzmenu.nacinPlacanja" required>
-        </div>
-        <div>
-            <label>Valuta: </label>
-            <input type="text" v-model="iznajmljivanjeZaIzmenu.valuta" required>
-        </div>
-        <div>
-            <label>Period iznajmljivanja: </label>
-            <input type="text" v-model="iznajmljivanjeZaIzmenu.periodIznajmljivanja" required>
-        </div>
-        <div>
-            <label>Datum porudzbine: </label>
-            <input type="datetime-local" v-model="iznajmljivanjeZaIzmenu.datumPorudzbine" required>
-        </div>
-        <div>
-            <input type="submit" value="Izmeni">
-        </div>
-    </form>
-    <hr>
+            `
+        
+        }
+
+        const TabelaIznajmljivanja = {
+            props: ["iznajmljivanje", "naslov"],
+            emits:["izmena", "uklanjanje"],
+
+            data(){
+                return{}
+            },
+            template: `
+    <h1>{{naslov}}</h1>
     <table>
         <thead>
             <tr>
@@ -105,56 +158,20 @@
                 <td>{{iznajmiti.valuta}}</td>
                 <td>{{iznajmiti.periodIznajmljivanja}}</td>
                 <td>{{iznajmiti.datumPorudzbine}}</td>
-                <td><button v-on:click="remove(iznajmiti.IDIznajmljivanje)">Ukloni</button>
-                    <button v-on:click="setIznajmljivanjeZaIzmenu(iznajmiti)">Izmena</button>
+                <td><button v-on:click="$emit('uklanjanje', iznajmiti.IDIznajmljivanje)">Ukloni</button>
+                    <button v-on:click="$emit('izmena', {...iznajmiti})">Izmena</button>
                 </td>
             </tr>
         </tbody>
     </table>
-    <script>
-        const Iznajmljivanje = {
-            data(){
-                return {
-                    iznajmljivanje:[],
-                    novaIznajmljivanja:{},
-                    iznajmljivanjeZaIzmenu:{}
-                }
-            },
-            methods:{
-                setIznajmljivanjeZaIzmenu(iznajmiti){ //skladistenje nakon izmene//
-                    this.iznajmljivanjeZaIzmenu = {...iznajmiti};
-                },
-
-                refreshData(){
-                     //saljem this van funkcije da obuhvata sve//
-                    axios.get("api/iznajmljivanje").then((response) => {
-                        this.iznajmljivanje = response.data;
-                    });
-                },
-                //dodavanje//
-                create(){
-                    axios.post("api/iznajmljivanje", this.novaIznajmljivanja).then((response) => {
-                        this.refreshData();
-                    });
-                },
-                //izmena//
-                update(){
-                    axios.put(`api/iznajmljivanje/${this.iznajmljivanjeZaIzmenu.IDIznajmljivanje}`, this.iznajmljivanjeZaIzmenu).then((response) => {
-                        this.refreshData();
-                    });
-                },
-                //brisanje//
-                remove(IDIznajmljivanje){
-                    axios.delete(`api/iznajmljivanje/${IDIznajmljivanje}`).then((response) => {
-                        this.refreshData();
-                    });
-                }
-            },
-            created(){
-                this.refreshData();
-            }
+            `
         }
-        Vue.createApp(Iznajmljivanje).mount("#app");
+
+        const app = Vue.createApp(Iznajmljivanje);
+        app.component('tabela-iznajmljivanja', TabelaIznajmljivanja);
+        app.component('iznajmljivanje-form', IznajmljivanjeForma);
+
+        app.mount("#app");
     </script>
 </body>
 </html>

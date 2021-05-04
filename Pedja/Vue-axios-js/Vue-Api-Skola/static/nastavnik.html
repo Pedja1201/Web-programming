@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+   
+    <title>Nastavnik</title>
+     <!-- <vue> -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+        <!-- <axios> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+
+    <nastavnik-form v-on:sacuvaj="create" v-bind:tekst="'Dodaj'"></nastavnik-form>
+    <nastavnik-form v-bind:nastavnik="nastavnikZaIzmenu" v-bind:tekst="'Izmeni'" v-on:sacuvaj="update"></nastavnik-form>
+
+    <tabela-nastavnika v-bind:nastavnici="nastavnici" v-on:uklanjanje="remove" v-on:izmena="setNastavnikZaIzmenu"></tabela-nastavnika>
+  
+    <script>
+        const Nastavnik = {
+            data(){
+                return {
+                    nastavnici:[],
+                    nastavnikZaIzmenu:{}
+                }
+            },
+            methods:{
+                setNastavnikZaIzmenu(nastavnik){ //skladistenje nakon izmene//
+                    this.nastavnikZaIzmenu = {...nastavnik};
+                },
+
+                refreshData(){
+                     //saljem this van funkcije da obuhvata sve//
+                    axios.get("api/nastavnici").then((response) => {
+                        this.nastavnici = response.data;
+                    });
+                },
+                //dodavanje//
+                create(nastavnik){
+                    axios.post("api/nastavnici", nastavnik).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //izmena//
+                update(nastavnik){
+                    axios.put(`api/nastavnici/${nastavnik.licni_id}`, nastavnik).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //brisanje//
+                remove(licni_id){
+                    axios.delete(`api/nastavnici/${licni_id}`).then((response) => {
+                        this.refreshData();
+                    });
+                }
+            },
+            created(){
+                this.refreshData();
+            }
+        }
+
+        const NastavnikForma = {
+            props: ["nastavnik", "tekst"],
+            emits : ["sacuvaj"],
+            data(){
+                return{
+                    noviNastavnik: this.nastavnik ? this.nastavnik : {}
+                }
+            },
+//izmena i setovanje izmene 1 nacin//
+            // computed:{
+            //     kupacZaIzmenu: {
+            //         get : function(){
+            //             return {...this.kupac};
+            //         },
+            //         set: function(novi){
+            //             this.noviKupac = {...novi};
+            //         }
+            //     }
+            // },
+
+            watch: {
+                nastavnik: function(newValue, oldValue){
+                    this.noviNastavnik = {...this.nastavnik};
+                }
+                
+            },
+            template:  `
+    <form v-on:submit.prevent="$emit('sacuvaj', {...noviNastavnik})">
+    <h1></h1>
+        <div>
+            <label>Licni ID: </label>
+            <input type="number" v-model="noviNastavnik.licni_id" required></div>
+        <div>
+        <div>
+            <label>Ime: </label>
+            <input type="text" v-model="noviNastavnik.ime" required></div>
+        <div>
+            <label>Prezime: </label>
+            <input type="text" v-model="noviNastavnik.prezime" required></div>
+        <div>
+            <label>E-mail: </label>
+            <input type="email" v-model="noviNastavnik.email" required></div>
+        <div>
+            <label>Broj telefona: </label>
+            <input type="text" v-model="noviNastavnik.br_telefona" required></div>
+        <div>
+            <input type="submit" v-bind:value="tekst">
+        </div>
+    </form>
+            `
+        
+        }
+
+        const TabelaNastavnika = {
+            props: ["nastavnici"],
+            emits:["izmena", "uklanjanje"],
+
+            data(){
+                return{}
+            },
+            template: `
+    <table>
+        <thead>
+            <tr>
+                <th>Licni ID</th>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>E-mail</th>
+                <th>Broj telefona</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="nastavnik in nastavnici">
+                <td>{{nastavnik.licni_id}}</td>
+                <td>{{nastavnik.ime}}</td>
+                <td>{{nastavnik.prezime}}</td>
+                <td>{{nastavnik.email}}</td>
+                <td>{{nastavnik.br_telefona}}</td>
+                <td><button v-on:click="$emit('uklanjanje', nastavnik.licni_id)">Ukloni</button>
+                    <button v-on:click="$emit('izmena', {...nastavnik})">Izmena</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+            `
+        }
+
+        const app = Vue.createApp(Nastavnik);
+        app.component('tabela-nastavnika', TabelaNastavnika);
+        app.component('nastavnik-form', NastavnikForma);
+
+        app.mount("#app");
+    </script>
+</body>
+</html>

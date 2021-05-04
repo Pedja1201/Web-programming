@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+   
+    <title>Skola</title>
+     <!-- <vue> -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+        <!-- <axios> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+
+    <skola-form v-on:sacuvaj="create" v-bind:tekst="'Dodaj'"></skola-form>
+    <skola-form v-bind:skola="skolaZaIzmenu" v-bind:tekst="'Izmeni'" v-on:sacuvaj="update"></skola-form>
+
+    <tabela-skole v-bind:skole="skole" v-on:uklanjanje="remove" v-on:izmena="setSkolaZaIzmenu"></tabela-skole>
+  
+    <script>
+        const Skola = {
+            data(){
+                return {
+                    skole:[],
+                    skolaZaIzmenu:{}
+                }
+            },
+            methods:{
+                setSkolaZaIzmenu(skola){ //skladistenje nakon izmene//
+                    this.skolaZaIzmenu = {...skola};
+                },
+
+                refreshData(){
+                     //saljem this van funkcije da obuhvata sve//
+                    axios.get("api/skole").then((response) => {
+                        this.skole = response.data;
+                    });
+                },
+                //dodavanje//
+                create(skola){
+                    axios.post("api/skole", skola).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //izmena//
+                update(skola){
+                    axios.put(`api/skole/${skola.id}`, skola).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //brisanje//
+                remove(id){
+                    axios.delete(`api/skole/${id}`).then((response) => {
+                        this.refreshData();
+                    });
+                }
+            },
+            created(){
+                this.refreshData();
+            }
+        }
+
+        const SkolaForma = {
+            props: ["skola", "tekst"],
+            emits : ["sacuvaj"],
+            data(){
+                return{
+                    novaSkola: this.skola ? this.skola : {}
+                }
+            },
+//izmena i setovanje izmene 1 nacin//
+            // computed:{
+            //     kupacZaIzmenu: {
+            //         get : function(){
+            //             return {...this.kupac};
+            //         },
+            //         set: function(novi){
+            //             this.noviKupac = {...novi};
+            //         }
+            //     }
+            // },
+
+            watch: {
+                skola: function(newValue, oldValue){
+                    this.novaSkola = {...this.skola};
+                }
+                
+            },
+            template:  `
+    <form v-on:submit.prevent="$emit('sacuvaj', {...novaSkola})">
+    <h1></h1>
+        <div>
+            <label>ID: </label>
+            <input type="number" v-model="novaSkola.id" required></div>
+        <div>
+        <div>
+            <label>Ime skole: </label>
+            <input type="text" v-model="novaSkola.ime_skole" required></div>
+        <div>
+            <label>Adresa: </label>
+            <input type="text" v-model="novaSkola.adresa" required></div>
+        <div>
+            <label>ID Nastavnik: </label>
+            <input type="number" v-model="novaSkola.nastavnik_licni_id" required></div>
+        <div>
+            <label>ID Predmet: </label>
+            <input type="text" v-model="novaSkola.predmet_id" required></div>
+        <div>
+            <input type="submit" v-bind:value="tekst">
+        </div>
+    </form>
+            `
+        
+        }
+
+        const TabelaSkole = {
+            props: ["skole"],
+            emits:["izmena", "uklanjanje"],
+
+            data(){
+                return{}
+            },
+            template: `
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ime skole</th>
+                <th>Adresa</th>
+                <th>ID Nastavnik</th>
+                <th>ID Predmet</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="skola in skole">
+                <td>{{skola.id}}</td>
+                <td>{{skola.ime_skole}}</td>
+                <td>{{skola.adresa}}</td>
+                <td>{{skola.nastavnik_licni_id}}</td>
+                <td>{{skola.predmet_id}}</td>
+                <td><button v-on:click="$emit('uklanjanje', skola.id)">Ukloni</button>
+                    <button v-on:click="$emit('izmena', {...skola})">Izmena</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+            `
+        }
+
+        const app = Vue.createApp(Skola);
+        app.component('tabela-skole', TabelaSkole);
+        app.component('skola-form', SkolaForma);
+
+        app.mount("#app");
+    </script>
+</body>
+</html>

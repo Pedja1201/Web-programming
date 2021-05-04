@@ -6,23 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-   
     <title>Korisnik</title>
-     <!-- <vue> -->
+    
     <script src="https://unpkg.com/vue@next"></script>
-
-        <!-- <axios> -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     
 </head>
- <!-- Verzija sa componentama. -->
+
 <body id="app">
+    <korisnik-form v-on:sacuvaj="create" v-bind:tekst="'Dodaj'"></korisnik-form>
+    <korisnik-form v-bind:korisnik="korisnikZaIzmenu" v-bind:tekst="'Izmeni'"  v-on:sacuvaj="update"></korisnik-form>
 
-    <korisnik-form v-on:sacuvaj="create" v-bind:naslov="'Dodaj korisnika'" v-bind:dugme="'Dodaj'"></korisnik-form>
-    <korisnik-form v-bind:korisnik="korisnikZaIzmenu" v-bind:naslov="'Izmeni korisnika'" v-bind:dugme="'Izmeni'" v-on:sacuvaj="update"></korisnik-form>
+    <korisnik-tabela v-bind:korisnici="korisnici" v-on:uklanjanje="remove" v-on:izmena="setKorisnikZaIzmenu"></korisnik-tabela>
+    
 
-    <tabela-korisnika v-bind:naslov="'Tabela korisnika'" v-bind:korisnici="korisnici" v-on:uklanjanje="remove" v-on:izmena="setKorisnikZaIzmenu"></tabela-korisnika>
-  
     <script>
         const Korisnik = {
             data(){
@@ -50,13 +47,13 @@
                 },
                 //izmena//
                 update(korisnik){
-                    axios.put(`api/korisnici/${korisnik.IDKorisnik}`, korisnik).then((response) => {
+                    axios.put(`api/korisnici/${korisnik.id}`, korisnik).then((response) => {
                         this.refreshData();
                     });
                 },
                 //brisanje//
-                remove(IDKorisnik){
-                    axios.delete(`api/korisnici/${IDKorisnik}`).then((response) => {
+                remove(id){
+                    axios.delete(`api/korisnici/${id}`).then((response) => {
                         this.refreshData();
                     });
                 }
@@ -65,79 +62,80 @@
                 this.refreshData();
             }
         }
-
         const KorisnikForma = {
-            props: ["korisnik", "dugme", "naslov"],
-            emits : ["sacuvaj"],
+            props: ["korisnik", "tekst"],
+            emits: ["sacuvaj"],
             data(){
                 return{
                     noviKorisnik: this.korisnik ? this.korisnik : {}
                 }
             },
-//izmena i setovanje izmene 1 nacin//
-            // computed:{
-            //     korisnikZaIzmenu: {
-            //         get : function(){
-            //             return {...this.korisnik};
-            //         },
-            //         set: function(novi){
-            //             this.noviKorisnik = {...novi};
-            //         }
-            //     }
-            // },
-
             watch: {
-                korisnik: function(newValue, oldValue){
-                    this.noviKorisnik = {...this.korisnik};
+                korisnik : function(newValue, oldValue){
+                    this.noviKorisnik = {...this.korisnik}
                 }
-                
             },
-            template:  `
+            template: `
     <form v-on:submit.prevent="$emit('sacuvaj', {...noviKorisnik})">
-        <h1>-{{naslov}}</h1>
+        <h1></h1>
         <div>
-            <label>Ime: </label>
-            <input type="text" v-model="noviKorisnik.ime" required></div>
+            <label>Ime:</label>
+            <input type="text" v-model="noviKorisnik.ime" required>
+        </div>
         <div>
-            <label>E-mail: </label>
-            <input type="email" v-model="noviKorisnik.email" required></div>
+            <label>Prezime:</label>
+            <input type="text" v-model="noviKorisnik.prezime" required>
+        </div>
         <div>
-            <label>Lozinka: </label> 
-            <input type="password" v-model="noviKorisnik.lozinka" required></div>
+            <label>Zanimanje:</label>
+            <input type="text" v-model="noviKorisnik.zanimanje" required>
+        </div>
         <div>
-            <input type="submit" v-bind:value="dugme">
+            <label>ID-Nike:</label>
+            <input type="number" v-model="noviKorisnik.nike_id" required>
+        </div>
+        <div>
+            <label>Auto-tablice:</label>
+            <input type="text" v-model="noviKorisnik.auto_tablice" required>
+        </div>
+        
+        <div>
+            <input type="submit" v-bind:value="tekst">
         </div>
     </form>
             `
-        
         }
 
-        const TabelaKorisnika = {
-            props: ["korisnici", "naslov"],
-            emits:["izmena", "uklanjanje"],
+        const TabelaKorisnik = {
+            props: ["korisnici"],
+            emits: ["izmena", "uklanjanje"],
 
             data(){
                 return{}
             },
             template: `
-    <h1>{{naslov}}</h1>
     <table>
         <thead>
             <tr>
-                <th>ID-Korisnik</th>
+                <th>ID</th>
                 <th>Ime</th>
-                <th>E-mail</th>
-                <th>Lozinka</th>
+                <th>Prezime</th>
+                <th>Zanimanje</th>
+                <th>ID-Nike</th>
+                <th>Auto-tablice</th>
                 <th>Akcije</th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="korisnik in korisnici">
-                <td>{{korisnik.IDKorisnik}}</td>
+                <td>{{korisnik.id}}</td>
                 <td>{{korisnik.ime}}</td>
-                <td>{{korisnik.email}}</td>
-                <td>{{korisnik.lozinka}}</td>
-                <td><button v-on:click="$emit('uklanjanje', korisnik.IDKorisnik)">Ukloni</button>
+                <td>{{korisnik.prezime}}</td>
+                <td>{{korisnik.zanimanje}}</td>
+                <td>{{korisnik.nike_id}}</td>
+                <td>{{korisnik.auto_tablice}}</td>
+
+                <td><button v-on:click="$emit('uklanjanje', korisnik.id)">Ukloni</button>
                     <button v-on:click="$emit('izmena', {...korisnik})">Izmena</button>
                 </td>
             </tr>
@@ -146,10 +144,10 @@
             `
         }
 
-        const app = Vue.createApp(Korisnik);
-        app.component('tabela-korisnika', TabelaKorisnika);
-        app.component('korisnik-form', KorisnikForma);
 
+        const app = Vue.createApp(Korisnik);
+        app.component('korisnik-tabela', TabelaKorisnik);
+        app.component('korisnik-form', KorisnikForma);
         app.mount("#app");
     </script>
 </body>

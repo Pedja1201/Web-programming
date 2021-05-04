@@ -1,7 +1,0 @@
-- Python
-- Mysql baza 
-- Flask
-- Jinja2
--HTML
--Css
--Js

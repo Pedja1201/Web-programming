@@ -1,0 +1,1 @@
+##TODO: Odvoji ovde CRUD operacije i uvezi u 'main.py'

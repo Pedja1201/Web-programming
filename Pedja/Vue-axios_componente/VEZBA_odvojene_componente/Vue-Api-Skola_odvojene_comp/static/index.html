@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+   
+    <title>Skola</title>
+     <!-- <vue> -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+        <!-- <axios> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+<body id="app">
+    <div>
+        <button v-on:click="navigate('nastavnici')">Nastavnik</button>
+        <button v-on:click="navigate('predmeti')">Predmet</button>
+        <button v-on:click="navigate('skole')">Skola</button>
+
+
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='nastavnici'">
+        <nastavnik-form v-bind:naslov="'Dodaj nastavnika'" v-on:sacuvaj="createNastavnik" v-bind:dugme="'Dodaj'"></nastavnik-form>
+        <nastavnik-form v-bind:naslov="'Izmeni nastavnika'" v-bind:nastavnik="nastavnikZaIzmenu" v-bind:dugme="'Izmeni'" v-on:sacuvaj="updateNastavnik"></nastavnik-form>
+
+
+        <tabela-nastavnika v-bind:nastavnici="nastavnici" v-on:uklanjanje="removeNastavnik" v-on:izmena="setNastavnikZaIzmenu"></tabela-nastavnika>
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='predmeti'">
+        <predmet-form v-bind:naslov="'Dodaj predmet'" v-on:sacuvaj="createPredmet" v-bind:dugme="'Dodaj'"></predmet-form>
+        <predmet-form v-bind:naslov="'Izmeni predmet'" v-bind:predmet="predmetZaIzmenu" v-bind:dugme="'Izmeni'" v-on:sacuvaj="updatePredmet"></predmet-form>
+
+
+        <tabela-predmeta v-bind:predmeti="predmeti" v-on:uklanjanje="removePredmet" v-on:izmena="setPredmetZaIzmenu"></tabela-predmeta>
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='skole'">
+        <skola-form v-bind:naslov="'Dodaj skolu'" v-on:sacuvaj="createSkola" v-bind:dugme="'Dodaj'"></skola-form>
+        <skola-form v-bind:naslov="'Izmeni skolu'" v-bind:skola="skolaZaIzmenu" v-bind:dugme="'Izmeni'" v-on:sacuvaj="updateSkola"></skola-form>
+
+        
+        <tabela-skole v-bind:skole="skole" v-on:uklanjanje="removeSkola" v-on:izmena="setSkolaZaIzmenu"></tabela-skole>
+    </div>
+
+
+    <script src="app/app.js" type="module"></script>
+</body>
+</html>

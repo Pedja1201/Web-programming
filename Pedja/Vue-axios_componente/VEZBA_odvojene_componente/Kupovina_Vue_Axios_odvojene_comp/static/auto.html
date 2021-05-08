@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Auto</title>
+    
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+    <auto-form v-bind:naslov="'Dodaj auto'" v-on:sacuvaj="createAuto" v-bind:dugme="'Dodaj'"></auto-form>
+    <auto-form v-bind:naslov="'Izmeni auto'" v-bind:auto="autoZaIzmenu" v-bind:dugme="'Izmeni'"  v-on:sacuvaj="updateAuto"></auto-form>
+
+    <tabela-auto v-bind:automobil="automobil" v-on:uklanjanje="removeAuto" v-on:izmena="setAutoZaIzmenu"></tabela-auto>
+    
+
+    <script src="app/app.js" type="module"></script>
+</body>
+</html>

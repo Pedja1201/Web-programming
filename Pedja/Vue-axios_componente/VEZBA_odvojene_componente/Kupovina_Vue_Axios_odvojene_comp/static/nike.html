@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Nike</title>
+    
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+    <nike-form v-bind:naslov="'Dodaj auto'" v-on:sacuvaj="createNike" v-bind:dugme="'Dodaj'"></nike-form>
+    <nike-form v-bind:naslov="'Izmeni auto'" v-bind:nike="nikeZaIzmenu" v-bind:dugme="'Izmeni'"  v-on:sacuvaj="updateNike"></nike-form>
+
+    <tabela-nike v-bind:nike-shop="nikeShop" v-on:uklanjanje="removeNike" v-on:izmena="setNikeZaIzmenu"></tabela-nike>
+    
+
+    <script src="app/app.js" type="module"></script>
+</body>
+</html>

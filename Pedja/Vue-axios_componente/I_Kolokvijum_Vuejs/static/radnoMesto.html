@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Radno mesto</title>
+    
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+
+<body id="app">
+
+    <radno-mesto-form v-on:sacuvaj="create" v-bind:tekst="'Dodaj'"></radno-mesto-form>
+    <radno-mesto-form v-bind:mesto="radnaMestaZaIzmenu" v-bind:tekst="'Izmeni'" v-on:sacuvaj="update"></radno-mesto-form>
+
+    <tabela-radnog-mesta v-bind:radna-mesta="radnaMesta" v-on:uklanjanje="remove" v-on:izmena="setRadnaMestaZaIzmenu"></tabela-radnog-mesta>
+    
+
+    <script>
+        const RadnoMesto = {
+            data(){
+                return {
+                    radnaMesta:[],
+                    radnaMestaZaIzmenu:{}
+                }
+            },
+            methods:{
+                setRadnaMestaZaIzmenu(mesto){ //skladistenje nakon izmene//
+                    this.radnaMestaZaIzmenu = {...mesto};
+                },
+
+                refreshData(){
+                     //saljem this van funkcije da obuhvata sve//
+                    axios.get("api/radnaMesta").then((response) => {
+                        this.radnaMesta = response.data;
+                    });
+                },
+                //dodavanje//
+                create(mesto){
+                    axios.post("api/radnaMesta", mesto).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //izmena//
+                update(mesto){
+                    axios.put(`api/radnaMesta/${mesto.id}`, mesto).then((response) => {
+                        this.refreshData();
+                    });
+                },
+                //brisanje//
+                remove(id){
+                    axios.delete(`api/radnaMesta/${id}`).then((response) => {
+                        this.refreshData();
+                    });
+                }
+            },
+            created(){
+                this.refreshData();
+            }
+        }
+
+        const RadnoMestoForma = {
+            props: ["mesto", "tekst"],
+            emits: ["sacuvaj"],
+            data(){
+                return{
+                    novoRadnoMesto: this.mesto ? this.mesto : {}
+                }
+            },
+//izmena i setovanje izmene 1 nacin//
+            // computed:{
+            //     radnoMestoZaIzmenu: {
+            //         get : function(){
+            //             return {...this.mesto};
+            //         },
+            //         set: function(novi){
+            //             this.novoRadnoMesto = {...novi};
+            //         }
+            //     }
+            // },
+
+            watch: {
+                mesto: function(newValue, oldValue){
+                    this.novoRadnoMesto = {...this.mesto};
+                }
+                
+            },
+            template:  `
+    <form v-on:submit.prevent="$emit('sacuvaj', {...novoRadnoMesto})">
+        <h1></h1>
+        <div>
+            <label>Naziv: </label>
+            <input type="text" v-model="novoRadnoMesto.naziv" required></div>
+      
+        <div>
+            <input type="submit" v-bind:value="tekst">
+        </div>
+    </form>
+            `
+        
+        }
+
+        const TabelaRadnogMesta = {
+            props: ["radnaMesta"],
+            emits: ["izmena", "uklanjanje"],
+
+            data(){
+                return{}
+            },
+            template: `
+    <table>
+        <thead>
+            <tr>
+                <th>ID Radnog mesta</th>
+                <th>Naziv</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="mesto in radnaMesta">
+                <td>{{mesto.id}}</td>
+                <td>{{mesto.naziv}}</td>
+                <td><button v-on:click="$emit('uklanjanje', mesto.id)">Ukloni</button>
+                    <button v-on:click="$emit('izmena', {...mesto})">Izmena</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+            `
+        }
+
+        const app = Vue.createApp(RadnoMesto);
+        app.component('tabela-radnog-mesta', TabelaRadnogMesta);
+        app.component('radno-mesto-form', RadnoMestoForma);
+        app.mount("#app");
+    </script>
+</body>
+</html>

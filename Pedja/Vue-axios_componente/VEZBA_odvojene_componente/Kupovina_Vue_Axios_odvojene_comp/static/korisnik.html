@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Korisnik</title>
+    
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+    <korisnik-form v-bind:naslov="'Dodaj korisnika'" v-on:sacuvaj="createKorisnik" v-bind:dugme="'Dodaj'"></korisnik-form>
+    <korisnik-form v-bind:naslov="'Izmeni korisnika'" v-bind:korisnik="korisnikZaIzmenu" v-bind:dugme="'Izmeni'"  v-on:sacuvaj="updateKorisnik"></korisnik-form>
+
+    <tabela-korisnika v-bind:korisnici="korisnici" v-on:uklanjanje="removeKorisnik" v-on:izmena="setKorisnikZaIzmenu"></tabela-korisnika>
+    
+
+    <script src="app/app.js" type="module"></script>
+</body>
+</html>

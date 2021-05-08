@@ -1,8 +1,0 @@
-table, th, td {
-    border: 1px dotted black;
-    border-collapse: collapse;
-}
-tr:nth-child(even){
-    background-color: gray;
-}
-

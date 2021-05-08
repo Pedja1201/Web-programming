@@ -28,7 +28,7 @@ mysql = MySQL(app, cursorclass=pymysql.cursors.DictCursor)
 #######Korisnik
 @app.route("/")
 def home():
-    return app.send_static_file("korisnik.html")
+    return app.send_static_file("index.html")
 
 #KORISNIK
 @app.route("/api/korisnici")
@@ -155,6 +155,8 @@ def getAllKnjige():
     cursor = mysql.get_db().cursor()
     cursor.execute("SELECT * FROM knjiga")
     knjiga = cursor.fetchall()
+    for k in knjiga:
+        k["cena"] = float(k["cena"])
     return flask.jsonify(knjiga)
 
 # # ########Prikaz liste###########
@@ -201,6 +203,7 @@ def izmeniKnjigu(knjiga_IDKnjiga):
     db.commit()
     cursor.execute("SELECT * FROM knjiga WHERE IDKnjiga=%s", (knjiga_IDKnjiga, ))
     knjiga = cursor.fetchone()
+    knjiga["cena"] = float(knjiga["cena"]) ###Decimal u bazi!!!
     return flask.jsonify(knjiga)
 
 

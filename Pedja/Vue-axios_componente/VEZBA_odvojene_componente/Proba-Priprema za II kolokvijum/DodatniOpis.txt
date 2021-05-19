@@ -1,0 +1,4 @@
+***Polisa sadrzi formu sa select tagom i dovlaci podatke iz drugog entiteta.
+-polisaForma.js (props i templete)
+-polisa.js ->"refreshPolisa"-
+-Na kraju dodati v-bind u tag form u index html

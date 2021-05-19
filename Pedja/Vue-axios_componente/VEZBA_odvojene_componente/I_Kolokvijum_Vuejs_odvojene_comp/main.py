@@ -62,17 +62,13 @@ def izmeniRadnika(radnik_id):
     radnik["radnik_id"] = radnik_id
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE radnik SET id=%(id)s, ime=%(ime)s, prezime=%(prezime)s, email=%(email)s WHERE id=%(id)s", radnik)
+    cursor.execute("UPDATE radnik SET id=%(id)s, ime=%(ime)s, prezime=%(prezime)s, email=%(email)s WHERE id=%(radnik_id)s", radnik)
     db.commit()
     cursor.execute("SELECT * FROM radnik WHERE id=%s", (radnik_id, ))
     radnik = cursor.fetchone()
     return flask.jsonify(radnik)
 
 #RadnoMesto
-# @app.route("/radnoMesto")
-# def radnoMesto():
-#     return app.send_static_file("radnoMesto.html")
-
 @app.route("/api/radnaMesta")
 def getAllRadnaMesta():
     cursor = mysql.get_db().cursor()
@@ -115,17 +111,13 @@ def izmeniRadnaMesta(radnaMesta_id):
     mesto["radnaMesta_id"] = radnaMesta_id
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE radno_mesto SET id=%(id)s, naziv=%(naziv)s WHERE id=%(id)s", mesto)
+    cursor.execute("UPDATE radno_mesto SET id=%(id)s, naziv=%(naziv)s WHERE id=%(radnaMesta_id)s", mesto)
     db.commit()
     cursor.execute("SELECT * FROM radno_mesto WHERE id=%s", (radnaMesta_id, ))
     mesto = cursor.fetchone()
     return flask.jsonify(mesto)
 
 # ####TODO: Zavrsi do kraja angazovanje
-#Angazovanje
-# @app.route("/angazovanje")
-# def angazovanje():
-#     return app.send_static_file("angazovanje.html")
 
 @app.route("/api/angazovanja")
 def getAllAngazovanja():
@@ -168,7 +160,7 @@ def izmeniAngazovanje(angazovanje_id):
     angaz["angazovanje_id"] = angazovanje_id
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE angazovanje SET id=%(id)s, radnik_id=%(radnik_id)s, radno_mesto_id=%(radno_mesto_id)s, pocetak=%(pocetak)s, kraj=%(kraj)s, plata=%(plata)s WHERE id=%(id)s", angaz)
+    cursor.execute("UPDATE angazovanje SET id=%(id)s, radnik_id=%(radnik_id)s, radno_mesto_id=%(radno_mesto_id)s, pocetak=%(pocetak)s, kraj=%(kraj)s, plata=%(plata)s WHERE id=%(angazovanje_id)s", angaz)
     db.commit()
     cursor.execute("SELECT * FROM angazovanje WHERE id=%s", (angazovanje_id, ))
     angaz = cursor.fetchone()

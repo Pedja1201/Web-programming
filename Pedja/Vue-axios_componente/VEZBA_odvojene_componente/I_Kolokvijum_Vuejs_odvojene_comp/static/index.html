@@ -39,8 +39,8 @@
     </div>
 
     <div v-if="stranicaZaPrikaz=='angazovanje'">
-        <angazovanje-form v-bind:naslov="'Dodaj angazovanje'" v-on:sacuvaj="createAngazovanje" v-bind:dugme="'Dodaj'"></angazovanje-form>
-        <angazovanje-form v-bind:naslov="'Izmeni angazovanje'" v-bind:angaz="angazovanjeZaIzmenu" v-bind:dugme="'Izmeni'" v-on:sacuvaj="updateAngazovanje"></angazovanje-form>
+        <angazovanje-form v-bind:naslov="'Dodaj angazovanje'" v-bind:radnici="radnici" v-bind:radna-mesta="radnaMesta" v-on:sacuvaj="createAngazovanje" v-bind:dugme="'Dodaj'"></angazovanje-form>
+        <angazovanje-form v-bind:naslov="'Izmeni angazovanje'" v-bind:angaz="angazovanjeZaIzmenu" v-bind:radnici="radnici" v-bind:radna-mesta="radnaMesta" v-bind:dugme="'Izmeni'" v-on:sacuvaj="updateAngazovanje"></angazovanje-form>
 
         <tabela-angazovanja v-bind:angazovanje="angazovanje" v-on:uklanjanje="removeAngazovanje" v-on:izmena="setAngazovanjeZaIzmenu"></tabela-angazovanja>
     </div>

@@ -41,8 +41,8 @@
     </div>
 
     <div v-if="stranicaZaPrikaz=='skole'">
-        <skola-form v-bind:naslov="'Dodaj skolu'" v-on:sacuvaj="createSkola" v-bind:dugme="'Dodaj'"></skola-form>
-        <skola-form v-bind:naslov="'Izmeni skolu'" v-bind:skola="skolaZaIzmenu" v-bind:dugme="'Izmeni'" v-on:sacuvaj="updateSkola"></skola-form>
+        <skola-form v-bind:naslov="'Dodaj skolu'" v-on:sacuvaj="createSkola" v-bind:dugme="'Dodaj'" v-bind:nastavnici="nastavnici" v-bind:predmeti="predmeti"></skola-form>
+        <skola-form v-bind:naslov="'Izmeni skolu'" v-bind:skola="skolaZaIzmenu" v-bind:dugme="'Izmeni'" v-bind:nastavnici="nastavnici" v-bind:predmeti="predmeti" v-on:sacuvaj="updateSkola"></skola-form>
 
         
         <tabela-skole v-bind:skole="skole" v-on:uklanjanje="removeSkola" v-on:izmena="setSkolaZaIzmenu"></tabela-skole>

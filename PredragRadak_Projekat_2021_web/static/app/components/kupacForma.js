@@ -35,7 +35,7 @@ export default {
     <input type="text" v-model="noviKupac.prezime" required></div>
 <div>
     <label>Datum rodjenja: </label> 
-    <input type="date" v-model="noviKupac.datumRodjenja" required></div>
+    <input type="datetime-local" v-model="noviKupac.datumRodjenja" required></div>
 <div>
     <label>E-mail: </label> 
     <input type="email" v-model="noviKupac.email" required></div>

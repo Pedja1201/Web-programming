@@ -1,5 +1,5 @@
 export default {
-    props: ["skola", "dugme", "naslov"],
+    props: ["skola", "dugme", "naslov", "nastavnici", "predmeti"],
     emits : ["sacuvaj"],
     data(){
         return{
@@ -28,10 +28,15 @@ export default {
     <input type="text" v-model="novaSkola.adresa" required></div>
 <div>
     <label>ID-Nastavnika: </label>
-    <input type="number" v-model="novaSkola.nastavnik_licni_id" required></div>
+    <select v-model="novaSkola.nastavnik_licni_id" required>
+        <option v-for="nastavnik in nastavnici" :value="nastavnik.licni_id">{{nastavnik.ime}}, {{nastavnik.prezime}}, {{nastavnik.email}}/{{nastavnik.br_telefona}}</option>
+    </select>
+</div>
 <div>
     <label>ID-Predmeta: </label>
-    <input type="text" v-model="novaSkola.predmet_id" required></div>
+    <select v-model="novaSkola.predmet_id" required>
+        <option v-for="predmet in predmeti" :value="predmet.id">{{predmet.ime_predmeta}}, {{predmet.razred}}</option>
+    </select>
 <div>
     <input type="submit" v-bind:value="dugme">
 </div>

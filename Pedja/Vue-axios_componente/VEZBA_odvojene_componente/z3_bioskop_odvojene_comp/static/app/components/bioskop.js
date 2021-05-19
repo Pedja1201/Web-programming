@@ -20,6 +20,11 @@ export default {
         refreshKarta(){
              //saljem this van funkcije da obuhvata sve//
             axios.get("api/karte").then((response) => {
+                ///Datum pretvaramo u ISO-novoo
+                for(let d of response.data) {
+                    d.pocetak = new Date(d.pocetak).toISOString().split("Z")[0];
+                    d.kraj = new Date(d.kraj).toISOString().split("Z")[0];
+                }
                 this.bioskop = response.data;
             });
         },
@@ -28,6 +33,10 @@ export default {
            axios.get("api/blagajna").then((response) => {
                this.blagajne = response.data;
            });
+           ///Select opcija-novo!
+           axios.get("api/karte").then((response) => {
+            this.bioskop = response.data;
+            });
         },
         //dodavanje//
         createKarta(karta){

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+   
+    <title>Studentska Sluzba</title>
+     <!-- <vue> -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+        <!-- <axios> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+    <div>
+        <button v-on:click="navigate('studenti')">Student</button>
+        <button v-on:click="navigate('predmeti')">Predmeti</button>
+        <button v-on:click="navigate('polaganja')">Polaganje</button>
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='studenti'">
+        <student-form v-bind:naslov="'Dodaj Studenta'" v-bind:dugme="'Dodaj'" v-on:sacuvaj="createStudent"></student-form>
+        <student-form v-bind:naslov="'Izmeni Studenta'" v-bind:dugme="'Izmeni'" v-bind:student="studentZaIzmenu" v-on:sacuvaj="updateStudent"></student-form>
+
+        <tabela-studenata v-bind:studenti="studenti" v-on:uklanjanje="removeStudent" v-on:izmena="setStudentZaIzmenu"></tabela-studenata>
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='predmeti'">
+        <predmet-form v-bind:naslov="'Dodaj Predmet'" v-bind:dugme="'Dodaj'" v-on:sacuvaj="createPredmet"></predmet-form>
+        <predmet-form v-bind:naslov="'Izmeni Predmet'" v-bind:dugme="'Izmeni'" v-bind:predmet="predmetZaIzmenu" v-on:sacuvaj="updatePredmet"></predmet-form>
+
+        <tabela-predmeta v-bind:predmeti="predmeti" v-on:uklanjanje="removePredmet" v-on:izmena="setPredmetZaIzmenu"></tabela-predmeta>
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='polaganja'">
+        <polaganje-form v-bind:naslov="'Dodaj polaganje'" v-bind:dugme="'Dodaj'" v-bind:studenti="studenti" v-bind:predmeti="predmeti" v-on:sacuvaj="createPolaganje"></polaganje-form>
+        <polaganje-form v-bind:naslov="'Izmeni polaganja'" v-bind:dugme="'Izmeni'" v-bind:studenti="studenti" v-bind:predmeti="predmeti" v-bind:polaganje="polaganjeZaIzmenu" v-on:sacuvaj="updatePolaganje"></polaganje-form>
+
+        <tabela-polaganja v-bind:polaganja="polaganja" v-on:uklanjanje="removePolaganje" v-on:izmena="setPolaganjeZaIzmenu"></tabela-polaganja>
+    </div>
+
+
+    <script src="app/app.js" type="module"></script>
+</body>
+
+</html>

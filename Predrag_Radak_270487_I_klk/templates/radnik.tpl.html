@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Radnik tabela</title>
+</head>
+<body>
+    <h1><i>- Radnik</i></h1>
+    <a href="/dodajRadnika.html">Unos radnika</a>
+    
+    <table>
+        <tr>
+        
+            <th>Id</th>
+            <th>Ime</th>
+            <th>Prezime</th>
+            <th>E-mail</th>
+            <th>Akcije</th>
+        </tr>
+        {% for r in radnik %}
+        <tr>
+            <td><a href="radnik?id={{r.id}}">{{r["id"]}}</a></td>
+            <td>{{r.ime}}</td>
+            <td>{{r.prezime}}</td>
+            <td>{{r.email}}</td>
+            <td>
+                <a href="ukloniRadnika?id={{r.id}}">Ukloni</a>
+                <a href="izmenaRadnika?id={{r.id}}">Izmeni</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tr>
+    </table>
+</body>
+</html>

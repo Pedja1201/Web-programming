@@ -29,8 +29,8 @@
     </div>
 
     <div v-if="stranicaZaPrikaz=='blagajna'">
-        <blagajna-form v-bind:naslov="'Dodaj u blagajnu'" v-bind:dugme="'Dodaj'" v-on:sacuvaj="createBlagajna"></blagajna-form>
-        <blagajna-form v-bind:naslov="'Izmeni blagajnu'" v-bind:dugme="'Izmeni'" v-bind:blagajna="blagajnaZaIzmenu" v-on:sacuvaj="updateBlagajna"></blagajna-form>
+        <blagajna-form v-bind:naslov="'Dodaj u blagajnu'" v-bind:dugme="'Dodaj'" v-bind:bioskop="bioskop" v-on:sacuvaj="createBlagajna"></blagajna-form>
+        <blagajna-form v-bind:naslov="'Izmeni blagajnu'" v-bind:dugme="'Izmeni'" v-bind:bioskop="bioskop" v-bind:blagajna="blagajnaZaIzmenu" v-on:sacuvaj="updateBlagajna"></blagajna-form>
 
         <tabela-blagajne v-bind:blagajne="blagajne" v-on:uklanjanje="removeBlagajna" v-on:izmena="setBlagajnaZaIzmenu"></tabela-blagajne>
     </div>

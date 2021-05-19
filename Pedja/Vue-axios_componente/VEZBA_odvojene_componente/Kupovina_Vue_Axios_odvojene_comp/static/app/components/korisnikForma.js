@@ -1,5 +1,5 @@
 export default {
-    props: ["korisnik", "dugme", "naslov"],
+    props: ["korisnik", "dugme", "naslov", "nikeShop", "automobil"],
     emits: ["sacuvaj"],
     data(){
         return{
@@ -29,11 +29,15 @@ export default {
 </div>
 <div>
     <label>ID-Nike:</label>
-    <input type="number" v-model="noviKorisnik.nike_id" required>
+    <select v-model="noviKorisnik.nike_id" required>
+        <option v-for="nike in nikeShop" :value="nike.id">{{nike.odeca}},{{nike.obuca}}-{{nike.velicina}}</option>
+    </select>
 </div>
 <div>
     <label>Auto-tablice:</label>
-    <input type="text" v-model="noviKorisnik.auto_tablice" required>
+    <select v-model="noviKorisnik.auto_tablice" required>
+        <option v-for="auto in automobil" :value="auto.tablice">{{auto.marka}},{{auto.model}}-{{auto.godiste}}</option>
+    </select>
 </div>
 
 <div>

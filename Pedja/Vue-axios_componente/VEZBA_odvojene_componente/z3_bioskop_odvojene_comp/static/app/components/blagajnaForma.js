@@ -1,5 +1,5 @@
 export default {
-    props: ["blagajna", "dugme", "naslov"],
+    props: ["blagajna", "dugme", "naslov", "bioskop"],
     emits : ["sacuvaj"],
     data(){
         return{
@@ -31,8 +31,11 @@ export default {
     <label>Cena: </label>
     <input type="text" v-model="novaBlagajna.cena" required></div>
 <div>
-    <label>ID-karta: </label>
-    <input type="text" v-model="novaBlagajna.karta_id" required></div>
+    <label>Karta ID: </label>
+    <select v-model="novaBlagajna.karta_id" required>
+        <option v-for="karta in bioskop" :value="karta.id">{{karta.naziv_projekcije}},{{karta.pocetak}}-{{karta.kraj}},{{karta.br_sedista}}</option>
+    </select>
+</div>
 
 <div>
     <input type="submit" v-bind:value="dugme">

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+   
+    <title>Knjizara</title>
+     <!-- <vue> -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+        <!-- <axios> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+    <p><b>-Izaberite entitet: </b></p>
+    <div>
+        <button v-on:click="navigate('korisnici')">Korisnik</button>
+        <button v-on:click="navigate('knjige')">Knjiga</button>
+        <button v-on:click="navigate('iznajmljivanje')">Iznajmljivanje</button>
+
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='korisnici'">
+        <korisnik-forma v-bind:naslov="'Dodaj korisnika'" v-bind:dugme="'Dodaj'" v-on:sacuvaj="createKorisnik"></korisnik-forma>
+        <korisnik-forma v-bind:naslov="'Izmeni korisnika'" v-bind:dugme="'Izmeni'" v-bind:korisnik="korisnikZaIzmenu" v-on:sacuvaj="updateKorisnik"></korisnik-forma>
+
+        <tabela-korisnika v-bind:naslov="'Tabela korisnika'" v-bind:korisnici="korisnici" v-on:uklanjanje="removeKorisnik" v-on:izmena="setKorisnikZaIzmenu"></tabela-korisnika>
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='knjige'">
+        <knjiga-forma v-bind:naslov="'Dodaj knjigu'" v-bind:dugme="'Dodaj'" v-on:sacuvaj="createKnjiga"></knjiga-forma>
+        <knjiga-forma v-bind:naslov="'Izmeni knjigu'" v-bind:dugme="'Izmeni'" v-bind:knjiga="knjigaZaIzmenu" v-on:sacuvaj="updateKnjiga"></knjiga-forma>
+
+        <tabela-knjiga v-bind:naslov="'Tabela knjiga'" v-bind:knjige="knjige" v-on:uklanjanje="removeKnjiga" v-on:izmena="setKnjigaZaIzmenu"></tabela-knjiga>
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='iznajmljivanje'">
+        <iznajmljivanje-forma v-bind:naslov="'Dodaj iznajmljivanje'" v-bind:dugme="'Dodaj'" v-bind:korisnici="korisnici" v-bind:knjige="knjige" v-on:sacuvaj="createIznajmljivanje"></iznajmljivanje-forma>
+        <iznajmljivanje-forma v-bind:naslov="'Izmeni iznajmljivanje'" v-bind:dugme="'Izmeni'" v-bind:korisnici="korisnici"  v-bind:knjige="knjige" v-bind:iznajmljivanje="iznajmljivanjeZaIzmenu" v-on:sacuvaj="updateIznajmljivanje"></iznajmljivanje-forma>
+
+        <tabela-iznajmljivanja v-bind:naslov="'Tabela iznajmljivanja'" v-bind:iznajmljivanja="iznajmljivanja" v-on:uklanjanje="removeIznajmljivanje" v-on:izmena="setIznajmljivanjeZaIzmenu"></tabela-iznajmljivanja>
+    </div>
+
+
+    <script src="app/app.js" type="module"></script>
+</body>
+
+</html>

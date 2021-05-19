@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Angazovanje tabela</title>
+</head>
+<body>
+    <h1><i>-Angazovanje</i></h1>
+    <a href="/dodajAngazovanje.html"> -Unos angazovanja</a>
+    <table>
+        <tr>
+        
+            <th>Id</th>
+            <th>Id Radnika</th>
+            <th>Id Radnog mesta</th>
+            <th>Pocetak</th>
+            <th>Kraj</th>
+            <th>Plata</th>
+            <th>Akcije</th>
+        </tr>
+        {% for a in angazovanje %}
+        <tr>
+            <td><a href="listaAngazovanje?id={{a.id}}">{{a["id"]}}</a></td>
+            <td>{{a.radnik_id}}</td>
+            <td>{{a.radno_mesto_id}}</td>
+            <td>{{a.pocetak}}</td>
+            <td>{{a.kraj}}</td>
+            <td>{{a.plata}}</td>
+            <td>
+                <a href="ukloniAngazovanje?id={{a.id}}">Ukloni</a>
+                <a href="izmenaAngazovanje?id={{a.id}}">Izmeni</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tr>
+    </table>
+</body>
+</html>

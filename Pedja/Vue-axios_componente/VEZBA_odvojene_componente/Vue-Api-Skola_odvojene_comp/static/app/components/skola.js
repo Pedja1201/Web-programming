@@ -36,7 +36,15 @@ export default {
             axios.get("api/skole").then((response) => {
                 this.skole = response.data;
             });
+            //select opcija-novo
+            axios.get("api/nastavnici").then((response) => {
+                this.nastavnici = response.data;
+            });
+            axios.get("api/predmeti").then((response) => {
+                this.predmeti = response.data;
+            });
         },
+        
         //dodavanje//
         createNastavnik(nastavnik){
             axios.post("api/nastavnici", nastavnik).then((response) => {

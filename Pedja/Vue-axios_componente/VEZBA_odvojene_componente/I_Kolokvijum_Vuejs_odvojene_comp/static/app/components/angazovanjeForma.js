@@ -1,5 +1,5 @@
 export default {
-    props: ["angaz", "dugme", "naslov"],
+    props: ["angaz", "dugme", "naslov", "radnici", "radnaMesta"],
     emits : ["sacuvaj"],
     data(){
         return{
@@ -17,17 +17,24 @@ export default {
 <form v-on:submit.prevent="$emit('sacuvaj', {...novoAngazovanje})">
 <p><b>-{{naslov}}</b></p>
 <div>
-    <label>ID-Radnik: </label>
-    <input type="number" v-model="novoAngazovanje.radnik_id" required></div>
+    <label>Radnik ID: </label>
+    <select v-model="novoAngazovanje.radnik_id" required>
+        <option v-for="radnik in radnici" :value="radnik.id">{{radnik.ime}},{{radnik.prezime}}-{{radnik.email}}</option>
+    </select>
+</div>
 <div>
-    <label>ID-Radno mesto: </label>
-    <input type="number" v-model="novoAngazovanje.radno_mesto_id" required></div>
+    <label>Radno mesto ID: </label>
+    <select v-model="novoAngazovanje.radno_mesto_id" required>
+        <option v-for="mesto in radnaMesta" :value="mesto.id">{{mesto.naziv}}</option>
+    </select>
+</div>
+
 <div>
     <label>Pocetak: </label>
-    <input type="date" v-model="novoAngazovanje.pocetak" required></div>
+    <input type="datetime-local" v-model="novoAngazovanje.pocetak" required></div>
 <div>
     <label>Kraj: </label>
-    <input type="date" v-model="novoAngazovanje.kraj" required></div>
+    <input type="datetime-local" v-model="novoAngazovanje.kraj" required></div>
 <div>
     <label>Plata: </label>
     <input type="text" v-model="novoAngazovanje.plata" required></div>

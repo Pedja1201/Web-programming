@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+   
+    <title>Prodavnica</title>
+     <!-- <vue> -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+        <!-- <axios> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+    <div>
+        <button v-on:click="navigate('kupci')">Kupci</button>
+        <button v-on:click="navigate('proizvodi')">Proizvodi</button>
+        <button v-on:click="navigate('kupovina')">Kupovina</button>
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='kupci'">
+        <kupac-forma v-bind:naslov="'Dodaj kupca'" v-bind:dugme="'Dodaj'" v-on:sacuvaj="createKupac"></kupac-forma>
+        <kupac-forma v-bind:naslov="'Izmeni kupca'" v-bind:dugme="'Izmeni'" v-bind:kupac="kupacZaIzmenu" v-on:sacuvaj="updateKupac"></kupac-forma>
+
+        <tabela-kupaca v-bind:kupci="kupci" v-on:uklanjanje="removeKupac" v-on:izmena="setKupacZaIzmenu"></tabela-kupaca>
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='proizvodi'">
+        <proizvod-forma v-bind:naslov="'Dodaj proizvod'" v-bind:dugme="'Dodaj'" v-on:sacuvaj="createProizvod"></proizvod-forma>
+        <proizvod-forma v-bind:naslov="'Izmeni proizvod'" v-bind:dugme="'Izmeni'" v-bind:proizvod="proizvodZaIzmenu" v-on:sacuvaj="updateProizvod"></proizvod-forma>
+
+        <tabela-proizvoda v-bind:proizvodi="proizvodi" v-on:uklanjanje="removeProizvod" v-on:izmena="setProizvodZaIzmenu"></tabela-proizvoda>
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='kupovina'">
+        <kupovina-forma v-bind:naslov="'Dodaj kupovinu'" v-bind:dugme="'Dodaj'" v-on:sacuvaj="createKupovina" v-bind:kupci="kupci" v-bind:proizvodi="proizvodi"></kupovina-forma>
+        <kupovina-forma v-bind:naslov="'Izmeni kupovinu'" v-bind:dugme="'Izmeni'" v-bind:kupovina="kupovinaZaIzmenu" v-bind:kupci="kupci" v-bind:proizvodi="proizvodi" v-on:sacuvaj="updateKupovina"></kupovina-forma>
+
+        <tabela-kupovine v-bind:kupovine="kupovine" v-on:uklanjanje="removeKupovina" v-on:izmena="setKupovinaZaIzmenu"></tabela-kupovine>
+    </div>
+
+    <script src="app/app.js" type="module"></script>
+</body>
+
+</html>

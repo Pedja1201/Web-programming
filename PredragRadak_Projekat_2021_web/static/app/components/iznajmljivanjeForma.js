@@ -1,5 +1,5 @@
 export default {
-    props: ["iznajmiti", "dugme", "naslov"],
+    props: ["iznajmiti", "dugme", "naslov", "kupci", "knjige"],
     emits : ["sacuvaj"],
     data(){
         return{
@@ -28,11 +28,18 @@ export default {
 <form v-on:submit.prevent="$emit('sacuvaj', {...novaIznajmljivanja})">
 <p><b>-{{naslov}}</b></p>
 <div>
-    <label>ID-Kupac: </label>
-    <input type="number" v-model="novaIznajmljivanja.IDKupac" required></div>
+    <label>ID Kupca: </label>
+    <select v-model="novaIznajmljivanja.IDKupac" required>
+        <option v-for="kupac in kupci" :value="kupac.IDKupac">{{kupac.ime}},{{kupac.prezime}}-{{kupac.email}},{{kupac.telefon}}</option>
+    </select>
+</div>
 <div>
-    <label>ID-Knjiga: </label>
-    <input type="number" v-model="novaIznajmljivanja.IDKnjiga" required></div>
+    <label>ID Knjige: </label>
+    <select v-model="novaIznajmljivanja.IDKnjiga" required>
+        <option v-for="knjiga in knjige" :value="knjiga.IDKnjiga">{{knjiga.naziv}},{{knjiga.autor}}/{{knjiga.kategorija}}/{{knjiga.cena}},{{knjiga.stanje}},{{knjiga.link}}</option>
+    </select>
+</div>
+
 <div>
     <label>Kolicina: </label> 
     <input type="number" v-model="novaIznajmljivanja.kolicina" required></div>
@@ -47,7 +54,7 @@ export default {
     <input type="text" v-model="novaIznajmljivanja.periodIznajmljivanja" required></div>
 <div>
     <label>Datum porudzbine: </label> 
-    <input type="date" v-model="novaIznajmljivanja.datumPorudzbine" required></div>
+    <input type="datetime-local" v-model="novaIznajmljivanja.datumPorudzbine" required></div>
 
 <div>
     <input type="submit" v-bind:value="dugme">

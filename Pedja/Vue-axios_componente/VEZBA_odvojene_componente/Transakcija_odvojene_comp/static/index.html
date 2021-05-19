@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+   
+    <title>Transakcija</title>
+     <!-- <vue> -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+        <!-- <axios> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+    <div>
+        <button v-on:click="navigate('artikli')">Artikli</button>
+        <button v-on:click="navigate('transakcije')">Transakcija</button>
+
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='artikli'">
+        <artikl-forma v-bind:naslov="'Dodaj artikl'" v-bind:dugme="'Dodaj'" v-on:sacuvaj="createArtikl"></artikl-forma>
+        <artikl-forma v-bind:naslov="'Izmeni artikl'" v-bind:dugme="'Izmeni'" v-bind:artikl="artiklZaIzmenu" v-on:sacuvaj="updateArtikl"></artikl-forma>
+
+        <tabela-artikla v-bind:artikli="artikli" v-on:uklanjanje="removeArtikl" v-on:izmena="setArtiklZaIzmenu"></tabela-artikla>
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='transakcije'">
+        <transakcija-forma v-bind:naslov="'Dodaj transakciju'" v-bind:dugme="'Dodaj'" v-bind:artikli="artikli" v-on:sacuvaj="createTransakcija"></transakcija-forma>
+        <transakcija-forma v-bind:naslov="'Izmeni transakciju'" v-bind:dugme="'Izmeni'" v-bind:artikli="artikli" v-bind:transakcija="transakcijaZaIzmenu" v-on:sacuvaj="updateTransakcija"></transakcija-forma>
+
+        <tabela-transakcija v-bind:transakcije="transakcije" v-on:uklanjanje="removeTransakcija" v-on:izmena="setTransakcijaZaIzmenu"></tabela-transakcija>
+    </div>
+
+    <script src="app/app.js" type="module"></script>
+</body>
+
+</html>

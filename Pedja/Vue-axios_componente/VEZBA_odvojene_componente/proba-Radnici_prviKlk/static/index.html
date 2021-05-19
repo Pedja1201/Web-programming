@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+   
+    <title>Radnici</title>
+     <!-- <vue> -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+        <!-- <axios> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+    <p>-Izaberite entitet:</p>
+    <div>
+        <button v-on:click="navigate('radnik')">Radnik</button>
+        <button v-on:click="navigate('mesto')">Radno mesto</button>
+        <button v-on:click="navigate('angazovanje')">Angazovanje</button>
+
+    </div>
+    <div v-if="stranicaZaPrikaz=='radnik'">
+        <radnik-forma v-bind:naslov="'Dodaj radnika'" v-bind:dugme="'Dodaj'" v-on:sacuvaj="createRadnik"></radnik-forma>
+        <radnik-forma v-bind:naslov="'Izmeni radnika'" v-bind:dugme="'Izmeni'" v-bind:radnik="radnikZaIzmenu" v-on:sacuvaj="updateRadnik"></radnik-forma>
+
+        <tabela-radnika v-bind:radnici="radnici" v-on:uklanjanje="removeRadnik" v-on:izmena="setRadnikZaIzmenu"></tabela-radnika>
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='mesto'">
+        <mesto-forma v-bind:naslov="'Dodaj radno mesto'" v-bind:dugme="'Dodaj'" v-on:sacuvaj="createRadnoMesto"></mesto-forma>
+        <mesto-forma v-bind:naslov="'Izmeni radna mesta'" v-bind:dugme="'Izmeni'" v-bind:mesto="mestoZaIzmenu" v-on:sacuvaj="updateRadnoMesto"></mesto-forma>
+
+        <tabela-mesta v-bind:radna-mesta="radnaMesta" v-on:uklanjanje="removeRadnoMesto" v-on:izmena="setMestoZaIzmenu"></tabela-mesta>
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='angazovanje'">
+        <angazovanje-forma v-bind:naslov="'Dodaj angazovanje'" v-bind:dugme="'Dodaj'" v-bind:radnici="radnici" v-bind:radna-mesta="radnaMesta" v-on:sacuvaj="createAngazovanje"></angazovanje-forma>
+        <angazovanje-forma v-bind:naslov="'Izmeni angazovanje'" v-bind:dugme="'Izmeni'" v-bind:radnici="radnici" v-bind:radna-mesta="radnaMesta" v-bind:angaz="angazovanjeZaIzmenu" v-on:sacuvaj="updateAngazovanje"></angazovanje-forma>
+
+        <tabela-angazovanja v-bind:angazovanja="angazovanja" v-on:uklanjanje="removeAngazovanje" v-on:izmena="setAngazovanjeZaIzmenu"></tabela-angazovanja>
+    </div>
+
+    <script src="app/app.js" type="module"></script>
+</body>
+</html>

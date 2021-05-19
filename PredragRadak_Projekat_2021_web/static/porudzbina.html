@@ -17,8 +17,8 @@
 </head>
 <body id="app">
     <div>
-        <porudzbina-form v-on:sacuvaj="createPorudzbina" v-bind:naslov="'Dodaj porudzbinu'" v-bind:dugme="'Dodaj'"></porudzbina-form>
-        <porudzbina-form v-bind:poruceno="porudzbinaZaIzmenu" v-bind:naslov="'Izmeni porudzbinu'" v-bind:dugme="'Izmeni'" v-on:sacuvaj="updatePorudzbina"></porudzbina-form>
+        <porudzbina-form v-on:sacuvaj="createPorudzbina" v-bind:naslov="'Dodaj porudzbinu'" v-bind:dugme="'Dodaj'" v-bind:knjige="knjige" v-bind:kupci="kupci"></porudzbina-form>
+        <porudzbina-form v-bind:poruceno="porudzbinaZaIzmenu" v-bind:naslov="'Izmeni porudzbinu'" v-bind:dugme="'Izmeni'" v-bind:knjige="knjige" v-bind:kupci="kupci" v-on:sacuvaj="updatePorudzbina"></porudzbina-form>
 
         <tabela-porudzbine v-bind:naslov="'Tabela porudzbine'" v-bind:porudzbine="porudzbine" v-on:uklanjanje="removePorudzbina" v-on:izmena="setPorudzbinaZaIzmenu"></tabela-porudzbine>
   

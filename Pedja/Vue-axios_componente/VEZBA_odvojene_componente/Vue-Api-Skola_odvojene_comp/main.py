@@ -63,7 +63,7 @@ def izmeniNastavnika(nastavnik_licni_id):
     nastavnik["nastavnik_licni_id"] = nastavnik_licni_id
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE nastavnik SET licni_id=%(licni_id)s, ime=%(ime)s, prezime=%(prezime)s, email=%(email)s, br_telefona=%(br_telefona)s WHERE licni_id=%(licni_id)s", nastavnik)
+    cursor.execute("UPDATE nastavnik SET licni_id=%(licni_id)s, ime=%(ime)s, prezime=%(prezime)s, email=%(email)s, br_telefona=%(br_telefona)s WHERE licni_id=%(nastavnik_licni_id)s", nastavnik)
     db.commit()
     cursor.execute("SELECT * FROM nastavnik WHERE licni_id=%s", (nastavnik_licni_id, ))
     nastavnik = cursor.fetchone()
@@ -112,7 +112,7 @@ def izmeniPredmet(predmet_id):
     predmet["predmet_id"] = predmet_id
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE predmet SET id=%(id)s, ime_predmeta=%(ime_predmeta)s, razred=%(razred)s WHERE id=%(id)s", predmet)
+    cursor.execute("UPDATE predmet SET id=%(id)s, ime_predmeta=%(ime_predmeta)s, razred=%(razred)s WHERE id=%(predmet_id)s", predmet)
     db.commit()
     cursor.execute("SELECT * FROM predmet WHERE id=%s", (predmet_id, ))
     predmet = cursor.fetchone()
@@ -163,11 +163,13 @@ def izmeniSkolu(skole_id):
     skola["skole_id"] = skole_id
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE skola SET id=%(id)s, ime_skole=%(ime_skole)s, adresa=%(adresa)s, nastavnik_licni_id=%(nastavnik_licni_id)s, predmet_id=%(predmet_id)s WHERE id=%(id)s", skola)
+    cursor.execute("UPDATE skola SET id=%(id)s, ime_skole=%(ime_skole)s, adresa=%(adresa)s, nastavnik_licni_id=%(nastavnik_licni_id)s, predmet_id=%(predmet_id)s WHERE id=%(skole_id)s", skola)
     db.commit()
     cursor.execute("SELECT * FROM skola WHERE id=%s", (skole_id, ))
     skola = cursor.fetchone()
     return flask.jsonify(skola)
+
+
 
 if __name__ == "__main__":
     app.run()

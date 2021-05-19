@@ -14,8 +14,8 @@
 </head>
 
 <body id="app">
-    <korisnik-form v-bind:naslov="'Dodaj korisnika'" v-on:sacuvaj="createKorisnik" v-bind:dugme="'Dodaj'"></korisnik-form>
-    <korisnik-form v-bind:naslov="'Izmeni korisnika'" v-bind:korisnik="korisnikZaIzmenu" v-bind:dugme="'Izmeni'"  v-on:sacuvaj="updateKorisnik"></korisnik-form>
+    <korisnik-form v-bind:naslov="'Dodaj korisnika'" v-bind:nike-shop="nikeShop" v-bind:automobil="automobil" v-on:sacuvaj="createKorisnik" v-bind:dugme="'Dodaj'"></korisnik-form>
+    <korisnik-form v-bind:naslov="'Izmeni korisnika'" v-bind:nike-shop="nikeShop" v-bind:automobil="automobil" v-bind:korisnik="korisnikZaIzmenu" v-bind:dugme="'Izmeni'"  v-on:sacuvaj="updateKorisnik"></korisnik-form>
 
     <tabela-korisnika v-bind:korisnici="korisnici" v-on:uklanjanje="removeKorisnik" v-on:izmena="setKorisnikZaIzmenu"></tabela-korisnika>
     

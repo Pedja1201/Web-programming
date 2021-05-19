@@ -35,7 +35,19 @@ export default {
        refreshAngazovanje(){
              //saljem this van funkcije da obuhvata sve//
             axios.get("api/angazovanja").then((response) => {
+                ///Datum pretvaramo u ISO-novoo
+                for(let d of response.data) {
+                    d.pocetak = new Date(d.pocetak).toISOString().split("Z")[0];
+                    d.kraj = new Date(d.kraj).toISOString().split("Z")[0];
+                }
                 this.angazovanje = response.data;
+            });
+            ///Select opcija-dodato novo!!!!
+            axios.get("api/radnici").then((response) => {
+                this.radnici = response.data;
+            });
+            axios.get("api/radnaMesta").then((response) => {
+                this.radnaMesta = response.data;
             });
         },
         //dodavanje//

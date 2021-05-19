@@ -23,20 +23,31 @@ export default {
         refreshAuto(){
              //saljem this van funkcije da obuhvata sve//
             axios.get("api/auto").then((response) => {
+                ///Datum pretvaramo u ISO-novoo
+                for(let d of response.data) {
+                    d.godiste = new Date(d.godiste).toISOString().split("Z")[0];
+                }
                 this.automobil = response.data;
             });
         },
         refreshNike(){
             //saljem this van funkcije da obuhvata sve//
-           axios.get("api/nike").then((response) => {
+            axios.get("api/nike").then((response) => {
                this.nikeShop = response.data;
-           });
+            });
         },
         refreshKorisnik(){
             //saljem this van funkcije da obuhvata sve//
-           axios.get("api/korisnici").then((response) => {
+            axios.get("api/korisnici").then((response) => {
                this.korisnici = response.data;
-           });
+            });
+           ///Select opcija-novoo!!
+            axios.get("api/nike").then((response) => {
+                this.nikeShop = response.data;
+            });
+            axios.get("api/auto").then((response) => {
+                this.automobil = response.data;
+            });
         },
 
         //dodavanje//

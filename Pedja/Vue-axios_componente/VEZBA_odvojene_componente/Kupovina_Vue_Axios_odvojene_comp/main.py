@@ -64,7 +64,7 @@ def izmeniAuto(auto_tablice):
     auto["auto_tablice"] = auto_tablice
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE auto SET tablice=%(tablice)s, marka=%(marka)s, model=%(model)s, godiste=%(godiste)s WHERE tablice=%(tablice)s", auto)
+    cursor.execute("UPDATE auto SET tablice=%(tablice)s, marka=%(marka)s, model=%(model)s, godiste=%(godiste)s WHERE tablice=%(auto_tablice)s", auto)
     db.commit()
     cursor.execute("SELECT * FROM auto WHERE tablice=%s", (auto_tablice, ))
     auto = cursor.fetchone()
@@ -121,7 +121,7 @@ def izmeniNike(nike_id):
     nike["nike_id"] = nike_id
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE nike SET id=%(id)s, odeca=%(odeca)s, obuca=%(obuca)s, velicina=%(velicina)s WHERE id=%(id)s", nike)
+    cursor.execute("UPDATE nike SET id=%(id)s, odeca=%(odeca)s, obuca=%(obuca)s, velicina=%(velicina)s WHERE id=%(nike_id)s", nike)
     db.commit()
     cursor.execute("SELECT * FROM nike WHERE id=%s", (nike_id, ))
     nike = cursor.fetchone()
@@ -177,7 +177,7 @@ def izmeniKorisnika(korisnik_id):
     korisnik["korisnik_id"] = korisnik_id
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE korisnik SET id=%(id)s, ime=%(ime)s, prezime=%(prezime)s, zanimanje=%(zanimanje)s, nike_id=%(nike_id)s, auto_tablice=%(auto_tablice)s WHERE id=%(id)s", korisnik)
+    cursor.execute("UPDATE korisnik SET id=%(id)s, ime=%(ime)s, prezime=%(prezime)s, zanimanje=%(zanimanje)s, nike_id=%(nike_id)s, auto_tablice=%(auto_tablice)s WHERE id=%(korisnik_id)s", korisnik)
     db.commit()
     cursor.execute("SELECT * FROM korisnik WHERE id=%s", (korisnik_id, ))
     korisnik = cursor.fetchone()

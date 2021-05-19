@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    
+    <title>Polise</title>
+     <!-- <vue> -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+        <!-- <axios> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+<body id="app">
+    <div>
+        <button v-on:click="navigate('automobili')">Automobili</button>
+        <button v-on:click="navigate('kuce')">Osiguravajuce kuce</button>
+        <button v-on:click="navigate('polise')">Polisa</button>
+
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='automobili'">
+        <automobil-forma v-bind:naslov="'Dodaj automobil'" v-bind:dugme="'Dodaj'" v-on:sacuvaj="createAutomobil"></automobil-forma>
+        <automobil-forma v-bind:naslov="'Izmeni automobil'" v-bind:dugme="'Izmeni'" v-bind:auto="autoZaIzmenu" v-on:sacuvaj="updateAutomobil"></automobil-forma>
+
+        <tabela-automobila v-bind:automobili="automobili" v-on:uklanjanje="removeAutomobil" v-on:izmena="setAutoZaIzmenu"></tabela-automobila>
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='kuce'">
+        <kuca-forma v-bind:naslov="'Dodaj osiguravajucu kucu'" v-bind:dugme="'Dodaj'" v-on:sacuvaj="createOsiguravajucaKuca"></kuca-forma>
+        <kuca-forma v-bind:naslov="'Izmeni osiguravajucu kucu'" v-bind:dugme="'Izmeni'" v-bind:kuca="kucaZaIzmenu" v-on:sacuvaj="updateOsiguravajucaKuca"></kuca-forma>
+
+        <tabela-kuca v-bind:osiguravajuce-kuce="osiguravajuceKuce" v-on:uklanjanje="removeOsiguravajucaKuca" v-on:izmena="setKucaZaIzmenu"></tabela-kuca>
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='polise'">
+        <polisa-forma v-bind:naslov="'Dodaj polisu'" v-bind:dugme="'Dodaj'" v-bind:automobili="automobili" v-bind:osiguravajuce-kuce="osiguravajuceKuce" v-on:sacuvaj="createPolisa"></polisa-forma>
+        <polisa-forma v-bind:naslov="'Izmeni polisu'" v-bind:dugme="'Izmeni'" v-bind:automobili="automobili" v-bind:osiguravajuce-kuce="osiguravajuceKuce" v-bind:polisa="polisaZaIzmenu" v-on:sacuvaj="updatePolisa"></polisa-forma>
+
+        <tabela-polise v-bind:polise="polise" v-on:uklanjanje="removePolisa" v-on:izmena="setPolisaZaIzmenu"></tabela-polise>
+    </div>
+
+
+
+    <script src="app/app.js" type="module"></script>
+</body>
+</html>

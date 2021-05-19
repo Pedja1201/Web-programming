@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    
+    <title>Prodaja</title>
+     <!-- <vue> -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+        <!-- <axios> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+<body id="app">
+    <div>
+        <button v-on:click="navigate('turisti')">Turisti</button>
+        <button v-on:click="navigate('aranzmani')">Aranzman</button>
+        <button v-on:click="navigate('prodaja')">Prodaja</button>
+
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='turisti'">
+        <turista-forma v-bind:naslov="'Dodaj turistu'" v-bind:dugme="'Dodaj'" v-on:sacuvaj="createTurista"></turista-forma>
+        <turista-forma v-bind:naslov="'Izmeni turistu'" v-bind:dugme="'Izmeni'" v-bind:turista="turistaZaIzmenu" v-on:sacuvaj="updateTurista"></turista-forma>
+
+        <tabela-turista v-bind:turisti="turisti" v-on:uklanjanje="removeTurista" v-on:izmena="setTuristaZaIzmenu"></tabela-turista>
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='aranzmani'">
+        <aranzman-forma v-bind:naslov="'Dodaj aranzman'" v-bind:dugme="'Dodaj'" v-on:sacuvaj="createAranzman"></aranzman-forma>
+        <aranzman-forma v-bind:naslov="'Izmeni aranzman'" v-bind:dugme="'Izmeni'" v-bind:aranzman="aranzmanZaIzmenu" v-on:sacuvaj="updateAranzman"></aranzman-forma>
+
+        <tabela-aranzmana v-bind:aranzmani="aranzmani" v-on:uklanjanje="removeAranzman" v-on:izmena="setAranzmanZaIzmenu"></tabela-aranzmana>
+    </div>
+
+    <div v-if="stranicaZaPrikaz=='prodaja'">
+        <prodaja-forma v-bind:naslov="'Dodaj prodaju'" v-bind:dugme="'Dodaj'" v-bind:aranzmani="aranzmani" v-bind:turisti="turisti" v-on:sacuvaj="createProdaja"></prodaja-forma>
+        <prodaja-forma v-bind:naslov="'Izmeni prodaju'" v-bind:dugme="'Izmeni'" v-bind:aranzmani="aranzmani" v-bind:turisti="turisti" v-bind:prodaja="prodajaZaIzmenu" v-on:sacuvaj="updateProdaja"></prodaja-forma>
+
+        <tabela-prodaje v-bind:prodaje="prodaje" v-on:uklanjanje="removeProdaja" v-on:izmena="setProdajaZaIzmenu"></tabela-prodaje>
+    </div>
+
+    <script src="app/app.js" type="module"></script>
+</body>
+</html>

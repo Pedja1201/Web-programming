@@ -15,16 +15,23 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
 </head>
+<!-- Background image -->
+<div
+  class="bg-image"
+  style="
+    background-image: url('pictures/Biblioteka.jpg');
+    height: 100vh;  ">
+<!-- Background image -->
 
 <body id="app">
     <div class="container">
-        <button v-on:click="navigate('korisnici')">Korisnik</button>
-        <button v-on:click="navigate('kupci')">Kupac</button>
-        <button v-on:click="navigate('knjige')">Knjiga</button>
-        <button v-on:click="navigate('iznajmljivanje')">Iznajmljivanje</button>
-        <button v-on:click="navigate('porudzbine')">Porudzbina</button>
+        <button type="button" class="btn btn-outline-light" v-on:click="navigate('korisnici')">Korisnik</button>
+        <button type="button" class="btn btn-outline-light" v-on:click="navigate('kupci')">Kupac</button>
+        <button type="button" class="btn btn-outline-light" v-on:click="navigate('knjige')">Knjiga</button>
+        <button type="button" class="btn btn-outline-light" v-on:click="navigate('iznajmljivanje')">Iznajmljivanje</button>
+        <button type="button" class="btn btn-outline-light" v-on:click="navigate('porudzbine')">Porudzbina</button>
     </div>
-    <div v-if="stranicaZaPrikaz=='korisnici'">
+    <div v-if="stranicaZaPrikaz=='korisnici'" style="background-color: bisque;">
         <korisnik-form v-on:sacuvaj="createKorisnik" v-bind:naslov="'Dodaj korisnika'" v-bind:dugme="'Dodaj'"></korisnik-form>
         <korisnik-form v-bind:korisnik="korisnikZaIzmenu" v-bind:naslov="'Izmeni korisnika'" v-bind:dugme="'Izmeni'" v-on:sacuvaj="updateKorisnik"></korisnik-form>
 
@@ -32,7 +39,7 @@
 
     </div>
 
-    <div v-if="stranicaZaPrikaz=='kupci'">
+    <div v-if="stranicaZaPrikaz=='kupci'" style="background-color: bisque;">
         <kupac-form v-on:sacuvaj="createKupac" v-bind:naslov="'Dodaj kupca'" v-bind:dugme="'Dodaj'"></kupac-form>
         <kupac-form v-bind:kupac="kupacZaIzmenu" v-bind:naslov="'Izmeni kupca'" v-bind:dugme="'Izmeni'" v-on:sacuvaj="updateKupac"></kupac-form>
 
@@ -40,7 +47,7 @@
   
     </div>
 
-    <div v-if="stranicaZaPrikaz=='knjige'">
+    <div v-if="stranicaZaPrikaz=='knjige'" style="background-color: white;">
         <knjiga-form v-on:sacuvaj="createKnjiga" v-bind:naslov="'Dodaj knjigu'" v-bind:dugme="'Dodaj'"></knjiga-form>
         <knjiga-form v-bind:knjiga="knjigaZaIzmenu" v-bind:naslov="'Izmeni knjigu'" v-bind:dugme="'Izmeni'" v-on:sacuvaj="updateKnjiga"></knjiga-form>
 
@@ -48,17 +55,17 @@
   
     </div>
 
-    <div v-if="stranicaZaPrikaz=='iznajmljivanje'">
-        <iznajmljivanje-form v-on:sacuvaj="createIznajmljivanje" v-bind:naslov="'Dodaj iznajmljivanje'" v-bind:dugme="'Dodaj'"></iznajmljivanje-form>
-        <iznajmljivanje-form v-bind:iznajmiti="iznajmljivanjeZaIzmenu" v-bind:naslov="'Izmeni iznajmljivanje'" v-bind:dugme="'Izmeni'" v-on:sacuvaj="updateIznajmljivanje"></iznajmljivanje-form>
+    <div v-if="stranicaZaPrikaz=='iznajmljivanje'" style="background-color: beige;">
+        <iznajmljivanje-form v-on:sacuvaj="createIznajmljivanje" v-bind:naslov="'Dodaj iznajmljivanje'" v-bind:dugme="'Dodaj'" v-bind:knjige="knjige" v-bind:kupci="kupci"></iznajmljivanje-form>
+        <iznajmljivanje-form v-bind:iznajmiti="iznajmljivanjeZaIzmenu" v-bind:naslov="'Izmeni iznajmljivanje'" v-bind:dugme="'Izmeni'" v-bind:knjige="knjige" v-bind:kupci="kupci" v-on:sacuvaj="updateIznajmljivanje"></iznajmljivanje-form>
 
         <tabela-iznajmljivanja v-bind:naslov="'Tabela iznajmljivanja'" v-bind:iznajmljivanje="iznajmljivanje" v-on:uklanjanje="removeIznajmljivanje" v-on:izmena="setIznajmljivanjeZaIzmenu"></tabela-iznajmljivanja>
   
     </div>
 
-    <div v-if="stranicaZaPrikaz=='porudzbine'">
-        <porudzbina-form v-on:sacuvaj="createPorudzbina" v-bind:naslov="'Dodaj porudzbinu'" v-bind:dugme="'Dodaj'"></porudzbina-form>
-        <porudzbina-form v-bind:poruceno="porudzbinaZaIzmenu" v-bind:naslov="'Izmeni porudzbinu'" v-bind:dugme="'Izmeni'" v-on:sacuvaj="updatePorudzbina"></porudzbina-form>
+    <div v-if="stranicaZaPrikaz=='porudzbine'" style="background-color: beige;">
+        <porudzbina-form v-on:sacuvaj="createPorudzbina" v-bind:naslov="'Dodaj porudzbinu'" v-bind:dugme="'Dodaj'" v-bind:knjige="knjige" v-bind:kupci="kupci"></porudzbina-form>
+        <porudzbina-form v-bind:poruceno="porudzbinaZaIzmenu" v-bind:naslov="'Izmeni porudzbinu'" v-bind:dugme="'Izmeni'" v-bind:knjige="knjige" v-bind:kupci="kupci" v-on:sacuvaj="updatePorudzbina"></porudzbina-form>
 
         <tabela-porudzbine v-bind:naslov="'Tabela porudzbine'" v-bind:porudzbine="porudzbine" v-on:uklanjanje="removePorudzbina" v-on:izmena="setPorudzbinaZaIzmenu"></tabela-porudzbine>
   
@@ -66,4 +73,5 @@
 
     <script src="app/app.js" type="module"></script>
 </body>
+</div>
 </html>

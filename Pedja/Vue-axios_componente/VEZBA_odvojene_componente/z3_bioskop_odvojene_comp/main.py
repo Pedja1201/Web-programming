@@ -15,7 +15,7 @@ app.config["MYSQL_DATABASE_DB"] = "bioskop"
 
 mysql = MySQL(app, cursorclass=pymysql.cursors.DictCursor)
 
-#TODO: Primer sa componentama
+#TODO: Primer sa componentama i select opcijom u componenti
 
 
 @app.route("/")
@@ -63,7 +63,7 @@ def izmeniKartu(karta_id):
     karta["karta_id"] = karta_id
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE karta SET id=%(id)s, naziv_projekcije=%(naziv_projekcije)s, pocetak=%(pocetak)s, kraj=%(kraj)s,  br_sedista=%(br_sedista)s WHERE id=%(id)s", karta)
+    cursor.execute("UPDATE karta SET id=%(id)s, naziv_projekcije=%(naziv_projekcije)s, pocetak=%(pocetak)s, kraj=%(kraj)s,  br_sedista=%(br_sedista)s WHERE id=%(karta_id)s", karta)
     db.commit()
     cursor.execute("SELECT * FROM karta WHERE id=%s", (karta_id, ))
     karta = cursor.fetchone()
@@ -71,10 +71,6 @@ def izmeniKartu(karta_id):
 
 
 #Blagajna
-# @app.route("/blagajna")
-# def blagajna():
-#     return app.send_static_file("blagajna.html")
-
 @app.route("/api/blagajna")
 def getAllBlagajne():
     cursor = mysql.get_db().cursor()
@@ -90,6 +86,7 @@ def getBlagajna(blagajna_id):
     cursor.execute("SELECT * FROM blagajna WHERE id=%s", (blagajna_id,))
     blagajna = cursor.fetchone()
     if blagajna is not None:
+        blagajna["cena"] = float(blagajna["cena"])##Decimal
         return flask.jsonify(blagajna)
 
     return "", 404
@@ -118,7 +115,7 @@ def izmeniBlagajnu(blagajna_id):
     blagajna["blagajna_id"] = blagajna_id
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE blagajna SET id=%(id)s, cena=%(cena)s, karta_id=%(karta_id)s WHERE id=%(id)s", blagajna)
+    cursor.execute("UPDATE blagajna SET id=%(id)s, cena=%(cena)s, karta_id=%(karta_id)s WHERE id=%(blagajna_id)s", blagajna)
     db.commit()
     cursor.execute("SELECT * FROM blagajna WHERE id=%s", (blagajna_id, ))
     blagajna = cursor.fetchone()

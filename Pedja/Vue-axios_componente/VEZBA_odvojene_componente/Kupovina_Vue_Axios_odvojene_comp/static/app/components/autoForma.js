@@ -28,7 +28,7 @@ export default {
 </div>
 <div>
     <label>Godiste:</label>
-    <input type="date" v-model="noviAuto.godiste" required>
+    <input type="datetime-local" v-model="noviAuto.godiste" required>
 </div>
 
 <div>

@@ -39,6 +39,10 @@ export default {
         },
         refreshKupac(){
            axios.get("api/kupci").then((response) => {
+               ///Datum pretvaramo u ISO-novoo
+                for(let d of response.data) {
+                    d.datumRodjenja = new Date(d.datumRodjenja).toISOString().split("Z")[0];
+                }
                this.kupci = response.data;
            });
         },
@@ -49,12 +53,34 @@ export default {
         },
         refreshIznajmljivanje(){
             axios.get("api/iznajmljivanje").then((response) => {
+                ///Datum pretvaramo u ISO-novoo
+                for(let d of response.data) {
+                    d.datumPorudzbine = new Date(d.datumPorudzbine).toISOString().split("Z")[0];
+                }
                 this.iznajmljivanje = response.data;
+            });
+            ///Select opcija-novo!
+            axios.get("api/knjige").then((response) => {
+                this.knjige = response.data;
+            });
+            axios.get("api/kupci").then((response) => {
+                this.kupci = response.data;
             });
         },
         refreshPorudzbina(){
             axios.get("api/porudzbine").then((response) => {
+                ///Datum pretvaramo u ISO-novoo
+                for(let d of response.data) {
+                    d.datumPorudzbine = new Date(d.datumPorudzbine).toISOString().split("Z")[0];
+                }
                 this.porudzbine = response.data;
+            });
+            ///Select opcija-novo!
+            axios.get("api/knjige").then((response) => {
+                this.knjige = response.data;
+            });
+            axios.get("api/kupci").then((response) => {
+                this.kupci = response.data;
             });
         },
 

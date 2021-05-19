@@ -18,8 +18,8 @@
  <!-- Verzija sa componentama. -->
 <body id="app">
     <div>
-        <iznajmljivanje-form v-on:sacuvaj="createIznajmljivanje" v-bind:naslov="'Dodaj iznajmljivanje'" v-bind:dugme="'Dodaj'"></iznajmljivanje-form>
-        <iznajmljivanje-form v-bind:iznajmiti="iznajmljivanjeZaIzmenu" v-bind:naslov="'Izmeni iznajmljivanje'" v-bind:dugme="'Izmeni'" v-on:sacuvaj="updateIznajmljivanje"></iznajmljivanje-form>
+        <iznajmljivanje-form v-on:sacuvaj="createIznajmljivanje" v-bind:naslov="'Dodaj iznajmljivanje'" v-bind:dugme="'Dodaj'" v-bind:knjige="knjige" v-bind:kupci="kupci"></iznajmljivanje-form>
+        <iznajmljivanje-form v-bind:iznajmiti="iznajmljivanjeZaIzmenu" v-bind:naslov="'Izmeni iznajmljivanje'" v-bind:dugme="'Izmeni'" v-bind:knjige="knjige" v-bind:kupci="kupci" v-on:sacuvaj="updateIznajmljivanje"></iznajmljivanje-form>
 
         <tabela-iznajmljivanja v-bind:naslov="'Tabela iznajmljivanja'" v-bind:iznajmljivanje="iznajmljivanje" v-on:uklanjanje="removeIznajmljivanje" v-on:izmena="setIznajmljivanjeZaIzmenu"></tabela-iznajmljivanja>
   

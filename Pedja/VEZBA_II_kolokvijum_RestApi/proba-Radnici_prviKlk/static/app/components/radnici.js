@@ -35,6 +35,11 @@ export default {
         },
         refreshAngazovanje(){
             axios.get("api/angazovanja").then((response) => {
+                ///Datum pretvaramo u ISO-novoo
+                for(let d of response.data) {
+                    d.pocetak = new Date(d.pocetak).toISOString().split("Z")[0];
+                    d.kraj = new Date(d.kraj).toISOString().split("Z")[0];
+                }
                 this.angazovanja = response.data;
             });
             ///Seleect opcija-dodato

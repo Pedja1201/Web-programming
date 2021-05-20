@@ -11,6 +11,7 @@ export default {
             knjigaZaIzmenu:{},
             iznajmljivanjeZaIzmenu:{},
             porudzbinaZaIzmenu:{},
+            
             stranicaZaPrikaz: "",
         }
     },
@@ -38,13 +39,13 @@ export default {
             });
         },
         refreshKupac(){
-           axios.get("api/kupci").then((response) => {
+            axios.get("api/kupci").then((response) => {
                ///Datum pretvaramo u ISO-novoo
                 for(let d of response.data) {
                     d.datumRodjenja = new Date(d.datumRodjenja).toISOString().split("Z")[0];
                 }
-               this.kupci = response.data;
-           });
+                this.kupci = response.data;
+            });
         },
         refreshKnjiga(){
             axios.get("api/knjige").then((response) => {

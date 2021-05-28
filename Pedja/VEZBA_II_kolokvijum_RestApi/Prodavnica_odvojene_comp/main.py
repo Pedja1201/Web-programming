@@ -75,6 +75,8 @@ def izmeniKupca(kupac_id):
     return flask.jsonify(kupac)
 
 
+
+
 ##Proizvodi
 @app.route("/api/proizvodi")
 def getAllProizvodi():
@@ -183,7 +185,23 @@ def izmeniKupovinu(kupovina_broj):
     kupovina["cena"] = float(kupovina["cena"]) ###Decimal
     return flask.jsonify(kupovina)
 
+######Proba za pretragu
 
+##primer zdrelara
+# @app.route("/pretragaProizvoda", methods=["POST"])
+# def pretragaProizvoda():
+#     proizvod = dict(flask.request.form)
+#     proizvod["id"] = '%' + proizvod["id"] + '%'
+#     proizvod["naziv"] = '%' + proizvod["naziv"] + '%'
+#     proizvod["opis"] = None if proizvod["opis"] == "" else "%" + proizvod["opis"] + "%"
+#     if proizvod["minCena"] == "":
+#         proizvod["minCena"] = None
+#     if proizvod["maxCena"] == "":
+#         proizvod["maxCena"] = None
+#     proizvod["dostupno"] = proizvod.get("dostupno", 0)
+#     cursor = mysql.get_db().cursor()
+#     cursor.execute("SELECT * FROM proizvod WHERE id LIKE %(id)s AND naziv LIKE %(naziv)s AND (opis LIKE %(opis)s or %(opis)s IS NULL)"
+#             " AND (cena >= %(minCena)s OR %(minCena)s IS NULL) AND (cena <= %(maxCena)s OR %(maxCena)s IS NULL) AND dostupno = %(dostupno)s", proizvod) 
 
 
 if __name__ == "__main__":

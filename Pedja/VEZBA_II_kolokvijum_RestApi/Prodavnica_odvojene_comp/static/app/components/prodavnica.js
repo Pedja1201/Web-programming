@@ -103,6 +103,13 @@ export default {
             });
         },
 
+        ///Proba za search pretragu
+        searchKupovina(){
+            axios.get("api/kupovine").then((response) => {
+               this.kupovine = response.data;
+            });
+        },
+
         navigate(page){
             this.stranicaZaPrikaz = page;
         }

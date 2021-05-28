@@ -13,8 +13,8 @@ from flaskext.mysql import pymysql
 app = Flask(__name__, static_url_path="/")
 
 
-###TODO:Zapocet Projekat "Prodaja knjiga"
-####Probaj da razdvojis script
+###TODO: Uradi rutiranje componenti
+####Probaj da razdvojis scripte
 ###Poradi na izgledu-Bootstrap
 
 

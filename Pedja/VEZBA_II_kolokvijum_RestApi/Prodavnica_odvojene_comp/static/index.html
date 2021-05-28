@@ -41,7 +41,7 @@
         <kupovina-forma v-bind:naslov="'Dodaj kupovinu'" v-bind:dugme="'Dodaj'" v-on:sacuvaj="createKupovina" v-bind:kupci="kupci" v-bind:proizvodi="proizvodi"></kupovina-forma>
         <kupovina-forma v-bind:naslov="'Izmeni kupovinu'" v-bind:dugme="'Izmeni'" v-bind:kupovina="kupovinaZaIzmenu" v-bind:kupci="kupci" v-bind:proizvodi="proizvodi" v-on:sacuvaj="updateKupovina"></kupovina-forma>
 
-        <tabela-kupovine v-bind:kupovine="kupovine" v-on:uklanjanje="removeKupovina" v-on:izmena="setKupovinaZaIzmenu"></tabela-kupovine>
+        <tabela-kupovine v-bind:kupovine="kupovine" v-on:uklanjanje="removeKupovina" v-on:izmena="setKupovinaZaIzmenu" v-on:pretraga="searchKupovina"></tabela-kupovine>
     </div>
 
     <script src="app/app.js" type="module"></script>

@@ -1,6 +1,6 @@
 export default {
     props: ["kupovine"],
-    emits:["izmena", "uklanjanje"],
+    emits:["izmena", "uklanjanje", "pretraga"],
 
     data(){
         return{}
@@ -28,6 +28,8 @@ export default {
         <td>{{kupovina.proizvod_id}}</td>
         <td><button v-on:click="$emit('uklanjanje', kupovina.broj)">Ukloni</button>
             <button v-on:click="$emit('izmena', {...kupovina})">Izmena</button>
+            <button v-on:click="$emit('pretraga', {...kupovina})">Pretraga</button>
+
         </td>
     </tr>
 </tbody>

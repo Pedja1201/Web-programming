@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+   
+    <title>Radnici</title>
+     <!-- <vue> -->
+    <script src="https://unpkg.com/vue@next"></script>
+     <!-- <vueroute></vueroute> -->
+    <script src="https://unpkg.com/vue-router@4"></script>
+    <!-- <axios> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+<body id="app">
+    <p>-Izaberite entitet:</p>
+    <div>
+        <button><router-link to="/">Radnik</router-link></button>
+        <button><router-link to="/radnaMesta">Radno mesto</router-link></button>
+        <button><router-link to="/angazovanja">Angazovanje</router-link></button>
+
+    </div>
+
+    <router-view></router-view>
+    <script src="app/app.js" type="module"></script>
+</body>
+</html>

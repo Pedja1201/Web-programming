@@ -41,7 +41,10 @@ export default {
     <input type="number" v-model="novaKnjiga.cena" required></div>
 <div>
     <label>Stanje: </label> 
-    <input type="text" v-model="novaKnjiga.stanje" value='"DA","NE"' required></div>
+    <select v-model="novaKnjiga.stanje" required>
+        <option value="DA">Da</option>
+        <option value="NE">Ne</option>
+    </select>
 <div>
     <label>Link: </label> 
     <input type="text" v-model="novaKnjiga.link" required></div>

@@ -1,9 +1,9 @@
 import flask
 from flask import Flask
 
-import korisnik
-import kupac
-import knjiga
+# import korisnik
+# import kupac
+# import knjiga
 
 from flaskext.mysql import MySQL
 from flaskext.mysql import pymysql
@@ -79,10 +79,6 @@ def izmeniKorisnika(korisnik_IDKorisnik):
 
 
 ####Kupac
-@app.route("/kupac")
-def kupac():
-    return app.send_static_file("kupac.html")
-
 @app.route("/api/kupci")
 def getAllKupci():
     cursor = mysql.get_db().cursor()
@@ -129,10 +125,6 @@ def izmeniKupca(kupac_IDKupac):
 
 
 ##########Knjiga
-@app.route("/knjiga")
-def knjiga():
-    return app.send_static_file("knjiga.html")
-
 @app.route("/api/knjige")
 def getAllKnjige():
     cursor = mysql.get_db().cursor()
@@ -184,10 +176,6 @@ def izmeniKnjigu(knjiga_IDKnjiga):
 
 
 ######Porudzbina
-@app.route("/porudzbina")
-def porudzbina():
-    return app.send_static_file("porudzbina.html")
-
 @app.route("/api/porudzbine")
 def getAllPorudzbine():
     cursor = mysql.get_db().cursor()
@@ -235,10 +223,6 @@ def izmeniPorudzbinu(porudzbina_IDPorudzbina):
 
 
 #####Iznajmljivanje
-@app.route("/iznajmljivanje")
-def iznajmljivanje():
-    return app.send_static_file("iznajmljivanje.html")
-
 @app.route("/api/iznajmljivanje")
 def getAllIznajmljivanje():
     cursor = mysql.get_db().cursor()

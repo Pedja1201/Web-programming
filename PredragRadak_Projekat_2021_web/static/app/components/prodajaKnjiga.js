@@ -1,3 +1,7 @@
+////Nema funkciju nikakvu!!!!
+
+
+
 export default {
     data(){
         return {

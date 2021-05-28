@@ -6,7 +6,7 @@ export default {
         return{}
     },
     template: `
-<p><b>{{naslov}}</b></p>
+<p><b>-{{naslov}}</b></p>
 <table>
 <thead>
     <tr>

@@ -35,7 +35,7 @@ export default {
     <input type="email" v-model="noviKorisnik.email" required></div>
 <div>
     <label>Lozinka: </label> 
-    <input type="password" v-model="noviKorisnik.lozinka" required></div>
+    <input type="password" v-model="noviKorisnik.lozinka" maxlength="20" required></div>
 <div>
     <input type="submit" v-bind:value="dugme">
 </div>

@@ -148,7 +148,7 @@ def getKnjiga(knjiga_IDKnjiga):
 def dodajKnjige():
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("INSERT INTO knjiga(naziv, autor, kategorija, cena, stanje, link) VALUES (%(naziv)s, %(autor)s, %(kategorija)s, %(cena)s, %(stanje)s, %(link)s)", flask.request.json)
+    cursor.execute("INSERT INTO knjiga(naziv, autor, kategorija, cena, stanje, biblioteka_id) VALUES (%(naziv)s, %(autor)s, %(kategorija)s, %(cena)s, %(stanje)s, %(biblioteka_id)s)", flask.request.json)
     db.commit()
     return flask.request.json, 201
 
@@ -166,12 +166,57 @@ def izmeniKnjigu(knjiga_IDKnjiga):
     knjiga["knjiga_IDKnjiga"] = knjiga_IDKnjiga
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE knjiga SET naziv=%(naziv)s, autor=%(autor)s, kategorija=%(kategorija)s, cena=%(cena)s, stanje=%(stanje)s, link=%(link)s WHERE IDKnjiga=%(knjiga_IDKnjiga)s", knjiga)
+    cursor.execute("UPDATE knjiga SET naziv=%(naziv)s, autor=%(autor)s, kategorija=%(kategorija)s, cena=%(cena)s, stanje=%(stanje)s, biblioteka_id=%(biblioteka_id)s WHERE IDKnjiga=%(knjiga_IDKnjiga)s", knjiga)
     db.commit()
     cursor.execute("SELECT * FROM knjiga WHERE IDKnjiga=%s", (knjiga_IDKnjiga, ))
     knjiga = cursor.fetchone()
     knjiga["cena"] = float(knjiga["cena"]) ###Decimal u bazi!!!
     return flask.jsonify(knjiga)
+
+####Biblioteka
+@app.route("/api/biblioteke")
+def getAllBiblioteka():
+    cursor = mysql.get_db().cursor()
+    cursor.execute("SELECT * FROM biblioteka")
+    biblioteka = cursor.fetchall()
+    return flask.jsonify(biblioteka)
+ ########Prikaz liste###########
+@app.route("/api/biblioteke/<int:biblioteka_id>")
+def getBiblioteka(biblioteka_id):
+    cursor = mysql.get_db().cursor()
+    cursor.execute("SELECT * FROM biblioteka WHERE id=%s", (biblioteka_id,))
+    biblioteka = cursor.fetchone()
+    if biblioteka is not None:
+        return flask.jsonify(biblioteka)
+    return "", 404
+#################################
+@app.route("/api/biblioteke", methods=["POST"])
+def dodajBiblioteku():
+    db = mysql.get_db()
+    cursor = db.cursor()
+    cursor.execute("INSERT INTO biblioteka(naziv, adresa, telefon, email) VALUES (%(naziv)s, %(adresa)s, %(telefon)s, %(email)s)", flask.request.json)
+    db.commit()
+    return flask.request.json, 201
+
+@app.route("/api/biblioteke/<int:biblioteka_id>", methods=["DELETE"])
+def ukloniBiblioteku(biblioteka_id):
+    db = mysql.get_db()
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM biblioteka WHERE id=%s", (biblioteka_id, ))
+    db.commit()
+    return ""
+
+@app.route("/api/biblioteke/<int:biblioteka_id>", methods=["PUT"])
+def izmeniBiblioteku(biblioteka_id):
+    biblioteka = dict(flask.request.json)
+    biblioteka["biblioteka_id"] = biblioteka_id
+    db = mysql.get_db()
+    cursor = db.cursor()
+    cursor.execute("UPDATE biblioteka SET naziv=%(naziv)s, adresa=%(adresa)s, telefon=%(telefon)s, email=%(email)s WHERE id=%(biblioteka_id)s", biblioteka)
+    db.commit()
+    cursor.execute("SELECT * FROM biblioteka WHERE id=%s", (biblioteka_id, ))
+    biblioteka = cursor.fetchone()
+    return flask.jsonify(biblioteka)
 
 
 

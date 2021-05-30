@@ -1,8 +1,9 @@
 export default {
     template:`
-<div>
+<div class="w-50 p-3">
     <korisnik-form v-on:sacuvaj="createKorisnik" v-bind:naslov="'Dodaj korisnika'" v-bind:dugme="'Dodaj'"></korisnik-form>
-
+</div>
+<div class="w-75 p-3">
     <tabela-korisnika v-bind:naslov="'Tabela korisnika'" v-bind:korisnici="korisnici" v-on:uklanjanje="removeKorisnik" v-on:izmena="setKorisnikZaIzmenu"></tabela-korisnika>
 </div>
     `,

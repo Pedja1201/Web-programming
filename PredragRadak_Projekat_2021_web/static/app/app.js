@@ -21,6 +21,10 @@ import IznajmljivanjeForma from './components/form/iznajmljivanjeForma.js'
 import TabelaPorudzbine from './components/table/tabelaPorudzbine.js'
 import PorudzbinaForma from './components/form/porudzbinaForma.js'
 
+import TabelaBiblioteke from './components/table/tabelaBiblioteke.js'
+import BibliotekaForma from './components/form/bibliotekaforma.js'
+
+
 
 ////Razdvojene componenete "main-js"
 import Korisnici from './components/main-js/korisnici.js'
@@ -37,6 +41,15 @@ import IznajmljivanjeId from './components/main-js/iznajmljivanje_id.js'
 
 import Porudzbine from './components/main-js/porudzbine.js'
 import PorudzbinaId from './components/main-js/porudzbina_id.js'
+
+////Dodatni opis i informacije sajta
+import Biblioteke from './components/main-js/bibliteke.js'
+import BibliotekId from './components/main-js/biblioteka_id.js'
+
+
+///review-stranice za pregled
+import PregledBiblioteke from './components/review/viewBiblioteka.js'
+
 
 ///Rutiranje entiteta
 const router = VueRouter.createRouter({
@@ -57,6 +70,14 @@ const router = VueRouter.createRouter({
         {path: "/porudzbine", component: Porudzbine},///Prikaz za stranice
         {path: "/porudzbine/:IDPorudzbina", component: PorudzbinaId},//Pojedinacan prikaz
 
+        ///Dodata tabela za odaber i podatke
+        {path: "/biblioteke", component:Biblioteke },///Prikaz za stranice
+        {path: "/biblioteke/:id", component: BibliotekId},//Pojedinacan prikaz
+
+
+        ///review-stranice za pregled
+        {path: "/pregledBiblioteke", component:PregledBiblioteke },///Prikaz za stranice
+
     ],
 });
 
@@ -75,6 +96,11 @@ app.component('iznajmljivanje-form', IznajmljivanjeForma);
 
 app.component('tabela-porudzbine', TabelaPorudzbine);
 app.component('porudzbina-form', PorudzbinaForma);
+
+
+app.component('tabela-biblioteke', TabelaBiblioteke);
+app.component('biblioteka-form', BibliotekaForma);
+
 
 app.use(router);
 app.mount("#app");

@@ -1,31 +1,45 @@
 ////Prikaz jednog proizvoda i mogucnost izmene
 export default {
     template:`
-<form v-on:submit.prevent="update">
+<form v-on:submit.prevent="update" class="w-50 p-3">
 <p><b>-Izmena kupca</b></p>
+<div class="mb-3">
+    <label class="form-label">Ime: </label>
+    <input type="text" class="form-control" v-model="kupac.ime" required>
+    <div class="form-text"><i>Izmeni ime</i></div>
+</div>
+<div class="mb-3">
+    <label class="form-label">Prezime: </label>
+    <input type="text" class="form-control" v-model="kupac.prezime" required>
+    <div class="form-text"><i>Izmeni prezime</i></div>
+</div>
+<div class="mb-3">
+    <label class="form-label">Datum rođenja: </label>
+    <input type="datetime-local" class="form-control" v-model="kupac.datumRodjenja" required>
+    <div class="form-text"><i>Izmeni datum rođenja</i></div>
+</div>
+<div class="mb-3">
+    <label class="form-label">E-mail: </label>
+    <input type="email" class="form-control" v-model="kupac.email" required>
+    <div class="form-text"><i>Izmeni e-mail adresu</i></div>
+</div>
+<div class="mb-3">
+    <label class="form-label">Telefon: </label>
+    <input type="tel" class="form-control" v-model="kupac.telefon" required>
+    <div class="form-text"><i>Izmeni broj telefona</i></div>
+</div>
+<div class="mb-3">
+    <label class="form-label">Mesto: </label>
+    <input type="text" class="form-control" v-model="kupac.mesto" required>
+    <div class="form-text"><i>Izmeni mesto stanovanja</i></div>
+</div>
+<div class="mb-3">
+    <label class="form-label">Adresa: </label>
+    <input type="text" class="form-control" v-model="kupac.adresa" required>
+    <div class="form-text"><i>Izmeni adresu stanovanja</i></div>
+</div>
 <div>
-    <label>Ime: </label>
-    <input type="text" v-model="kupac.ime" required></div>
-<div>
-    <label>Prezime: </label>
-    <input type="text" v-model="kupac.prezime" required></div>
-<div>
-    <label>Datum rodjenja: </label> 
-    <input type="datetime-local" v-model="kupac.datumRodjenja" required></div>
-<div>
-    <label>E-mail: </label> 
-    <input type="email" v-model="kupac.email" required></div>
-<div>
-    <label>Telefon: </label> 
-    <input type="text" v-model="kupac.telefon" required></div>
-<div>
-    <label>Mesto: </label> 
-    <input type="text" v-model="kupac.mesto" required></div>
-<div>
-    <label>Adresa: </label> 
-    <input type="text" v-model="kupac.adresa" required></div>
-<div>
-    <input type="submit" v-bind:value="'Izmeni'">
+    <button type="submit" class="btn btn-info">Izmeni</button>
 </div>
 </form>
     `,

@@ -1,20 +1,28 @@
 ////Prikaz jednog proizvoda i mogucnost izmene
 export default {
     template:`
-<form v-on:submit.prevent="update">
+<form v-on:submit.prevent="update" class="w-50 p-3">
 <p><b>-Izmena korisnika</b></p>
-<div>
-    <label>Ime: </label>
-    <input type="text" v-model="korisnik.ime" required></div>
-<div>
-    <label>E-mail: </label>
-    <input type="email" v-model="korisnik.email" required></div>
-<div>
-    <label>Lozinka: </label> 
-    <input type="text" v-model="korisnik.lozinka" maxlength="20" required></div>
-<div>
-    <input type="submit" v-bind:value="'Izmeni'">
+<div class="mb-3">
+    <label class="form-label">Ime: </label>
+    <input type="text" class="form-control" v-model="korisnik.ime" required>
+    <div class="form-text"><i>Izmeni ime</i></div>
 </div>
+<div class="mb-3">
+    <label class="form-label">E-mail: </label>
+    <input type="email" class="form-control" v-model="korisnik.email" required>
+    <div class="form-text"><i>Izmeni e-mail adresu</i></div>
+</div>
+<div class="mb-3">
+    <label class="form-label">Lozinka: </label>
+    <input type="text" class="form-control" maxlength="20" v-model="korisnik.lozinka" required>
+    <div class="form-text"><i>Izmeni lozinku</i></div>
+</div>
+
+<div>
+    <button type="submit" class="btn btn-info">Izmeni</button>
+</div>
+
 </form>
     `,
     data(){

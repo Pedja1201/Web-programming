@@ -7,7 +7,7 @@ export default {
     },
     template: `
 <p><b>-{{naslov}}</b></p>
-<table>
+<table class="table table-success table-striped">
 <thead>
     <tr>
         <th>ID-Korisnik</th>
@@ -23,8 +23,8 @@ export default {
         <td>{{korisnik.ime}}</td>
         <td>{{korisnik.email}}</td>
         <td>{{korisnik.lozinka}}</td>
-        <td><button v-on:click="$emit('uklanjanje', korisnik.IDKorisnik)">Ukloni</button>
-            <button v-on:click="$emit('izmena', {...korisnik})">Izmena</button>
+        <td><button class="btn btn-danger me-3" v-on:click="$emit('uklanjanje', korisnik.IDKorisnik)">Ukloni</button>
+            <button class="btn btn-info" v-on:click="$emit('izmena', {...korisnik})">Izmena</button>
         </td>
     </tr>
 </tbody>

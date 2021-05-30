@@ -7,13 +7,13 @@ export default {
     },
     template: `
 <p><b>-{{naslov}}</b></p>
-<table>
+<table class="table table-success table-striped">
 <thead>
     <tr>
         <th>ID-Kupac</th>
         <th>Ime</th>
         <th>Prezime</th>
-        <th>Datum rodjenja</th>
+        <th>Datum rođenja</th>
         <th>E-mail</th>
         <th>Telefon</th>
         <th>Mesto</th>
@@ -31,8 +31,8 @@ export default {
         <td>{{kupac.telefon}}</td>
         <td>{{kupac.mesto}}</td>
         <td>{{kupac.adresa}}</td>
-        <td><button v-on:click="$emit('uklanjanje', kupac.IDKupac)">Ukloni</button>
-            <button v-on:click="$emit('izmena', {...kupac})">Izmena</button>
+        <td><button class="btn btn-danger me-3" v-on:click="$emit('uklanjanje', kupac.IDKupac)">Ukloni</button>
+            <button class="btn btn-info" v-on:click="$emit('izmena', {...kupac})">Izmena</button>
         </td>
     </tr>
 </tbody>

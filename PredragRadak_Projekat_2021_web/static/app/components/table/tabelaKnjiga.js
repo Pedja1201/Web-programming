@@ -7,7 +7,7 @@ export default {
     },
     template: `
 <p><b>-{{naslov}}</b></p>
-<table>
+<table class="table table-success table-striped">
 <thead>
     <tr>
         <th>ID-Knjiga</th>
@@ -16,7 +16,7 @@ export default {
         <th>Kategorija</th>
         <th>Cena</th>
         <th>Stanje</th>
-        <th>Link</th>
+        <th>Bibliteka ID</th>
         <th>Akcije</th>
     </tr>
 </thead>
@@ -28,9 +28,9 @@ export default {
         <td>{{knjiga.kategorija}}</td>
         <td>{{knjiga.cena}}</td>
         <td>{{knjiga.stanje}}</td>
-        <td><a href="#">{{knjiga.link}}</a></td>
-        <td><button v-on:click="$emit('uklanjanje', knjiga.IDKnjiga)">Ukloni</button>
-            <button v-on:click="$emit('izmena', {...knjiga})">Izmena</button>
+        <td>{{knjiga.biblioteka_id}}</td>
+        <td><button class="btn btn-danger me-3" v-on:click="$emit('uklanjanje', knjiga.IDKnjiga)">Ukloni</button>
+            <button class="btn btn-info" v-on:click="$emit('izmena', {...knjiga})">Izmena</button>
         </td>
     </tr>
 </tbody>

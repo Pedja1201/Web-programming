@@ -1,5 +1,6 @@
 ////Prikaz jednog proizvoda i mogucnost izmene
 export default {
+/////Prikaz samo knjiga sa "DA" kao primer u formi sa computed
     template:`
 <form v-on:submit.prevent="update" class="w-50 p-3">
 <p><b>-Izmena iznajmljivanja</b></p>

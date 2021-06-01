@@ -6,17 +6,12 @@ export default {
             novaPorudzbina: this.poruceno ? this.poruceno : {}
         }
     },
-//izmena i setovanje izmene 1 nacin//
-    // computed:{
-    //     porudzbinaZaIzmenu: {
-    //         get : function(){
-    //             return {...this.poruceno};
-    //         },
-    //         set: function(novi){
-    //             this.novaPorudzbina = {...novi};
-    //         }
-    //     }
-    // },
+    ///Filtriranje IdKnjiga za izbacivanje samo one koje su dostupne oznacene sa "DA"
+    computed:{
+        stanjeKnjige: function() {
+            return this.knjige.filter(knjiga => knjiga.stanje == 'DA')
+        }   
+    },
 
     watch: {
         poruceno: function(newValue, oldValue){
@@ -30,7 +25,7 @@ export default {
 <div class="mb-3">
     <label class="form-label">Knjiga ID: </label>
     <select class="form-select" v-model="novaPorudzbina.IDKnjiga" required>
-        <option v-for="knjiga in knjige" :value="knjiga.IDKnjiga">-{{knjiga.naziv}}, {{knjiga.autor}}, {{knjiga.kategorija}}, {{knjiga.cena}}, {{knjiga.stanje}}, {{knjiga.biblioteka_id}}</option>
+        <option v-for="knjiga in stanjeKnjige" :value="knjiga.IDKnjiga">-{{knjiga.naziv}}, {{knjiga.autor}}, {{knjiga.kategorija}}, {{knjiga.cena}}, {{knjiga.stanje}}, {{knjiga.biblioteka_id}}</option>
     </select>
     <div class="form-text"><i>Izaberi knjigu</i></div>
 </div>

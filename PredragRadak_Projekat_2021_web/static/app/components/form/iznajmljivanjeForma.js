@@ -6,17 +6,12 @@ export default {
             novaIznajmljivanja: this.iznajmiti ? this.iznajmiti : {}
         }
     },
-//izmena i setovanje izmene 1 nacin//
-    // computed:{
-    //     iznajmljivanjeZaIzmenu: {
-    //         get : function(){
-    //             return {...this.iznajmiti};
-    //         },
-    //         set: function(novi){
-    //             this.novaIznajmljivanja = {...novi};
-    //         }
-    //     }
-    // },
+    ///Filtriranje IdKnjiga za izbacivanje samo one koje su dostupne oznacene sa "DA"
+    computed:{
+        stanjeKnjige: function() {
+            return this.knjige.filter(knjiga => knjiga.stanje == 'DA')
+        }   
+    },
 
     watch: {
         iznajmiti: function(newValue, oldValue){
@@ -37,7 +32,7 @@ export default {
 <div class="mb-3">
     <label class="form-label">Knjiga ID: </label>
     <select class="form-select" v-model="novaIznajmljivanja.IDKnjiga" required>
-        <option v-for="knjiga in knjige" :value="knjiga.IDKnjiga">-{{knjiga.naziv}}, {{knjiga.autor}}, {{knjiga.kategorija}}, {{knjiga.cena}}, {{knjiga.stanje}}, {{knjiga.biblioteka_id}}</option>
+        <option v-for="knjiga in stanjeKnjige" :value="knjiga.IDKnjiga">-{{knjiga.naziv}}, {{knjiga.autor}}, {{knjiga.kategorija}}, {{knjiga.cena}}, {{knjiga.stanje}}, {{knjiga.biblioteka_id}}</option>
     </select>
     <div class="form-text">Izaberi knjigu</div>
 </div>

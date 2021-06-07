@@ -1,5 +1,10 @@
 ////Prikaz jednog proizvoda i mogucnost izmene
 export default {
+    computed:{
+        stanjeKnjige: function() {
+            return this.knjige.filter(knjiga => knjiga.stanje == 'DA')
+        }   
+    },
 /////Prikaz samo knjiga sa "DA" kao primer u formi sa computed
     template:`
 <form v-on:submit.prevent="update" class="w-50 p-3">
@@ -14,7 +19,7 @@ export default {
 <div class="mb-3">
     <label class="form-label">Knjiga ID: </label>
     <select class="form-select" v-model="iznajmiti.IDKnjiga" required>
-        <option v-for="knjiga in knjige" :value="knjiga.IDKnjiga">-{{knjiga.naziv}}, {{knjiga.autor}}, {{knjiga.kategorija}}, {{knjiga.cena}}, {{knjiga.stanje}}, {{knjiga.biblioteka_id}}</option>
+        <option v-for="knjiga in stanjeKnjige" :value="knjiga.IDKnjiga">-{{knjiga.naziv}}, {{knjiga.autor}}, {{knjiga.kategorija}}, {{knjiga.cena}}, {{knjiga.stanje}}, {{knjiga.biblioteka_id}}</option>
     </select>
     <div class="form-text"><i>Izaberi knjigu</i></div>
 </div>
@@ -52,7 +57,7 @@ export default {
         return {
             iznajmiti: {},
             kupci:{}, ///select opcija
-            knjige:{}, ////select opcija
+            knjige:[], ////select opcija
         }
     },
     methods:{
@@ -60,7 +65,6 @@ export default {
             axios.get(`api/iznajmljivanje/${this.$route.params['IDIznajmljivanje']}`).then((response) => {
                 ///Datum pretvaramo u ISO-novoo
                 response.data.datumPorudzbine = new Date(response.data.datumPorudzbine).toISOString().split("Z")[0];
-                
                 this.iznajmiti = response.data;
             });
             ///Select opcija-novo!

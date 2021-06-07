@@ -27,11 +27,7 @@ export default {
     template:  `
 <form v-on:submit.prevent="$emit('sacuvaj', {...noviKorisnik})">
 <p><b>-{{naslov}}</b></p>
-<div class="mb-3">
-    <label class="form-label">Ime: </label>
-    <input type="text" class="form-control" v-model="noviKorisnik.ime" required>
-    <div class="form-text"><i>Uneti ime</i></div>
-</div>
+
 <div class="mb-3">
     <label class="form-label">E-mail: </label>
     <input type="email" class="form-control" v-model="noviKorisnik.email" required>

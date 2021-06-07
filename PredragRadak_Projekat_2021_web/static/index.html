@@ -28,7 +28,7 @@
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href=""><i> E-biblioteka</i></a>
+                <router-link class="nav-link active" to="/"><i> E-biblioteka</i></router-link>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -36,9 +36,6 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav nav-pills">
-                        <li class="nav-item">
-                            <router-link class="nav-link active" to="/"><em>Korisnik</em></router-link>
-                        </li>
                         <li class="nav-item">
                             <router-link class="nav-link active" to="/kupci"><em>Kupac</em></router-link>
                         </li>
@@ -57,19 +54,27 @@
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">Informacije</a>
+                                data-bs-toggle="dropdown" aria-expanded="false">Pristup</a>
 
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><router-link class="dropdown-item" to="/korisnici">Korisnici</router-link></li> 
                                 <li><router-link class="dropdown-item" to="/pregledBiblioteke">Dostupne biblioteke</router-link></li>
-                                <router-link class="dropdown-item" to="/ ">Sadrzaj</router-link>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li><router-link class="dropdown-item" to="/#">O nama...</router-link></li>
                             </ul>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">Bibliotekar</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><router-link class="dropdown-item" to="/loginBibliotekar">Prijavi se</router-link></li>
+                                <li><router-link class="dropdown-item" to="/logoutBibliotekar">Odjavi se</router-link></li>
+                            </ul>
+                        </li>
                         <li class="nav-item">
-                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                            <router-link style="color: red;" class="nav-link" to="/logout">Odjavi se</router-link>
                         </li>
                     </ul>
                     <form class="d-flex">

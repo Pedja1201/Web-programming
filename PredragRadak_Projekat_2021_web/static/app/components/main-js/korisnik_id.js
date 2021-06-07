@@ -3,11 +3,7 @@ export default {
     template:`
 <form v-on:submit.prevent="update" class="w-50 p-3">
 <p><b>-Izmena korisnika</b></p>
-<div class="mb-3">
-    <label class="form-label">Ime: </label>
-    <input type="text" class="form-control" v-model="korisnik.ime" required>
-    <div class="form-text"><i>Izmeni ime</i></div>
-</div>
+
 <div class="mb-3">
     <label class="form-label">E-mail: </label>
     <input type="email" class="form-control" v-model="korisnik.email" required>
@@ -38,7 +34,7 @@ export default {
         },
         update(){
             axios.put(`api/korisnici/${this.$route.params['IDKorisnik']}`, this.korisnik).then((response) => {
-                this.$router.push("/");
+                this.$router.push("/korisnici");
             });
         }
     },

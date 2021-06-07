@@ -17,7 +17,7 @@ export default {
     },
     methods:{
         setKorisnikZaIzmenu(korisnik){ //skladistenje nakon izmene//
-            this.$router.push(`/${korisnik.IDKorisnik}`);
+            this.$router.push(`/korisnici/${korisnik.IDKorisnik}`);
         },
 
         refreshKorisnik(){

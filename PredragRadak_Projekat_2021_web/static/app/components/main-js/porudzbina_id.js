@@ -1,13 +1,18 @@
 ////Prikaz jednog proizvoda i mogucnost izmene
 export default {
-/////Prikaz samo knjiga sa "DA" kao primer u formi sa computed
+///Filtriranje IdKnjiga za izbacivanje samo one koje su dostupne oznacene sa "DA"
+    computed:{
+        stanjeKnjige: function() {
+            return this.knjige.filter(knjiga => knjiga.stanje == 'DA')
+        }   
+    },
     template:`
 <form v-on:submit.prevent="update" class="w-50 p-3">
 <p><b>-Izmena porudzbine</b></p>
 <div class="mb-3">
     <label class="form-label">Knjiga ID: </label>
     <select class="form-select" v-model="poruceno.IDKnjiga" required>
-        <option v-for="knjiga in knjige" :value="knjiga.IDKnjiga">-{{knjiga.naziv}}, {{knjiga.autor}}, {{knjiga.kategorija}}, {{knjiga.cena}}, {{knjiga.stanje}}, {{knjiga.biblioteka_id}}</option>
+        <option v-for="knjiga in stanjeKnjige" :value="knjiga.IDKnjiga">-{{knjiga.naziv}}, {{knjiga.autor}}, {{knjiga.kategorija}}, {{knjiga.cena}}, {{knjiga.stanje}}, {{knjiga.biblioteka_id}}</option>
     </select>
     <div class="form-text"><i>Izaberi knjigu</i></div>
 </div>
@@ -46,7 +51,7 @@ export default {
     data(){
         return {
             poruceno: {},
-            knjige:{}, ////select opcija
+            knjige:[], ////select opcija
             kupci:{}, ///select opcija
         }
     },

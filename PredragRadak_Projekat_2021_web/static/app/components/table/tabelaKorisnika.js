@@ -11,7 +11,6 @@ export default {
 <thead>
     <tr>
         <th>ID-Korisnik</th>
-        <th>Ime</th>
         <th>E-mail</th>
         <th>Lozinka</th>
         <th>Akcije</th>
@@ -20,7 +19,6 @@ export default {
 <tbody>
     <tr v-for="korisnik in korisnici">
         <td>{{korisnik.IDKorisnik}}</td>
-        <td>{{korisnik.ime}}</td>
         <td>{{korisnik.email}}</td>
         <td>{{korisnik.lozinka}}</td>
         <td><button class="btn btn-danger me-3" v-on:click="$emit('uklanjanje', korisnik.IDKorisnik)">Ukloni</button>
@@ -29,5 +27,6 @@ export default {
     </tr>
 </tbody>
 </table>
-    `
+    `,
+    
 }

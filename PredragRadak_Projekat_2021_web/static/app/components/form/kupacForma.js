@@ -50,7 +50,7 @@ export default {
 <div class="mb-3">
     <label class="form-label">Telefon: </label>
     <input type="tel" class="form-control" v-model="noviKupac.telefon" required>
-    <div class="form-text"><i>Uneti broj telefona<i></div>
+    <div class="form-text"><i>Uneti broj telefona</i></div>
 </div>
 <div class="mb-3">
     <label class="form-label">Mesto: </label>

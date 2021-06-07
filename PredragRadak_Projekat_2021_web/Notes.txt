@@ -1,0 +1,3 @@
+- Dodao sam bibliotekara i uveo mu dozvolu za upravljanje knjigama i i bibliotekarima.
+- Prilikom ulogovanja bibliotekara baca ga na stranicu knjiga.
+- Nisam nigde prikazivao entitete bibliotekara samo sam ih definisao na serveru i napravio componenete.

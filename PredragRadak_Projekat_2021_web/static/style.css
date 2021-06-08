@@ -16,3 +16,15 @@ label, input{
 #boja{
     color: white;
 }
+.container{
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px #000;
+}
+
+.bg{
+    background: url('./pictures/polica1.jpg');
+}
+.bgPage{
+    background-color:lavender;
+}

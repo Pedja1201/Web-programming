@@ -12,7 +12,7 @@ export default {
     <tr>
         <th>ID</th>
         <th>Naziv</th>
-        <th>adresa</th>
+        <th>Adresa</th>
         <th>Telefon</th>
         <th>E-mail</th>
         <th>Akcije</th>

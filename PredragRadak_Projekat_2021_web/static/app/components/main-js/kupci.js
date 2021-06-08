@@ -1,8 +1,10 @@
 export default {
     template:`
-<div class="w-50 p-3">
+<div class="w-75 p-3" v-if="stranicaZaPrikaz=='kupci'">
     <kupac-form v-on:sacuvaj="createKupac" v-bind:naslov="'Dodaj kupca'" v-bind:dugme="'Dodaj'"></kupac-form>
 </div>
+<button v-on:click="navigate('kupci')" type="button" class="btn btn-primary btn-lg btn-block">Registruj se za porudžbinu</button>
+
 <div class="w-80 p-3">
     <tabela-kupca v-bind:naslov="'Tabela kupaca'" v-bind:kupci="kupci" v-on:uklanjanje="removeKupac" v-on:izmena="setKupacZaIzmenu"></tabela-kupca>
 </div>
@@ -12,7 +14,8 @@ export default {
             kupci:[],
             
             kupacZaIzmenu:{},
-           
+            
+            stranicaZaPrikaz:"",
         }
     },
     methods:{
@@ -46,6 +49,10 @@ export default {
                 this.refreshKupac();
             });
         },
+
+        navigate(page){
+            this.stranicaZaPrikaz = page;
+        }
 
     },
     created(){

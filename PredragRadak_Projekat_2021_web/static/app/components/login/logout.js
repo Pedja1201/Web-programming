@@ -11,6 +11,7 @@ export default {
     methods:{
         logout: function(){
             axios.get(`api/logout`).then((response) => {
+                this.$router.push("/");
             }, _ => {
                 this.neuspesanLogin = true;
             });

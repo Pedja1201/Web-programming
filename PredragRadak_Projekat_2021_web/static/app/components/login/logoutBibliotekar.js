@@ -11,6 +11,7 @@ export default {
     methods:{
         logout: function(){
             axios.get(`api/logoutBibliotekar`).then((response) => {
+                this.$router.push("/loginBibliotekar");
             }, _ => {
                 this.neuspesanLogin = true;
             });

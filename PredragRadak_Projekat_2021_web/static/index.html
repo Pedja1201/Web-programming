@@ -24,8 +24,8 @@
     
 
 </head>
-<body id="app">
-    <div class="container">
+<body id="app" class="bgPage">
+    <div class="container bg">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <router-link class="nav-link active" to="/"><i> E-biblioteka</i></router-link>
@@ -70,11 +70,11 @@
                                 data-bs-toggle="dropdown" aria-expanded="false">Bibliotekar</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><router-link class="dropdown-item" to="/loginBibliotekar">Prijavi se</router-link></li>
-                                <li><router-link class="dropdown-item" to="/logoutBibliotekar">Odjavi se</router-link></li>
+                                <li><router-link style="color: red;" class="dropdown-item" to="/logoutBibliotekar">Odjavi se</router-link></li>
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <router-link style="color: red;" class="nav-link" to="/logout">Odjavi se</router-link>
+                            <router-link style="color: red;" class="nav-link tabs" to="/logout">Odjavi se</router-link>
                         </li>
                     </ul>
                     <form class="d-flex">

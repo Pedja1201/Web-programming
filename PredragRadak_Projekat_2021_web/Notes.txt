@@ -1,3 +1,4 @@
 - Dodao sam bibliotekara i uveo mu dozvolu za upravljanje knjigama i i bibliotekarima.
 - Prilikom ulogovanja bibliotekara baca ga na stranicu knjiga.
 - Nisam nigde prikazivao entitete bibliotekara samo sam ih definisao na serveru i napravio componenete.
+- 08.06. Pozadina u boji. Uradjen dijagram zahteva u Astahu********

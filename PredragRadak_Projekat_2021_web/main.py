@@ -221,7 +221,7 @@ def izmeniKupca(kupac_IDKupac):
 ##########Knjiga
 @app.route("/api/knjige")
 def getAllKnjige():
-    if session.get("korisnik") is not None:  #Login za prikaz kupaca (Korisnik je povezan trenutno samo za kupce)
+    if session.get("bibliotekar") is not None:  #Login za prikaz kupaca (Korisnik je povezan trenutno samo za kupce)
         cursor = mysql.get_db().cursor()
         cursor.execute("SELECT * FROM knjiga")
         knjiga = cursor.fetchall()

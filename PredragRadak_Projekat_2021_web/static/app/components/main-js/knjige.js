@@ -1,10 +1,13 @@
 export default {
     template:`
-<div class="w-50 p-3">
-    <knjiga-form v-on:sacuvaj="createKnjiga" v-bind:biblioteke="biblioteke" v-bind:naslov="'Dodaj knjigu'" v-bind:dugme="'Dodaj'"></knjiga-form>
-</div>
 <div class="w-75 p-3">
     <tabela-knjiga v-bind:naslov="'Tabela knjiga'" v-bind:knjige="knjige" v-on:uklanjanje="removeKnjiga" v-on:izmena="setKnjigaZaIzmenu"></tabela-knjiga>
+</div>
+
+<button v-on:click="navigate('knjige')" type="button" class="btn btn-primary btn-lg btn-block">Dodaj knjigu</button>
+
+<div class="w-75 p-3" v-if="stranicaZaPrikaz=='knjige'">
+    <knjiga-form v-on:sacuvaj="createKnjiga" v-bind:biblioteke="biblioteke" v-bind:naslov="'Dodaj knjigu'" v-bind:dugme="'Dodaj'"></knjiga-form>
 </div>
     `,
     data(){
@@ -12,7 +15,8 @@ export default {
             knjige:[],
             biblioteke:[], ///Select opcija
             knjigaZaIzmenu:{},
-          
+
+            stranicaZaPrikaz: "",
         }
     },
     methods:{
@@ -50,6 +54,10 @@ export default {
                 this.refreshKnjiga();
             });
         },
+        
+        navigate(page){
+            this.stranicaZaPrikaz = page;
+        }
 
     },
     created(){

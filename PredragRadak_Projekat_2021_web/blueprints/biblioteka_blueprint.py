@@ -15,6 +15,7 @@ def getAllBiblioteka():
     cursor.execute("SELECT * FROM biblioteka")
     biblioteka = cursor.fetchall()
     return flask.jsonify(biblioteka)
+
  ########Prikaz liste###########
 @biblioteka_blueprint.route("<int:biblioteka_id>")
 def getBiblioteka(biblioteka_id):
@@ -25,6 +26,7 @@ def getBiblioteka(biblioteka_id):
         return flask.jsonify(biblioteka)
     return "", 404
 #################################
+
 @biblioteka_blueprint.route("", methods=["POST"])
 def dodajBiblioteku():
     db = mysql.get_db()

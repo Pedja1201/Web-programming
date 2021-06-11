@@ -1,4 +1,4 @@
-///Logovanje korisnika tako da ostvari pristup podacima(aktivnostima) entiteta koji smo definisali na serveru u metodama 'getAll'
+///Logovanje bibliotekara tako da ostvari pristup podacima(aktivnostima) entiteta koji smo definisali na serveru u metodama 'getAll'
 export default {
     template:`
     <!-- Background image -->

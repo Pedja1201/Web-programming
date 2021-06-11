@@ -44,12 +44,10 @@ app.register_blueprint(iznajmljivanje_blueprint, url_prefix="/api/iznajmljivanje
 mysql.init_app(app)
 
 
-#######Pocetna strana
+####Pocetna strana
 @app.route("/")
 def home():
     return app.send_static_file("index.html")
-
-
 
 
 

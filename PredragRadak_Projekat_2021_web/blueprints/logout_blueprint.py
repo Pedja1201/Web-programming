@@ -16,7 +16,7 @@ def logout():
 
 
 ####Bibliotekar
-@logoutBibliotekar_blueprint.route("", methods=["GET"]) ###Novo-Odjava
+@logoutBibliotekar_blueprint.route("", methods=["GET"]) ###Novo-OdjavaBibliotekara
 def logoutBibliotekar():
     session.pop("bibliotekar", None)
     return "", 200

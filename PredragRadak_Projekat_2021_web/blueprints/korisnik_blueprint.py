@@ -54,3 +54,17 @@ def izmeniKorisnika(korisnik_IDKorisnik):
     cursor.execute("SELECT * FROM korisnik WHERE IDKorisnik=%s", (korisnik_IDKorisnik, ))
     korisnik = cursor.fetchone()
     return flask.jsonify(korisnik)
+
+
+###Metoda za pretragu-Vezba
+# @korisnik_blueprint.route("", methods=['POST'])
+# def trazi():
+#     korisnik = dict(flask.request.json)
+#     users = []
+#     with mysql.get_db().cursor() as cursor:
+#         sql = "SELECT * FROM users WHERE email LIKE %s"
+#         cursor.execute(sql, ('%'+korisnik['email']+'%', ))
+#         for el in cursor.fetchall():
+#             el['spojeno'] = el['email']+'====='+el['password']
+#             users.append(el)
+#         return flask.request.json, 201  

@@ -4,4 +4,5 @@
 - 08.06. Pozadina u boji. Uradjen dijagram zahteva u Astahu********
 - 09.06. Uraditi Blueprint za svaki entitet (blueprints, utils)***** 
 - 10.06. Bootstrap
-- 11/12.06.  Search filtriranje / UseCase*
+- 11/12.06.  Search filtriranje X / UseCase*
+- 13.06. Dozvole "import session"

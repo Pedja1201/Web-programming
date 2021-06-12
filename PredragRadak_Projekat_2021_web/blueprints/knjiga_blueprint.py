@@ -11,7 +11,7 @@ knjiga_blueprint=Blueprint("knjiga_blueprint", __name__)
 ##Knjiga
 @knjiga_blueprint.route("")
 def getAllKnjige():
-    if session.get("bibliotekar") is not None:  #Login za prikaz kupaca (Korisnik je povezan trenutno samo za kupce)
+    if session.get("korisnik") is not None:  #Login za prikaz knjiga (Korisnik je povezan trenutno samo za knjige)
         cursor = mysql.get_db().cursor()
         cursor.execute("SELECT * FROM knjiga")
         knjiga = cursor.fetchall()
@@ -23,13 +23,15 @@ def getAllKnjige():
  ########Prikaz liste###########
 @knjiga_blueprint.route("<int:knjiga_IDKnjiga>")
 def getKnjiga(knjiga_IDKnjiga):
-    cursor = mysql.get_db().cursor()
-    cursor.execute("SELECT * FROM knjiga WHERE IDKnjiga=%s", (knjiga_IDKnjiga,))
-    knjiga = cursor.fetchone()
-    if knjiga is not None:
-        knjiga["cena"] = float(knjiga["cena"])
-        return flask.jsonify(knjiga)
-    return "", 404
+    if session.get("korisnik") is not None:  #Login za prikaz knjiga (Korisnik je povezan trenutno samo za knjige)
+        cursor = mysql.get_db().cursor()
+        cursor.execute("SELECT * FROM knjiga WHERE IDKnjiga=%s", (knjiga_IDKnjiga,))
+        knjiga = cursor.fetchone()
+        if knjiga is not None:
+            knjiga["cena"] = float(knjiga["cena"])
+            return flask.jsonify(knjiga)
+        return "", 404
+    return "", 401      ##Login od if session
 #################################
 
 @knjiga_blueprint.route("", methods=["POST"])

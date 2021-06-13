@@ -3,7 +3,9 @@ export default {
 <div class="w-50 p-3">
     <korisnik-form v-on:sacuvaj="createKorisnik" v-bind:naslov="'Dodaj korisnika'" v-bind:dugme="'Dodaj'"></korisnik-form>
 </div>
-<div class="w-75 p-3">
+<button v-on:click="navigate('korisnici')" type="button" class="btn btn-primary btn-lg btn-block">Prijavljeni korisnici</button>
+
+<div class="w-75 p-3" v-if="stranicaZaPrikaz=='korisnici'">
     <tabela-korisnika v-bind:naslov="'Tabela korisnika'" v-bind:korisnici="korisnici" v-on:uklanjanje="removeKorisnik" v-on:izmena="setKorisnikZaIzmenu"></tabela-korisnika>
 </div>
     `,
@@ -12,6 +14,7 @@ export default {
             korisnici:[],
 
             korisnikZaIzmenu:{},
+            stranicaZaPrikaz:"",
           
         }
     },
@@ -47,6 +50,10 @@ export default {
                 this.refreshKorisnik();
             });
         },
+
+        navigate(page){
+            this.stranicaZaPrikaz = page;
+        }
 
     },
     created(){

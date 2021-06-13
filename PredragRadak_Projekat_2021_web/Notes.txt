@@ -5,4 +5,4 @@
 - 09.06. Uraditi Blueprint za svaki entitet (blueprints, utils)***** 
 - 10.06. Bootstrap
 - 11/12.06.  Search filtriranje X / UseCase*
-- 13.06. Dozvole "import session"
+- 13.06. Dozvole "import session" * / Specifikacija **

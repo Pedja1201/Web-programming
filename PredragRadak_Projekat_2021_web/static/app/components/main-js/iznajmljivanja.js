@@ -28,6 +28,10 @@ export default {
 
         refreshIznajmljivanje(){
             axios.get("api/iznajmljivanje").then((response) => {
+                ////Stil datuma u tabeli
+                for(let d of response.data) {
+                    d.datumPorudzbine = new Date(d.datumPorudzbine).toDateString().split("Z")[0];
+                }
                 this.iznajmljivanje = response.data;
             });
             ///Select opcija-novo!

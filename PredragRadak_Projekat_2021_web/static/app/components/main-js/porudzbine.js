@@ -26,6 +26,10 @@ export default {
 
         refreshPorudzbina(){
             axios.get("api/porudzbine").then((response) => {
+                ////Stil datuma u tabeli
+                for(let d of response.data) {
+                    d.datumPorudzbine = new Date(d.datumPorudzbine).toDateString().split("Z")[0];
+                }
                 this.porudzbine = response.data;
             });
             ///Select opcija-novo!

@@ -25,6 +25,10 @@ export default {
 
         refreshKupac(){
             axios.get("api/kupci").then((response) => {
+                ////Stil datuma u tabeli
+                for(let d of response.data) {
+                    d.datumRodjenja = new Date(d.datumRodjenja).toDateString().split("Z")[0];
+                }
                 this.kupci = response.data;
             });
         },

@@ -6,3 +6,4 @@
 - 10.06. Bootstrap
 - 11/12.06.  Search filtriranje X / UseCase*
 - 13.06. Dozvole "import session" * / Specifikacija **
+- Search ???

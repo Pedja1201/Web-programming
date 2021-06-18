@@ -56,7 +56,7 @@ def izmeniKorisnika(korisnik_IDKorisnik):
     return flask.jsonify(korisnik)
 
 
-# ##Metoda za pretragu-Vezba
+###Metoda za pretragu-Vezba
 # @korisnik_trazi.route("", methods=['POST'])
 # def trazi():
 #     korisnik = dict(flask.request.json)

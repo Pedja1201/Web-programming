@@ -1,7 +1,7 @@
 export default {
     template:`
 <div class="w-50 p-3">
-    <korisnik-form v-on:sacuvaj="createKorisnik" v-bind:naslov="'Dodaj korisnika'" v-bind:dugme="'Dodaj'"></korisnik-form>
+    <korisnik-form v-on:sacuvaj="createKorisnik" v-bind:naslov="'Dodaj korisnika'" v-bind:dugme="'Registruj se'"></korisnik-form>
 </div>
 <button v-on:click="navigate('korisnici')" type="button" class="btn btn-primary btn-lg btn-block">Prijavljeni korisnici</button>
 

@@ -7,3 +7,4 @@
 - 11/12.06.  Search filtriranje X / UseCase*
 - 13.06. Dozvole "import session" * / Specifikacija **
 - Search ???
+* 19.06. Odbrana projekta - 30 bodova.

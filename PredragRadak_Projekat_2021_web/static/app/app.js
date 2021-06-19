@@ -97,7 +97,7 @@ const router = VueRouter.createRouter({
         {path: "/biblioteke/:id", component: BibliotekId},//Pojedinacan prikaz
         
         ///Bibliotekar
-        {path: "/bibliotekari", component:Bibliotekari },///Prikaz za stranice
+        {path: "/bibliotekari", component:Bibliotekari },///Prikaz za stranice //Nije prikazano
 
     
         ///review-stranice za pregled

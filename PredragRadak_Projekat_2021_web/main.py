@@ -32,7 +32,7 @@ app.register_blueprint(loginBibliotekar_blueprint, url_prefix="/api/loginBibliot
 app.register_blueprint(logout_blueprint, url_prefix="/api/logout")
 app.register_blueprint(logoutBibliotekar_blueprint, url_prefix="/api/logoutBibliotekar")
 
-app.register_blueprint(bibliotekar_blueprint, url_prefix="/api/bibliotekari")
+app.register_blueprint(bibliotekar_blueprint, url_prefix="/api/bibliotekari") ###Nije prikazan
 app.register_blueprint(korisnik_blueprint, url_prefix="/api/korisnici")
 app.register_blueprint(kupac_blueprint, url_prefix="/api/kupci")
 app.register_blueprint(knjiga_blueprint, url_prefix="/api/knjige")

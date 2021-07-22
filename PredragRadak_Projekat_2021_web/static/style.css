@@ -28,3 +28,7 @@ label, input{
 .bgPage{
     background-color:lavender;
 }
+h2{
+    text-align: center;
+    color: whitesmoke
+}

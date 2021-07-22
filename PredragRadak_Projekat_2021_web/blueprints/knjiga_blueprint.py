@@ -66,3 +66,16 @@ def izmeniKnjigu(knjiga_IDKnjiga):
         knjiga["cena"] = float(knjiga["cena"]) ###Decimal u bazi!!!
         return flask.jsonify(knjiga)
     return "", 401   #Login return od ifa   
+
+###Drago pretraga
+def pretraga():
+    objekat = flask.request.json
+    tekst = "SELECT * FROM knjiga WHERE "
+    for key, value in objekat.items():
+        tekst += "{}='{}' AND ".format(key, value)
+
+    tekst = tekst[0:-4]
+    cursor = mysql.get_db().cursor()
+    cursor.execute(tekst)
+    knjiga = cursor.fetchall()
+    return flask.jsonify(knjiga)

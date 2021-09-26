@@ -60,9 +60,7 @@ const router = VueRouter.createRouter({
         {path: "/smestaji/:id", component: SmestajId},//Pojedinacan prikaz
 
         {path: "/prodaje", component: Prodaja},///Prikaz za stranice
-        {path: "/prodaje/:id", component: ProdajaId},//Pojedinacan prikaz
-
-        
+        {path: "/prodaje/:id", component: ProdajaId},//Pojedinacan prikaz   
         
     ],
 });

@@ -23,7 +23,7 @@ app.config["MYSQL_DATABASE_HOST"] = "localhost"
 app.config["MYSQL_DATABASE_USER"] = "root"
 app.config["MYSQL_DATABASE_PASSWORD"] = "pedja10"
 app.config["MYSQL_DATABASE_DB"] = "turisticka_agencija"
-app.secret_key = "PR.12.rp.dr/dr"
+app.secret_key = "PR.12.rp.dr/Pr"
 
 
 

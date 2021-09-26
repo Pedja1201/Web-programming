@@ -1,0 +1,1 @@
+1.) Odrediti dozvole korisnika prilikom logovanja(Pristup polaganju nakon logovanja)

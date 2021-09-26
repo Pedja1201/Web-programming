@@ -15,12 +15,11 @@
         
             <th>Id</th>
             <th>Naziv</th>
-           
             <th>Akcije</th>
         </tr>
         {% for m in mesto %}
         <tr>
-            <td><a href="mesto?id={{m.id}}">{{m["id"]}}</a></td>
+            <td><a href="listaMesto?id={{m.id}}">{{m["id"]}}</a></td>
             <td>{{m.naziv}}</td>
             
             <td>

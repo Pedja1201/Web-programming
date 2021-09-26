@@ -1,0 +1,15 @@
+WebProgramiranje-Projekat2021-TuristickaAgencija
+
+- Logovanje korisnika(Session) = Pristup Aranzmanu i Prodaji(rezervaciji).
+- Aranzman = U sebi ima i entitet smestaj koji sluzi kao laksi odabir putem select polja.
+- Smestaj = Tabela dostupnih smestaja nad kojim mozemo vrsiti sve CRUD operacije.
+- Prodaja(rezervacija) = Glavni entitet koji sadrzi "id" turista i aranzmana u vidu select polja.
+- Folder "components" sam razdvoji na vise foldera u kojima su slicni fajlovi (form, login, main, table) i naravno tako sam i  importovao putanju u "app.js"
+- Blueprints = Svaki entitet sam posebno razdvojio i implementirao CRUD operacije i dozvole korisnika.
+- Main.py = Glavni main za pokretanje servera gde sam povezao i importovao sve foldere i blueprintove.
+- U tabeli aranzmana (table/tabelaAranzmana) dodao sam kod cene *,00* kako bih je prestavio i oznacio da se radi o dinarima
+- Sve forme imaju bootstrap container i pozadinu.
+- Sve tabele imaju bootstrap klasu za margine i izgled.
+- Ubacen 'hover' u css za sve tabele!
+
+

@@ -1,0 +1,3 @@
+*Zavrsi porudzbinu celu - Uradjeno
+*Doradi na novom izgledu
+*Odredi pravo pristupa korisnika

@@ -23,20 +23,12 @@ def home():
     cursor.execute("SELECT * FROM radnik")
     return flask.render_template("radnik.tpl.html", radnik=cursor.fetchall())
 
-@app.route("/radnik", methods=["GET"])
-def prikazRadnika():
+@app.route("/listaRadnik", methods=["GET"])
+def listaRadnika():
     cursor = mysql.get_db().cursor()
     cursor.execute("SELECT * FROM radnik WHERE id=%s", (flask.request.args["id"], ))
     return flask.render_template("listaRadnika.tpl.html", radnik=cursor.fetchone())
 
-@app.route("/radnik", methods=["POST"])
-def radnik():
-    db = mysql.get_db()
-    cursor = db.cursor()
-    cursor.execute("UPDATE radnik SET id=%(id)s, ime=%(ime)s, prezime=%(prezime)s, email=%(email)s WHERE id=%(id)s", flask.request.form)
-    db.commit()
-    return flask.redirect("/")
-#################################
 
 
 @app.route("/dodajRadnika", methods=["POST"])
@@ -81,8 +73,8 @@ def radnoMesto():
 
 
 ##Prikaz liste
-@app.route("/mesto", methods=["GET"])
-def prikazRadnodMesta():
+@app.route("/listaMesto", methods=["GET"])
+def listaRadnodMesta():
     cursor = mysql.get_db().cursor()
     cursor.execute("SELECT * FROM radno_mesto WHERE id=%s", (flask.request.args["id"], ))
     return flask.render_template("listaRadnogMesta.tpl.html", mesto=cursor.fetchone())
@@ -141,6 +133,15 @@ def dodavanjeAngazovanje():
     mesto = cursor.fetchall()
     return flask.render_template("dodavanjeAngazovanja.tpl.html", radnik=radnik, mesto=mesto)
 
+@app.route("/dodajAngazovanje", methods=["POST"])
+def dodajAngazovanje():
+    db = mysql.get_db()
+    cursor = db.cursor()
+    cursor.execute("INSERT INTO angazovanje(radnik_id, radno_mesto_id, pocetak, kraj, plata) VALUES (%(radnik_id)s, %(radno_mesto_id)s, %(pocetak)s, %(kraj)s, %(plata)s)", flask.request.form)
+    db.commit()
+    return flask.redirect("/angazovanje")
+
+
 
 @app.route("/listaAngazovanje", methods=["GET"])
 def listaAngazovanjeForm():
@@ -149,14 +150,6 @@ def listaAngazovanjeForm():
     return flask.render_template("listaAngazovanje.tpl.html", angazovanje=cursor.fetchone())
 
 
-
-@app.route("/dodajAngazovanje", methods=["POST"])
-def dodajAngazovanje():
-    db = mysql.get_db()
-    cursor = db.cursor()
-    cursor.execute("INSERT INTO angazovanje(radnik_id, radno_mesto_id, pocetak, kraj, plata) VALUES (%(radnik_id)s, %(radno_mesto_id)s, %(pocetak)s, %(kraj)s, %(plata)s)", flask.request.form)
-    db.commit()
-    return flask.redirect("/angazovanje")
 
 @app.route("/ukloniAngazovanje", methods=["GET"])
 def ukloniAngazovanje():
@@ -167,28 +160,10 @@ def ukloniAngazovanje():
     db.commit()
     return flask.redirect("/angazovanje")
 
-##    Obicna izmena   ##############
-# @app.route("/izmenaAngazovanje", methods=["GET"])
-# def izmenaObicnogAngazovanja():
-#     cursor = mysql.get_db().cursor()
-#     cursor.execute("SELECT * FROM angazovanje WHERE id=%s", (flask.request.args["id"], ))
-#     return flask.render_template("angazovanjeIzmena.tpl.html", angazovanje=cursor.fetchone())
-
-# @app.route("/izmenaAngazovanje", methods=["POST"])
-# def izmenaAngazovanjaSet():
-#     angazovanje = dict(flask.request.form)
-#     angazovanje["id"] = flask.request.args["id"]
-#     db = mysql.get_db()
-#     cursor = db.cursor()
-#     cursor.execute("UPDATE angazovanje SET radnik_id=%(radnik_id)s, radno_mesto_id=%(radno_mesto_id)s, pocetak=%(pocetak)s, kraj=%(kraj)s, plata=%(plata)s WHERE id=%(id)s", angazovanje)
-#     db.commit()
-#     return flask.redirect("/angazovanje")
-    ##################################################
 
 ##Izmena SELECT##
 @app.route("/izmenaAngazovanje", methods=["GET"])
 def izmenaAngazovanjaForma():
-    db = mysql.get_db()
     cursor = mysql.get_db().cursor()
     cursor.execute("SELECT * FROM radnik")
     radnik = cursor.fetchall()

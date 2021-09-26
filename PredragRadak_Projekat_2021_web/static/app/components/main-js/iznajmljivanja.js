@@ -1,13 +1,14 @@
 export default {
     template:`
-<div class="w-50 p-3">
-    <iznajmljivanje-form v-on:sacuvaj="createIznajmljivanje" v-bind:naslov="'Dodaj iznajmljivanje'" v-bind:dugme="'Dodaj'" v-bind:knjige="knjige" v-bind:kupci="kupci"></iznajmljivanje-form>
-</div>
-<button v-on:click="navigate('iznajmljivanja')" type="button" class="btn btn-primary btn-lg btn-block">Prikaz iznjamljivanja</button>
-
 <div class="w-80 p-3" v-if="stranicaZaPrikaz=='iznajmljivanja'">
     <tabela-iznajmljivanja v-bind:naslov="'Tabela iznajmljivanja'" v-bind:iznajmljivanje="iznajmljivanje" v-on:uklanjanje="removeIznajmljivanje" v-on:izmena="setIznajmljivanjeZaIzmenu"></tabela-iznajmljivanja>
 </div>
+<button v-on:click="navigate('iznajmljivanja')" type="button" class="btn btn-primary btn-lg btn-block">Prikaz iznjamljivanja</button>
+
+<div class="w-50 p-3">
+    <iznajmljivanje-form v-on:sacuvaj="createIznajmljivanje" v-bind:naslov="'Dodaj iznajmljivanje'" v-bind:dugme="'Dodaj'" v-bind:knjige="knjige" v-bind:kupci="kupci"></iznajmljivanje-form>
+</div>
+
     `,
     data(){
         return {

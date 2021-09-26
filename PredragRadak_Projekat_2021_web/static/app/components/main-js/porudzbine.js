@@ -1,12 +1,14 @@
 export default {
     template:`
+<div class="w-75 p-3" v-if="stranicaZaPrikaz=='porudzbine'">
+    <tabela-porudzbine v-bind:naslov="'Tabela porudzbine'" v-bind:porudzbine="porudzbine" v-on:uklanjanje="removePorudzbina" v-on:izmena="setPorudzbinaZaIzmenu"></tabela-porudzbine>
+</div>
+<button v-on:click="navigate('porudzbine')" type="button" class="btn btn-primary btn-lg btn-block">Prikaz porudžbine</button>
+
 <div class="w-50 p-3">
     <porudzbina-form v-on:sacuvaj="createPorudzbina" v-bind:naslov="'Dodaj porudzbinu'" v-bind:dugme="'Dodaj'" v-bind:knjige="knjige" v-bind:kupci="kupci"></porudzbina-form>
 </div>
-<div class="w-75 p-3">
-    <tabela-porudzbine v-bind:naslov="'Tabela porudzbine'" v-bind:porudzbine="porudzbine" v-on:uklanjanje="removePorudzbina" v-on:izmena="setPorudzbinaZaIzmenu"></tabela-porudzbine>
 
-</div>
     `,
     data(){
         return {
@@ -15,6 +17,7 @@ export default {
             kupci:[], ///select opcija
 
             porudzbinaZaIzmenu:{},
+            stranicaZaPrikaz: "",
             
         }
     },
@@ -61,6 +64,10 @@ export default {
                 this.refreshPorudzbina();
             });
         },
+
+        navigate(page){
+            this.stranicaZaPrikaz = page;
+        }
 
     },
     created(){

@@ -1,0 +1,57 @@
+table, th, td, tr:hover {
+    border: 2px solid rgb(248, 246, 246);
+    border-collapse: collapse;
+    text-align: center;
+    font-style:italic;
+    background-color: rgb(202, 114, 114);
+  
+}
+
+tr:nth-child(even){
+    background-color: gray;
+}
+button{
+    margin-left: 20px;
+}
+input:hover{
+    border: 4px solid rgb(53, 133, 53);
+}
+
+label, input{
+    margin-left: 10px;
+}
+
+#boja{
+    color: rgba(145, 145, 7, 0.61);
+}
+.container{
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px #000;
+}
+.bgPage{
+    background-color:rgba(238, 152, 40, 0.438);
+}
+#boja2{
+    background-color: rgb(122, 16, 16);
+    color: white;
+}
+h2{
+    text-align: center;
+    color: rgb(122, 16, 16);
+}
+#boja3{
+    background-color: aquamarine;
+    
+}
+#boja4{
+    background-color: rgb(133, 57, 57);
+}
+label{
+    color: white;
+    font-style: italic;
+}
+#naslov{
+    color: white;
+}
+
